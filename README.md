@@ -1,13 +1,20 @@
 > **Under construction — not deployed, not offered to anyone. We are studying the legal, ethical and clinical framework in parallel. No date.**
 
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/yororis-dark.svg">
+    <img src=".github/assets/yororis-light.svg" alt="Yororis" width="96">
+  </picture>
+</p>
+
 # Yororis
 
 **A listening space with a face and a voice — and a presence that stops.**
 
 [![CI](https://github.com/krizaka/yororis/actions/workflows/ci.yml/badge.svg)](https://github.com/krizaka/yororis/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
-[![Status](https://img.shields.io/badge/status-under%20construction-8a9a7b)](docs/FRAMEWORK.md)
-[![krizaka.com](https://img.shields.io/badge/krizaka.com-Yororis-8a9a7b)](https://www.krizaka.com/products/yororis)
+[![Status](https://img.shields.io/badge/status-under%20construction-5d894d)](docs/FRAMEWORK.md)
+[![krizaka.com](https://img.shields.io/badge/krizaka.com-Yororis-5d894d)](https://www.krizaka.com/products/yororis)
 
 1. In the evening, once the day is put away, you open Yororis and find **your presence** — Léa, an AI presence, who says so — with a face, a voice and exact subtitles.
 2. She **listens**, reflects back, asks **one** question at a time, and helps you put words on what you are living.
