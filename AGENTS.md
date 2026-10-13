@@ -13,6 +13,12 @@ product, §4 architecture) is the source of truth. Its rules already apply:
 3. **All AI goes through Orazaka** (the wellbeing pack); no other provider. The crisis response comes from Orazaka and is
    never generated or rephrased.
 4. Conventional Commits, a branch and a pull request for every change (`main` is protected, squash only).
-5. **No test, not done.** Every feature and every fix ships with its tests (unit for logic, end-to-end for a route or a
+5. **Environment variables are named by bounded context** (krizaka/.github#46): `<CONTEXT>_<THING>` with CONTEXT one of
+   `APP_` `DATABASE_` `AUTH_` `MEDIA_` `MAIL_` `PUSH_` `PAYMENTS_` `REALTIME_` `ABUSE_` `OBSERVABILITY_` `AI_` `OPERATOR_`
+   — never the product (`YORORIS_…`) nor a vendor (`BUNNY_…`, `MAILGUN_…`): a vendor is a value (`MAIL_PROVIDER=mailgun`);
+   `NEXT_PUBLIC_` / `EXPO_PUBLIC_` only where the framework requires it, then the context. One typed env module per app
+   (zod), fail-closed in production, its table generated into the docs. `scripts/check-construction.mjs` refuses a
+   product- or vendor-prefixed variable name.
+6. **No test, not done.** Every feature and every fix ships with its tests (unit for logic, end-to-end for a route or a
    flow, a render test for a component); a fix starts with a failing test that reproduces the bug. CI runs them and
    must be green.

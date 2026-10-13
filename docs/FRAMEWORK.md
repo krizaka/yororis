@@ -76,7 +76,7 @@ Questions only, by jurisdiction — answers are recorded privately with their da
 | :--- | :--- |
 | Repositories | Public, opening with the banner; this document exists. Checked by CI. |
 | Deployment | No deployment workflow; nothing is published, no production variable exists. Checked by CI. |
-| Production start | `NODE_ENV=production` refuses to start without `YORORIS_RELEASE_APPROVAL`, the reference of a written and signed decision. |
+| Production start | `NODE_ENV=production` refuses to start without `APP_RELEASE_APPROVAL`, the reference of a written and signed decision. |
 | Accounts | No open sign-up: an invitation code is required; only the maintainers and a fictional demo cast. |
 | Mobile builds | Development and preview builds for the maintainers' devices only; no public build, no store submission. |
 | Demo | Listens on `127.0.0.1` only, with a fictional cast. |
