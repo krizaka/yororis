@@ -14,7 +14,7 @@ e-mail to **security@krizaka.com**. Do not open a public issue. We acknowledge r
 - Every AI call goes through Orazaka's wellbeing pack; no other provider.
 - A moment's transcript is never kept beyond its summary; summaries and the thread are encrypted at rest.
 - Mood is self-reported, never inferred.
-- Production refuses to start without `YORORIS_RELEASE_APPROVAL`, the reference of a written and signed decision.
+- Production refuses to start without `APP_RELEASE_APPROVAL`, the reference of a written and signed decision.
 
 ## Not an emergency service
 

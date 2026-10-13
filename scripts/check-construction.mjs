@@ -4,7 +4,9 @@
 //   2. docs/FRAMEWORK.md exists.
 //   3. No workflow deploys or publishes anything: none names a deployment target, a deploy/ folder, a store
 //      submission or a release artifact.
+//   4. No environment variable is named after the product or a vendor (krizaka/.github#46): `<CONTEXT>_<THING>`.
 // Lifting construction mode is a written decision first, then a pull request that changes this file on purpose.
+import { execSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -26,8 +28,16 @@ for (const file of existsSync(workflows) ? readdirSync(workflows) : []) {
   for (const pattern of FORBIDDEN) if (pattern.test(text)) failures.push(`.github/workflows/${file} matches ${pattern}: no workflow deploys or publishes in construction mode.`);
 }
 
+// An env-like name (FOO_BAR) starting with the product or a vendor, anywhere in the tracked text.
+export const VENDOR_OR_PRODUCT_ENV = /\b(?:NEXT_PUBLIC_|EXPO_PUBLIC_)?(?:YORORIS|KRIZAKA|BUNNY|MAILGUN|RESEND|STRIPE|TURNSTILE|EXPO|GOOGLE|FACEBOOK|VERCEL|REDIS|DIGITALOCEAN|OPENAI|ANTHROPIC|FIREBASE)_[A-Z0-9_]*[A-Z0-9]\b/;
+const tracked = execSync("git ls-files", { cwd: root, encoding: "utf8" }).split("\n").filter((f) => f && !/\.(svg|png|jpg|webp|lock)$/.test(f) && f !== "scripts/check-construction.mjs");
+for (const file of tracked) {
+  const hit = readFileSync(join(root, file), "utf8").match(VENDOR_OR_PRODUCT_ENV);
+  if (hit) failures.push(`${file}: "${hit[0]}" — an environment variable is named <CONTEXT>_<THING>, never after the product or a vendor (krizaka/.github#46).`);
+}
+
 if (failures.length) {
   console.error(`Construction mode check failed:\n- ${failures.join("\n- ")}`);
   process.exit(1);
 }
-console.log("Construction mode: banner in place, FRAMEWORK.md present, no deployment or publishing workflow.");
+console.log("Construction mode: banner in place, FRAMEWORK.md present, no deployment or publishing workflow, env names by context.");
