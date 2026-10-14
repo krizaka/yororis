@@ -32,8 +32,9 @@ export function verify(token: string | undefined, now = Date.now()): string | nu
 }
 
 export function samePassword(given: string): boolean {
-  const h = (s: string) => crypto.createHash("sha256").update(s).digest();
-  return crypto.timingSafeEqual(h(given), h(readEnv().AUTH_DEMO_PASSWORD));
+  // Both sides go through a slow key derivation (never a bare hash of a password), then a constant-time comparison.
+  const derive = (value: string) => crypto.scryptSync(value, "member-space-demo", 32);
+  return crypto.timingSafeEqual(derive(given), derive(readEnv().AUTH_DEMO_PASSWORD));
 }
 
 export const cookieHeader = (token: string | null) => `${COOKIE}=${token ?? ""}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${token ? TTL_SECONDS : 0}`;
