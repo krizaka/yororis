@@ -1,0 +1,240 @@
+{
+  "console": {
+    "meta": {
+      "siteName": "Yororis — member space",
+      "signIn": "Sign in",
+      "dashboard": "Home",
+      "account": "Account",
+      "members": "Members",
+      "member": "Member"
+    },
+    "form": {
+      "errors": {
+        "required": "This is needed.",
+        "tooShort": "Use at least {minimum} characters.",
+        "tooLong": "Use at most {maximum} characters.",
+        "invalidEmail": "That does not look like an e-mail address.",
+        "invalidUrl": "That does not look like a link.",
+        "invalidDate": "That date is not valid.",
+        "invalidNumber": "That is not a number.",
+        "tooFew": "Choose at least {minimum}.",
+        "tooMany": "Choose at most {maximum}.",
+        "invalid": "That is not valid."
+      }
+    },
+    "shell": {
+      "sidebarLabel": "Yororis",
+      "closeMenu": "Close the menu",
+      "openMenu": "Open the menu",
+      "collapse": "Collapse",
+      "expand": "Expand",
+      "skip": "Skip to content",
+      "groupYou": "Your space",
+      "groupOrg": "Organisation",
+      "dashboard": "Home",
+      "account": "Account",
+      "members": "Members",
+      "signedInAs": "Signed in as {email}",
+      "signOut": "Sign out",
+      "language": "Language",
+      "otherLanguage": "Français",
+      "theme": "Switch between light and dark",
+      "banner": "In development, not available. A fictional cast, on this computer only."
+    },
+    "signIn": {
+      "title": "Welcome",
+      "description": "Sign in to your space.",
+      "promise": "A presence that listens, then stops.",
+      "email": "E-mail",
+      "password": "Password",
+      "submit": "Sign in",
+      "noticeTitle": "In development, not available",
+      "notice": "This space runs on the team’s computers with a fictional cast. Nobody outside the team can use it, and nothing is offered.",
+      "contact": "Talk to us about Yororis",
+      "asideFooter": "© Krizaka · Montréal"
+    },
+    "errors": {
+      "INVALID_CREDENTIALS": "Wrong e-mail or password.",
+      "PAUSED": "Your organisation has paused this access.",
+      "RATE_LIMITED": "Too many tries. Wait a few minutes, then try again.",
+      "UNAUTHENTICATED": "You are signed out. Sign in again.",
+      "FORBIDDEN": "You are not allowed to do this.",
+      "CROSS_ORIGIN": "This request was refused. Reload the page and try again.",
+      "INVALID_PAYLOAD": "Check what you typed and try again.",
+      "NOT_FOUND": "That does not exist (any more).",
+      "TARGET_IS_ORGANISER": "An organiser cannot be paused from here.",
+      "ALREADY_PAUSED": "This access is already paused.",
+      "NOT_PAUSED": "This access is not paused.",
+      "generic": "Something went wrong. Try again.",
+      "load": "We could not load this. Try again.",
+      "network": "No connection. Check your network and try again."
+    },
+    "dashboard": {
+      "greeting": "Hello, {name}",
+      "lead": "A calm place: what is yours, and nothing more.",
+      "unavailableTitle": "Moments are not available",
+      "unavailable": "You cannot open a moment yet. This page shows how your space will look.",
+      "stopsTitle": "A presence that stops",
+      "stopsDescription": "Your organisation sets how long a moment lasts and how many there are. Defaults shown.",
+      "length": "25 minutes",
+      "perDay": "1 a day",
+      "perWeek": "3 a week",
+      "lengthLabel": "A moment lasts",
+      "perDayLabel": "Moments",
+      "perWeekLabel": "In a week",
+      "momentsTitle": "Your moments",
+      "momentsDescription": "The moments you had, newest first.",
+      "momentsEmptyTitle": "No moment yet",
+      "momentsEmpty": "Each moment will be listed here with the day, and how you felt before and after, in your words. Nothing is inferred.",
+      "keepTitle": "What I keep",
+      "keepDescription": "A few lines you read, edit or delete.",
+      "keepEmptyTitle": "Nothing kept",
+      "keepEmpty": "When a moment ends, the transcript is gone. What stays is a short summary that is yours.",
+      "threadTitle": "The thread",
+      "threadDescription": "What you chose to carry into your next moment.",
+      "threadEmptyTitle": "No thread yet",
+      "threadEmpty": "The thread starts with the first summary you keep.",
+      "notebookTitle": "My notebook",
+      "notebookDescription": "Everything you kept, in one place.",
+      "notebookEmptyTitle": "Your notebook is empty",
+      "notebookEmpty": "It fills as you keep summaries. You can export it as one page.",
+      "crisisTitle": "Talk to someone now",
+      "crisisText": "Trained people listen, right now.",
+      "call": "Call 9-8-8",
+      "text": "Text 9-8-8",
+      "infoSocial": "Info-Social 811"
+    },
+    "account": {
+      "title": "Account",
+      "description": "Your details, your display choices, consent and your data.",
+      "navLabel": "Account sections",
+      "nav": {
+        "profile": "Profile",
+        "display": "Display",
+        "consent": "Consent",
+        "notebook": "To bring with you",
+        "delete": "Delete"
+      },
+      "profile": {
+        "title": "Profile",
+        "description": "How the presence addresses you, and the language of this space.",
+        "email": "E-mail",
+        "emailHint": "Your organisation invited this address. Nobody else sees it.",
+        "organisation": "Organisation",
+        "name": "First name or nickname",
+        "language": "Language",
+        "languageEn": "English",
+        "languageFr": "Français",
+        "save": "Save",
+        "saved": "Saved."
+      },
+      "display": {
+        "title": "Display",
+        "description": "Two choices, saved at once.",
+        "subtitles": "Exact subtitles",
+        "subtitlesHint": "Show what is said, word for word, under the voice.",
+        "calm": "Calm motion",
+        "calmHint": "Less movement in the portrait and the page.",
+        "saved": "Saved."
+      },
+      "consent": {
+        "title": "Consent",
+        "description": "Before a first moment you read a statement and agree to it. It has a version: when it changes, you agree again.",
+        "version": "Current statement",
+        "versionNone": "None yet",
+        "status": "Nothing to agree to yet",
+        "statusHint": "The statement is written with Orazaka’s wellbeing pack. It is not available.",
+        "age": "Adults only",
+        "ageHint": "Your age is attested before a first moment."
+      },
+      "notebook": {
+        "title": "To bring with you",
+        "description": "Your notebook as one page, to bring to my therapist, doctor or whoever supports me.",
+        "action": "Export my notebook",
+        "hint": "Not available: there is nothing to export yet."
+      },
+      "delete": {
+        "title": "Delete my account",
+        "description": "This is final.",
+        "now": "Deleted at once: your name, your choices, everything you kept.",
+        "remains": "What remains: nothing that identifies you.",
+        "action": "Delete my account",
+        "confirm": "Sure? Delete it for good"
+      }
+    },
+    "admin": {
+      "members": {
+        "title": "Members",
+        "description": "The people of your organisation. You set how long moments last and how many there are. You never read what anyone says or keeps.",
+        "caption": "Members",
+        "name": "Name",
+        "email": "E-mail",
+        "status": "Status",
+        "role": "Role",
+        "language": "Language",
+        "joined": "Joined",
+        "lastSeen": "Last seen",
+        "never": "Never",
+        "open": "Open {name}",
+        "empty": "No member matches."
+      },
+      "statuses": {
+        "ACTIVE": "Active",
+        "PAUSED": "Paused"
+      },
+      "roles": {
+        "MEMBER": "Member",
+        "ADMIN": "Organiser"
+      },
+      "member": {
+        "back": "Members",
+        "eyebrow": "Member",
+        "facts": "Facts",
+        "id": "Identifier",
+        "email": "E-mail",
+        "organisation": "Organisation",
+        "role": "Role",
+        "language": "Language",
+        "joined": "Joined",
+        "lastSeen": "Last seen",
+        "pause": "Pause access",
+        "pauseConfirm": "Sure? Pause this access",
+        "restore": "Restore access",
+        "restoreConfirm": "Sure? Restore this access",
+        "paused": "Access is paused.",
+        "activityTitle": "Recent activity",
+        "activityLabel": "Lines about this member",
+        "activityEmpty": "Nothing recorded yet.",
+        "limitsNote": "You see who has access. What a member says or keeps is never shown here.",
+        "actions": {
+          "sign_in": "Signed in",
+          "sign_in_refused": "Sign-in refused",
+          "paused": "Access paused",
+          "restored": "Access restored",
+          "deleted": "Account deleted"
+        }
+      },
+      "table": {
+        "selectAll": "Select all rows",
+        "loading": "Loading",
+        "empty": "Nothing to show",
+        "details": "Details",
+        "filters": "Filter the table",
+        "clear": "Clear filters",
+        "removeFilter": "Remove {label}",
+        "activeFilter": "{header}: {value}",
+        "search": "Search {header}",
+        "columns": "Columns",
+        "export": "Export CSV",
+        "results": "{count} results",
+        "paginationNav": "Pages of results",
+        "previous": "Previous",
+        "next": "Next",
+        "page": "Page {page}",
+        "compact": "Page {page} of {pages}",
+        "pageSize": "Rows per page",
+        "retry": "Try again"
+      }
+    }
+  }
+}

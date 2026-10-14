@@ -18,6 +18,7 @@ jobs:
         with:
           node-version: 22
       - run: node scripts/check-construction.mjs
+      - run: node --test scripts/check-construction.test.mjs
   site:
     name: Static site
     runs-on: ubuntu-latest
@@ -37,3 +38,22 @@ jobs:
           python3 -m http.server 3000 --directory out >/dev/null 2>&1 &
           sleep 2
           node scripts/check-seo-family.mjs --base http://localhost:3000 --host https://dev.yororis.com --types WebSite,SoftwareApplication
+  member-space:
+    name: Member space (local only)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+    env:
+      AUTH_SESSION_SECRET: ci-only-secret-0123456789abcdef0123456789
+      AUTH_DEMO_PASSWORD: ci-only-demo-password
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
