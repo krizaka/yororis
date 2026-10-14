@@ -1,20 +1,19 @@
 "use client";
 
 /* The bar of the Krizaka family (NAV-SYS), built on @krizaka/ui's NavBar, in three fixed zones.
-   Left — who am I: the Yororis mark, and the family switcher (<Family/>, empty until NavBar.Family ships).
+   Left — who am I: the Yororis mark, the family switcher (NavBar.Family, @krizaka/ui/sites) and the DEV · version badge.
    Centre — this site: What it is · How we're building it · What it is not (never a link to another site).
-   Right — tools: GitHub of this repository · theme · language · the one action, "Talk to us about Yororis". */
+   Right — tools: the repository (NavBar.Repo) · theme · language · the one action, "Talk to us about Yororis". */
 
 import { useCallback, useSyncExternalStore } from "react";
 import { MoonIcon, SunIcon } from "@krizaka/icons";
 import { YororisLogo } from "@krizaka/ui";
 import { Button } from "@krizaka/ui/button";
 import { NavBar } from "@krizaka/ui/nav-bar";
+import { familyLabels } from "@krizaka/ui/sites";
 import { useTheme } from "@krizaka/ui/theme";
-import type { Messages } from "@/lib/messages";
+import type { Locale, Messages } from "@/lib/messages";
 import { CONTACT, REPO, SECTIONS } from "@/lib/site";
-import { Family } from "./Family";
-import { GitHubMark } from "./GitHubMark";
 
 const DARK_QUERY = "(prefers-color-scheme: dark)";
 function subscribe(onChange: () => void) {
@@ -32,7 +31,7 @@ function useShownTheme() {
   return { theme, toggle };
 }
 
-export function Bar({ m, home, otherHref, otherLabel, other }: { m: Messages["bar"]; home: string; otherHref: string; otherLabel: string; other: string }) {
+export function Bar({ m, locale, version, home, otherHref, otherLabel, other }: { m: Messages["bar"]; locale: Locale; version: string; home: string; otherHref: string; otherLabel: string; other: string }) {
   const { theme, toggle } = useShownTheme();
   const themeLabel = theme === "dark" ? m.toLight : m.toDark;
   const themeIcon = theme === "dark" ? <SunIcon size={16} /> : <MoonIcon size={16} />;
@@ -45,7 +44,8 @@ export function Bar({ m, home, otherHref, otherLabel, other }: { m: Messages["ba
             Yororis
           </a>
         </NavBar.Brand>
-        <Family />
+        <NavBar.Family current="yororis" labels={familyLabels[locale]} />
+        <NavBar.Badge env="dev" version={version} />
 
         <NavBar.Items>
           {SECTIONS.map((s) => (
@@ -56,11 +56,7 @@ export function Bar({ m, home, otherHref, otherLabel, other }: { m: Messages["ba
         </NavBar.Items>
 
         <NavBar.Actions className="gap-1">
-          <Button asChild variant="ghost" size="icon" shape="pill" className="hidden h-9 w-9 lg:inline-flex">
-            <a href={REPO} target="_blank" rel="noopener noreferrer" aria-label={m.github}>
-              <GitHubMark size={15} />
-            </a>
-          </Button>
+          <NavBar.Repo href={REPO} label={m.github} className="hidden lg:inline-flex" />
           <Button type="button" variant="ghost" size="icon" shape="pill" onClick={toggle} aria-label={themeLabel} className="hidden h-9 w-9 md:inline-flex">
             {themeIcon}
           </Button>
@@ -80,11 +76,6 @@ export function Bar({ m, home, otherHref, otherLabel, other }: { m: Messages["ba
               </NavBar.MobileLink>
             ))}
             <NavBar.MobileLink asChild>
-              <a href={REPO} target="_blank" rel="noopener noreferrer">
-                {m.github}
-              </a>
-            </NavBar.MobileLink>
-            <NavBar.MobileLink asChild>
               <button type="button" onClick={toggle} className="w-full text-left">
                 {themeLabel}
               </button>
@@ -97,6 +88,7 @@ export function Bar({ m, home, otherHref, otherLabel, other }: { m: Messages["ba
             <Button asChild variant="primary" size="md" shape="cut" className="mt-2 font-bold">
               <a href={CONTACT}>{m.talk}</a>
             </Button>
+            <NavBar.Family current="yororis" labels={familyLabels[locale]} />
           </NavBar.Mobile>
         </NavBar.Actions>
       </NavBar.Root>

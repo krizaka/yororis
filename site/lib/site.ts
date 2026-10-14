@@ -13,20 +13,3 @@ export const SECTIONS = [
   { id: "how", key: "how" },
   { id: "not", key: "not" },
 ] as const;
-
-/* The Krizaka family (NAV-SYS). Today the footer renders it; when `@krizaka/ui/sites` and `NavBar.Family` ship, this
-   list is replaced by the package's data and <Family/> (components/Family.tsx) by the switcher — nothing else changes. */
-export const FAMILY = {
-  company: { id: "krizaka", href: KRIZAKA },
-  products: [
-    { id: "orazaka", name: "Orazaka", href: "https://dev.orazaka.com" },
-    { id: "orochia", name: "Orochia", href: "https://dev.orochia.com" },
-    { id: "yasakia", name: "Yasakia", href: "https://dev.yasakia.com" },
-    { id: "yororis", name: "Yororis", href: ORIGIN, current: true },
-  ],
-  openSource: [
-    { id: "ui", href: "https://ui.krizaka.com" },
-    { id: "java", href: "https://java.krizaka.com" },
-  ],
-  github: "https://github.com/krizaka",
-} as const;

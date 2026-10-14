@@ -195,23 +195,7 @@
     "follow": "Follow the construction"
   },
   "footer": {
-    "product": "A Krizaka product",
-    "version": "Version",
-    "city": "Montréal",
-    "family": "The Krizaka family",
-    "krizaka": "Krizaka",
-    "products": "Products",
-    "opensource": "Open source",
-    "github": "GitHub",
-    "under": "under construction",
-    "nav": "Krizaka family",
-    "about": "A Krizaka product, made in Montréal",
-    "links": {
-      "site": "krizaka.com",
-      "ui": "Krizaka UI",
-      "java": "Krizaka Java",
-      "org": "krizaka on GitHub"
-    }
+    "nav": "Krizaka family"
   },
   "notFound": {
     "title": "Page not found",
