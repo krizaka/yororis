@@ -1,0 +1,73 @@
+@import "tailwindcss";
+/* The Krizaka preset: @krizaka/tokens (every --kz-* colour, radius, shadow, font of both themes) mapped to the Tailwind
+   theme, plus the motion signature. Dark on :root, light on html.light (ThemeScript). */
+@import "@krizaka/tailwind";
+/* One class per brand: `.brand-yororis` (sand → sage) on <html>. */
+@import "@krizaka/tokens/brands/scoped.css";
+@import "@krizaka/ui/tailwind.css";
+
+/* The faces are @krizaka/fonts (lib/fonts.ts), in the token roles. */
+:root {
+  --kz-font-sans: var(--font-kz-text), Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --kz-font-display: var(--font-kz-display), "Plus Jakarta Sans", var(--font-kz-text), system-ui, sans-serif;
+  --kz-font-mono: var(--font-kz-mono), "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+html.light { color-scheme: light; }
+
+/* One frame (the settings of @krizaka/ui's Page contract): same width and gutters for the bar, the hero, the sections and the footer. */
+:root {
+  --kz-page-max: 72rem;
+  --kz-hero-top: clamp(112px, 14vw, 156px);
+  --kz-anchor-offset: 96px;
+}
+html { scroll-padding-top: var(--kz-anchor-offset); }
+body { margin: 0; min-height: 100vh; background: var(--kz-surface-0); color: var(--kz-text-primary); font-family: var(--kz-font-sans); -webkit-font-smoothing: antialiased; }
+.kz-site-bar-wrap { padding-inline: var(--kz-page-gutter, clamp(16px, 3.2vw, 32px)); }
+.kz-site-bar, .kz-site-bar[data-compact] { max-width: var(--kz-page-max); }
+.yo-wrap { width: 100%; max-width: var(--kz-page-max); margin: 0 auto; padding-inline: var(--kz-page-gutter, clamp(16px, 3.2vw, 32px)); }
+
+/* Reading pages — what the blocks leave to a page (same small set as krizaka.com's « Reading pages »). */
+.rd-two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; }
+@media (max-width: 860px) { .rd-two { grid-template-columns: minmax(0, 1fr); } }
+.rd-stack { display: grid; gap: 16px; min-width: 0; align-content: start; }
+.rd-prose { margin: 0; font-size: 15.5px; line-height: 1.75; color: var(--kz-text-secondary); }
+.rd-prose.is-small { font-size: 14.5px; }
+.rd-h3 { margin: 0; font-size: 1.05rem; font-weight: 700; color: var(--kz-text-primary); }
+.rd-links { display: flex; flex-wrap: wrap; gap: 10px; }
+.kz-list.rd-no li::before { width: 9px; height: 2px; top: .78em; border-radius: 1px; background: var(--kz-text-secondary); }
+.yo-status { max-width: 56ch; font-size: 16px; color: var(--kz-text-primary); }
+.yo-hero-mark { filter: drop-shadow(0 12px 40px color-mix(in srgb, var(--kz-accent) 28%, transparent)); }
+
+/* The crisis lines: a plain note, never hidden, on the accent's rail. */
+.yo-crisis { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 6px 14px; padding: 14px 18px; border-radius: 14px;
+  border: 1px solid var(--kz-border-default); background: var(--kz-surface-1); box-shadow: inset 4px 0 0 var(--kz-accent); }
+.yo-crisis-icon { color: var(--kz-accent-text); }
+.yo-crisis p { margin: 0; }
+.yo-crisis-lead { font-size: 15px; color: var(--kz-text-secondary); }
+.yo-crisis-lead strong { color: var(--kz-text-primary); }
+.yo-crisis-lines { grid-column: 2; display: flex; flex-wrap: wrap; gap: 4px 22px; font-size: 17px; font-weight: 600; color: var(--kz-text-primary); }
+.yo-crisis a { color: var(--kz-accent-text); font-weight: 800; font-size: 1.15em; text-decoration: underline; text-underline-offset: 3px; }
+.yo-crisis a:focus-visible, .yo-footer a:focus-visible, .yo-404 a:focus-visible { outline: 2px solid var(--kz-ring); outline-offset: 3px; border-radius: 4px; }
+
+/* The footer of the family. */
+.yo-footer { width: 100%; max-width: var(--kz-page-max); margin: 56px auto 0; padding: 36px var(--kz-page-gutter, clamp(16px, 3.2vw, 32px)) 28px; border-top: 1px solid var(--kz-border-default); color: var(--kz-text-secondary); font-size: 14px; }
+.yo-footer a { color: inherit; text-decoration: none; }
+.yo-footer a:hover { color: var(--kz-text-primary); text-decoration: underline; }
+.yo-footer-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 32px; }
+@media (max-width: 760px) { .yo-footer-grid { grid-template-columns: minmax(0, 1fr); } }
+.yo-footer-brand { display: inline-flex; align-items: center; gap: 10px; font-family: var(--kz-font-display); font-weight: 800; font-size: 18px; color: var(--kz-text-primary) !important; }
+.yo-footer-about p { margin: 10px 0 0; }
+.yo-footer-crisis a { color: var(--kz-accent-text); font-weight: 700; text-decoration: underline; }
+.yo-footer-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 24px; }
+.yo-footer-cols h2 { margin: 0 0 10px; font: 700 10.5px/1 var(--kz-font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--kz-text-secondary); }
+.yo-footer-cols ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.yo-footer-cols a[aria-current="page"] { color: var(--kz-text-primary); font-weight: 700; }
+.yo-footer-status { color: var(--kz-text-secondary); font-size: 12.5px; }
+.yo-footer-base { display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: space-between; margin: 28px 0 0; padding-top: 16px; border-top: 1px solid var(--kz-border-subtle); font: 500 12.5px var(--kz-font-mono); }
+
+/* 404. */
+.yo-404 { min-height: 100vh; display: grid; place-content: center; justify-items: center; gap: 12px; padding: 24px; text-align: center; }
+.yo-404 h1 { margin: 0; font-family: var(--kz-font-display); font-size: 3rem; }
+.yo-404 p { margin: 0; color: var(--kz-text-secondary); }
+.yo-404 a { color: var(--kz-accent-text); }

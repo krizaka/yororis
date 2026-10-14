@@ -1,0 +1,222 @@
+{
+  "lang": "fr",
+  "other": "EN",
+  "otherName": "English",
+  "otherLabel": "Read in English",
+  "otherHref": "/",
+  "meta": {
+    "title": "Yororis — un espace d'écoute avec un visage et une voix",
+    "description": "Yororis est un espace d'écoute avec un visage et une voix. En construction : construit en public, son cadre étudié avant toute mise à disposition. Rien n'est en ligne, et il n'y a pas de date.",
+    "ogAlt": "La marque Yororis"
+  },
+  "bar": {
+    "label": "Principale",
+    "home": "Yororis, accueil",
+    "what": "Ce que c'est",
+    "how": "Comment on le construit",
+    "not": "Ce que ce n'est pas",
+    "github": "Yororis sur GitHub",
+    "toLight": "Passer au thème clair",
+    "toDark": "Passer au thème sombre",
+    "language": "Switch to English",
+    "talk": "Discuter de Yororis",
+    "menu": "Ouvrir le menu",
+    "close": "Fermer le menu",
+    "skip": "Aller au contenu"
+  },
+  "hero": {
+    "eyebrow": "En construction",
+    "title": "Un espace d'écoute avec un visage et une voix.",
+    "lead": "Certains soirs, on a besoin de mettre des mots sur ce qu'on porte. Yororis vous donne une présence — une IA qui le dit — qui écoute, reformule, pose une question, et s'arrête. Ce que vous gardez est à vous. Nous le construisons en public, et nous étudions son cadre avant que quiconque l'utilise.",
+    "factsLabel": "Où en est Yororis",
+    "facts": {
+      "status": "En construction",
+      "open": "Open source · Apache-2.0",
+      "date": "Pas de date"
+    },
+    "explore": "Comment on le construit"
+  },
+  "crisis": {
+    "label": "En cas de crise",
+    "lead": "Des personnes formées à l'écoute répondent tout de suite.",
+    "canada": "Canada : appelez ou textez le",
+    "quebec": "Québec : appelez le",
+    "quebecName": "811 (Info-Social)",
+    "aria": "Lignes de crise"
+  },
+  "reviewed": {
+    "construction": "Nous construisons Yororis en public et nous étudions son cadre — juridique, éthique, clinique — avant toute mise à disposition. Rien n'est en ligne, rien n'est offert, et il n'y a pas de date.",
+    "isNot": [
+      "Pas un soin : Yororis ne prétend à aucun effet sur la santé et ne remplace personne qui vous accompagne.",
+      "Pas un service d'urgence : en cas de crise, des personnes formées à l'écoute répondent tout de suite.",
+      "Pas une personne : une présence IA qui le dit, chaque fois."
+    ],
+    "isNotRule": "Pas un soin, pas un service d'urgence, pas une personne. En cas de crise au Canada, appelez ou textez le 9-8-8 — au Québec, le 811 (Info-Social)."
+  },
+  "what": {
+    "eyebrow": "Ce que c'est",
+    "title": "Une présence qui écoute, et qui s'arrête",
+    "lead": "Une personne ouvre un moment avec une présence : une IA qui a un prénom, un portrait animé portant une marque « IA » permanente, une voix et des sous-titres exacts. Elle est pensée d'abord pour les organisations — un programme de mieux-être, un ordre professionnel, un employeur — qui fixent les limites pour leurs membres.",
+    "cards": {
+      "presence": {
+        "title": "Une présence avec un visage et une voix",
+        "meta": "une IA, et elle le dit",
+        "hook": "Un portrait clairement synthétique, une voix et des sous-titres exacts — la présence vient du rythme et de l'attention.",
+        "items": [
+          "Elle se présente comme une IA au début de chaque moment",
+          "Elle écoute, reformule, pose une question à la fois",
+          "Elle aide à mettre des mots sur ce qui se vit"
+        ]
+      },
+      "moment": {
+        "title": "Un moment qui finit",
+        "meta": "25 min · un par jour · trois par semaine",
+        "hook": "Une durée maximale et un nombre de moments par jour et par semaine — les limites sont le produit.",
+        "items": [
+          "Des valeurs par défaut qu'une organisation peut baisser",
+          "Appliquées par le serveur, affichées à l'écran",
+          "Pas à la place des personnes qui vous soutiennent"
+        ]
+      },
+      "keep": {
+        "title": "Ce que je garde",
+        "meta": "un résumé qui est à vous",
+        "hook": "À la fermeture du moment, la transcription disparaît. Ce qui reste est court, et c'est à vous.",
+        "items": [
+          "Un résumé que vous lisez, modifiez ou supprimez",
+          "Le fil qui le porte jusqu'au moment suivant",
+          "Une page à apporter aux personnes qui vous soutiennent"
+        ]
+      }
+    },
+    "label": "Ce que c'est",
+    "instead": "En bref",
+    "expand": "En détail",
+    "stops": {
+      "eyebrow": "Signature",
+      "title": "Une présence qui s'arrête",
+      "lead": "Les limites ne sont pas une contrainte technique : ce sont le produit. Fixées par l'organisation qui offre Yororis, appliquées par le serveur, affichées à l'écran.",
+      "decisions": [
+        {
+          "chose": "Jusqu'à 25 minutes, un moment par jour, trois par semaine — des valeurs par défaut qu'une organisation peut abaisser",
+          "refused": "Une présence disponible jour et nuit",
+          "because": "La disponibilité sans fin est ce qui rend ces apps difficiles à lâcher, et la soirée finit quand même. Un moment qui a une fin vous renvoie à votre vie et à vos proches.",
+          "cost": "Certains soirs, vous en voudrez plus et ne l'aurez pas. « C'est tout pour aujourd'hui. On se retrouve demain à partir de 9 h. »"
+        },
+        {
+          "chose": "Une présence qui dit qu'elle est une IA, à chaque moment, avec une marque « IA » permanente sur un portrait clairement synthétique",
+          "refused": "Un visage qui pourrait passer pour une personne",
+          "because": "La présence vient du rythme, de la voix et de l'attention — pas d'une illusion. Le règlement européen sur l'IA l'exige ; l'honnêteté l'exige partout.",
+          "cost": "Moins d'illusion. C'est voulu."
+        },
+        {
+          "chose": "Une humeur que vous indiquez vous-même, de 1 à 5, avant et après",
+          "refused": "Lire vos sentiments dans votre voix ou vos mots",
+          "because": "Aucun modèle ne décide de ce que vous ressentez, et rien n'est calculé sur vous. C'est plus honnête, et Yororis ne lit pas les émotions.",
+          "cost": "Aucun graphique automatique de vos soirées — seulement ce que vous avez dit."
+        },
+        {
+          "chose": "Aucune incitation à revenir, aucun compteur de jours, aucun moment de plus à vendre",
+          "refused": "Les mécaniques d'engagement",
+          "because": "Un espace d'écoute qui veut vous voir revenir n'écoute pas.",
+          "cost": "Une croissance à gagner autrement : par les organisations, pas par l'attention."
+        }
+      ]
+    }
+  },
+  "how": {
+    "eyebrow": "En public",
+    "title": "Comment on le construit",
+    "lead": "Les dépôts sont publics, le cadre est écrit, et le code refuse d'aller plus vite que l'étude. Rien ici n'est une promesse de disponibilité.",
+    "guards": {
+      "title": "Les garde-fous",
+      "lead": "Tout appel d'IA passe par le pack bien-être d'Orazaka — Yororis n'a aucun autre fournisseur d'IA. Ses gardes vivent dans le moteur, pas dans un prompt.",
+      "items": [
+        "Consentement à un énoncé versionné, bloquant : pas de consentement, pas de moment (`451`)",
+        "Une garde de crise qui passe en premier et ne se débranche pas : une réponse fixe, relue, et une ressource régionale sourcée — jamais générée",
+        "Une garde de périmètre : ce qui sort d'un espace d'écoute est refusé, mot pour mot",
+        "Une attestation d'âge, consignée ; non offert aux mineurs",
+        "Une rétention courte (30 jours, moins sur demande), le chiffrement et un audit en ajout seul",
+        "Installé seulement là où une ressource de crise vérifiée existe"
+      ]
+    },
+    "own": {
+      "title": "Ce que Yororis ajoute",
+      "items": [
+        "Des limites appliquées par le serveur, pas par l'écran",
+        "La transcription détruite quand le résumé est fait",
+        "Une humeur que vous donnez vous-même, de 1 à 5 — rien n'est déduit, aucun score",
+        "Export et suppression par la personne ; statistiques agrégées seulement",
+        "Le mode construction, vérifié par la CI : aucun déploiement, aucune inscription, aucune variable de production"
+      ]
+    },
+    "open": {
+      "title": "À lire, à vérifier",
+      "lead": "Tout ce qui précède est écrit en public.",
+      "links": {
+        "repo": {
+          "name": "krizaka/yororis",
+          "line": "Le dépôt, sa CI et son statut"
+        },
+        "framework": {
+          "name": "Le cadre",
+          "line": "Ce que c'est, ce que ce n'est pas, les contrôles, les questions à l'étude (en anglais)"
+        },
+        "adr": {
+          "name": "ADR-055 — le pack bien-être",
+          "line": "Pourquoi le nom est le premier contrôle, et comment fonctionnent les gardes (en anglais)"
+        },
+        "sensitive": {
+          "name": "ADR-051 — contrôles sensibles",
+          "line": "Consentement, rétention, audit : le côté du moteur (en anglais)"
+        }
+      }
+    },
+    "study": {
+      "title": "Ce que nous étudions",
+      "lead": "Des questions, pas des conclusions — avec un avocat, avant que quoi que ce soit soit offert à qui que ce soit.",
+      "items": [
+        "Québec : le titre et l'acte réservés, et la Loi 25 — étude d'impact sur la vie privée, consentement, conservation, hébergement",
+        "Canada : les règles de Santé Canada pour les logiciels, la loi fédérale sur la vie privée, et ce qui peut être dit aux organisations",
+        "France et Union européenne : le règlement sur l'IA (dire qu'on parle à une IA, la lecture des émotions), l'article 9 du RGPD",
+        "Belgique : les mêmes questions européennes, et les lignes d'écoute de crise des deux communautés linguistiques",
+        "Partout : les conditions d'un pilote avec des personnes extérieures, et l'assurance"
+      ]
+    },
+    "rule": "La grue écoute avant de bouger. Nous étudions avant d'offrir."
+  },
+  "not": {
+    "title": "Ce que Yororis n'est pas",
+    "lead": "Dit une fois, clairement, pour que personne n'ait à deviner."
+  },
+  "cta": {
+    "title": "Discuter de Yororis",
+    "body": "Une organisation qui a un programme de mieux-être, une professionnelle qui veut lire le cadre, un développeur qui veut le construire avec nous : écrivez-nous. Tant que Yororis est en construction, c'est la seule porte ouverte.",
+    "follow": "Suivre la construction"
+  },
+  "footer": {
+    "product": "Un produit Krizaka",
+    "version": "Version",
+    "city": "Montréal",
+    "family": "La famille Krizaka",
+    "krizaka": "Krizaka",
+    "products": "Produits",
+    "opensource": "Open source",
+    "github": "GitHub",
+    "under": "en construction",
+    "nav": "Famille Krizaka",
+    "about": "Un produit Krizaka, fait à Montréal",
+    "links": {
+      "site": "krizaka.com",
+      "ui": "Krizaka UI",
+      "java": "Krizaka Java",
+      "org": "krizaka sur GitHub"
+    }
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "body": "Cette page n'existe pas.",
+    "home": "Retour à Yororis",
+    "docs": "Back to Yororis (English)"
+  }
+}
