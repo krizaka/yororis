@@ -108,6 +108,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   mkdirSync(join(dist, "fr"), { recursive: true });
   writeFileSync(join(dist, "index.html"), page("en"));
   writeFileSync(join(dist, "fr/index.html"), page("fr"));
+  writeFileSync(join(dist, "404.html"), page("en"));
   writeFileSync(join(dist, "favicon.svg"), favicon());
   writeFileSync(join(dist, "robots.txt"), `User-agent: *\nAllow: /\n`);
   console.log(`site/dist built (version ${version()})`);
