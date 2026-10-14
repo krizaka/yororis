@@ -5,6 +5,7 @@ import { createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { NodeType, parse } from "node-html-parser";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "..");
@@ -14,9 +15,23 @@ const PAGES = { en: "index.html", fr: "fr/index.html" };
 const CONTACT = "https://www.krizaka.com/contact?topic=yororis";
 
 assert.ok(existsSync(join(out, "index.html")), "site/out is missing: run `npm run build` before `npm test`");
-const html = (l) => readFileSync(join(out, PAGES[l]), "utf8");
-const decode = (s) => s.replace(/&#x27;|&#39;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-const textOf = (h) => decode(h.replace(/<(style|script|svg)[\s\S]*?<\/\1>/g, "").replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ");
+// The built pages are read with a real HTML parser (node-html-parser): entities are decoded by the parser, text is the
+// text nodes outside style/script/svg, links are attributes — no regex stripping or unescaping of markup.
+const raw = (l) => readFileSync(join(out, PAGES[l]), "utf8");
+const dom = (l) => parse(raw(l));
+const textOf = (l) => {
+  const parts = [];
+  const walk = (n) => {
+    if (n.nodeType === NodeType.TEXT_NODE) parts.push(n.text);
+    else if (n.nodeType === NodeType.ELEMENT_NODE && !["style", "script", "svg"].includes(n.rawTagName?.toLowerCase())) n.childNodes.forEach(walk);
+    else if (n.childNodes) n.childNodes.forEach(walk);
+  };
+  walk(dom(l));
+  return parts.join(" ").split(/\s+/).filter(Boolean).join(" ");
+};
+const attr = (el, name) => Object.entries(el.attributes).find(([k]) => k.toLowerCase() === name)?.[1];
+const links = (l) => dom(l).querySelectorAll("a").map((a) => ({ href: attr(a, "href"), text: a.text.trim() }));
+const hostOf = (href) => { try { return new URL(href).host; } catch { return null; } };
 const strings = (v) => (typeof v === "string" ? [v] : Array.isArray(v) ? v.flatMap(strings) : Object.values(v).flatMap(strings));
 const shape = (v) => (typeof v === "string" ? "s" : Array.isArray(v) ? v.map(shape) : Object.fromEntries(Object.keys(v).sort().map((k) => [k, shape(v[k])])));
 
@@ -41,7 +56,7 @@ for (const l of ["en", "fr"]) {
   });
 
   test(`lexicon: no "never" word in the built page text or in any message (${l})`, () => {
-    let text = textOf(html(l));
+    let text = textOf(l);
     for (const t of reviewedOf(l)) text = text.replaceAll(t, "");
     // the one phrase that names the rule forbidding sign-up and deployment (construction mode, FRAMEWORK §5)
     const allowed = l === "en" ? "no deployment, no sign-up, no production variable" : "aucun déploiement, aucune inscription, aucune variable de production";
@@ -49,30 +64,35 @@ for (const l of ["en", "fr"]) {
     for (const re of NEVER) assert.ok(!re.test(text), `${re} found in the ${l} page text`);
     const own = { ...messages[l], reviewed: undefined, how: { ...messages[l].how, own: { ...messages[l].how.own, items: messages[l].how.own.items.filter((s) => !s.includes(allowed)) } } };
     for (const s of strings(JSON.parse(JSON.stringify(own)))) for (const re of NEVER) assert.ok(!re.test(s), `${re} in message "${s}" (${l})`);
-    assert.ok(RULE_OF_THE_BUILD.test(textOf(html(l))));
+    assert.ok(RULE_OF_THE_BUILD.test(textOf(l)));
   });
 
   test(`reviewed texts are on the page, word for word (${l})`, () => {
-    const text = textOf(html(l));
+    const text = textOf(l);
     for (const t of reviewedOf(l)) assert.ok(text.includes(t), t);
   });
 
   test(`contract (${l}): one action everywhere, crisis line, footer, version, document`, () => {
-    const h = html(l);
-    assert.ok(h.includes(`href="${CONTACT}"`));
-    for (const href of h.match(/href="https:\/\/www\.krizaka\.com\/contact[^"]*"/g) ?? []) assert.equal(href, `href="${CONTACT}"`);
-    for (const label of [messages[l].bar.talk]) assert.ok(textOf(h).includes(label));
-    assert.ok(h.includes('href="tel:988"') && h.includes('href="tel:811"'), "the crisis lines are one tap away");
-    assert.ok(/9-8-8/.test(textOf(h)) && /811/.test(textOf(h)));
-    assert.ok(h.includes('<a href="https://www.krizaka.com">' + messages[l].footer.product.replace("'", "&#x27;") + "</a>"));
-    assert.ok(new RegExp(`${messages[l].footer.version} \\d+\\.\\d+\\.\\d+`).test(textOf(h)), "the version is shown");
-    assert.ok(h.includes(`<html lang="${l}"`));
-    assert.ok(!/<form|<input|<textarea|type="email"/i.test(h), "no form");
-    assert.ok(!/\/api\//.test(h), "no API call");
-    assert.ok(h.includes('rel="canonical"') && /hreflang="en"/i.test(h) && /hreflang="fr"/i.test(h));
-    assert.ok(h.includes('property="og:title"') && h.includes('name="description"') && h.includes('property="og:image"'));
-    assert.ok(h.includes("brand-yororis"));
-    for (const id of ["what", "how", "not"]) assert.ok(h.includes(`id="${id}"`), `section #${id}`);
+    const d = dom(l);
+    const hrefs = links(l);
+    const contact = hrefs.filter((x) => hostOf(x.href) === "www.krizaka.com" && new URL(x.href).pathname === "/contact");
+    assert.ok(contact.length >= 2, "the action is in the bar and at the end of the page");
+    for (const x of contact) assert.equal(x.href, CONTACT, "every contact link is the one action");
+    assert.ok(textOf(l).includes(messages[l].bar.talk));
+    for (const tel of ["tel:988", "tel:811"]) assert.ok(hrefs.some((x) => x.href === tel), `the crisis line ${tel} is one tap away`);
+    assert.ok(/9-8-8/.test(textOf(l)) && /811/.test(textOf(l)));
+    assert.ok(hrefs.some((x) => hostOf(x.href) === "www.krizaka.com" && new URL(x.href).pathname === "/" && x.text === messages[l].footer.product), "footer: A Krizaka product");
+    assert.ok(new RegExp(`${messages[l].footer.version} \\d+\\.\\d+\\.\\d+`).test(textOf(l)), "the version is shown");
+    assert.equal(d.querySelector("html").getAttribute("lang"), l);
+    assert.equal(d.querySelectorAll("form, input, textarea, button[type=submit]").length, 0, "no form");
+    assert.ok(!hrefs.some((x) => x.href?.startsWith("/api/")), "no API call");
+    assert.ok(d.querySelector('link[rel="canonical"]'), "canonical");
+    const alts = d.querySelectorAll('link[rel="alternate"]').map((e) => attr(e, "hreflang"));
+    assert.ok(alts.includes("en") && alts.includes("fr"), "hreflang en and fr");
+    for (const p of ["og:title", "og:image"]) assert.ok(d.querySelector(`meta[property="${p}"]`), p);
+    assert.ok(d.querySelector('meta[name="description"]'));
+    assert.ok(d.querySelector("body").classList.contains("brand-yororis"));
+    for (const id of ["what", "how", "not"]) assert.ok(d.getElementById(id), `section #${id}`);
   });
 }
 
@@ -81,8 +101,8 @@ test("both languages have the same shape", () => {
 });
 
 test("the language switch points to the other page", () => {
-  assert.ok(html("en").includes('href="/fr/"'));
-  assert.ok(html("fr").includes('href="/"'));
+  assert.ok(links("en").some((x) => x.href === "/fr/"));
+  assert.ok(links("fr").some((x) => x.href === "/"));
 });
 
 test("the export is static: no server output", () => {
@@ -94,5 +114,8 @@ test("the export is static: no server output", () => {
 
 test("sitemap lists both languages", () => {
   const s = readFileSync(join(out, "sitemap.xml"), "utf8");
-  assert.ok(s.includes("https://dev.yororis.com/") && s.includes("https://dev.yororis.com/fr/"));
+  const locs = parse(s).querySelectorAll("loc").map((e) => new URL(e.text.trim()));
+  assert.ok(locs.length >= 2 && locs.every((u) => u.host === "dev.yororis.com"));
+  const paths = locs.map((u) => u.pathname);
+  assert.ok(paths.includes("/") && paths.includes("/fr/"));
 });
