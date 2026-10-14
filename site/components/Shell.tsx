@@ -5,6 +5,7 @@ import { SkipLink } from "@krizaka/ui/skip-link";
 import { cn } from "@krizaka/ui/cn";
 import { displayFace, monoFace, textFace } from "@/lib/fonts";
 import { getMessages, homePath, type Locale } from "@/lib/messages";
+import { siteJsonLd } from "@/lib/jsonld";
 import { ORIGIN } from "@/lib/site";
 import { Bar } from "./Bar";
 import { Footer } from "./Footer";
@@ -27,9 +28,9 @@ export function metadataFor(locale: Locale): Metadata {
       url,
       locale: locale === "en" ? "en_CA" : "fr_CA",
       alternateLocale: other === "en" ? "en_CA" : "fr_CA",
-      images: [{ url: "/og.png", width: 1200, height: 630, alt: m.meta.ogAlt }],
+      images: [{ url: `${ORIGIN}/og.png`, width: 1200, height: 630, alt: m.meta.ogAlt }],
     },
-    twitter: { card: "summary_large_image", title: m.meta.title, description: m.meta.description, images: ["/og.png"] },
+    twitter: { card: "summary_large_image", title: m.meta.title, description: m.meta.description, images: [`${ORIGIN}/og.png`] },
     icons: { icon: [{ url: "/favicon.svg", type: "image/svg+xml" }] },
   };
 }
@@ -41,6 +42,7 @@ export function Shell({ locale, children }: { locale: Locale; children: ReactNod
     <html lang={locale} className={cn(textFace.variable, displayFace.variable, monoFace.variable)} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <ThemeScript defaultMode="system" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd(locale, m.meta.title, m.meta.description)) }} />
       </head>
       <body className="brand-yororis">
         <Providers>

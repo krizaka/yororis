@@ -119,3 +119,29 @@ test("sitemap lists both languages", () => {
   const paths = locs.map((u) => u.pathname);
   assert.ok(paths.includes("/") && paths.includes("/fr/"));
 });
+
+// ── Search engines and AI assistants (the Krizaka family contract, scripts/check-seo-family.mjs) ──────────────────────────
+import { auditHtml, auditLlms, auditRobots, auditSitemap } from "../scripts/check-seo-family.mjs";
+const HOST = "https://dev.yororis.com";
+
+test("robots.txt welcomes the AI crawlers and names the sitemap", () => {
+  assert.deepEqual(auditRobots(readFileSync(join(out, "robots.txt"), "utf8"), { host: HOST }), []);
+});
+
+test("sitemap.xml: both languages, on the host, dated", () => {
+  const xml = readFileSync(join(out, "sitemap.xml"), "utf8");
+  assert.deepEqual(auditSitemap(xml, { host: HOST, minUrls: 2 }), []);
+});
+
+test("llms.txt: llmstxt.org shape, back to the family, and the lexicon's never-words stay out", () => {
+  const text = readFileSync(join(out, "llms.txt"), "utf8");
+  assert.deepEqual(auditLlms(text, { host: HOST }), []);
+  for (const re of NEVER) assert.doesNotMatch(text, re, `llms.txt: ${re}`);
+});
+
+for (const l of ["en", "fr"]) {
+  test(`${l}: canonical, social card with an image and JSON-LD back to the Krizaka Organization`, () => {
+    const path = l === "en" ? "/" : "/fr/";
+    assert.deepEqual(auditHtml(raw(l), path, { host: HOST, types: ["WebSite", "SoftwareApplication"], home: true }), []);
+  });
+}
