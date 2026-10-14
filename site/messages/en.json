@@ -183,7 +183,29 @@
         "Everywhere: the conditions of a pilot with outside people, and insurance"
       ]
     },
-    "rule": "The crane listens before it moves. We study before we offer."
+    "rule": "The crane listens before it moves. We study before we offer.",
+    "app": {
+      "title": "The member space, in development",
+      "lead": "A first look at the space we are building for the people of an organisation: a calm home, an account, and the members. It runs on our own computers with a fictional cast. It is not available.",
+      "status": "In development, not available",
+      "desktop": "Computer, dark",
+      "phone": "Phone, light",
+      "note": "Screenshots of the local build. Nothing here can be opened, joined or downloaded.",
+      "shots": {
+        "home": {
+          "label": "Home",
+          "alt": "The member space’s home: a presence that stops, your moments, what I keep, the thread, my notebook — each empty, and the lines to call."
+        },
+        "account": {
+          "label": "Account",
+          "alt": "The account: profile, display choices, consent, what to bring, deletion."
+        },
+        "members": {
+          "label": "Members",
+          "alt": "The organisation’s members: a searchable, filterable list with each member’s status."
+        }
+      }
+    }
   },
   "not": {
     "title": "What Yororis is not",

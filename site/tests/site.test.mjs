@@ -160,3 +160,21 @@ test("the bar and the footer are @krizaka/ui's family navigation: current = yoro
   assert.match(readFileSync(join(root, "components/Footer.tsx"), "utf8"), /<SiteFooter current="yororis"[^>]*env="dev"/);
   for (const l of ["en", "fr"]) assert.match(textOf(l), /dev · v\d+\.\d+\.\d+/, `${l}: the dev badge and the version are on the page`);
 });
+
+// The member space is shown ONLY as pictures — hashed files on the CDN, never in the repository — each labelled "in
+// development, not available" (AGENTS.md, "The member-space exception"). No link, no button, no form leads to it.
+for (const l of ["en", "fr"]) {
+  test(`the member space appears as labelled screenshots only (${l})`, () => {
+    const root = dom(l);
+    const imgs = root.querySelectorAll("img.yo-shot-desktop, img.yo-shot-phone");
+    assert.equal(imgs.length, 6, "three screens, computer and phone");
+    for (const img of imgs) {
+      assert.match(img.getAttribute("src"), /^https:\/\/krizaka-assets\.b-cdn\.net\/site\/products\/yororis\/gallery\/[a-z-]+\.[0-9a-f]{10}\.webp$/, "a hashed CDN file");
+      assert.ok((img.getAttribute("alt") ?? "").length > 20, "a real alt text");
+    }
+    const m = messages[l].how.app;
+    assert.ok(root.querySelector(".yo-shot-status")?.text.includes(m.status), "the status label sits above the pictures");
+    assert.ok(root.text.includes(m.note), "the note says nothing can be opened, joined or downloaded");
+    assert.equal(root.querySelectorAll(".yo-shots a, .yo-shots button, .yo-shots form").length, 0, "pictures only: nothing to click");
+  });
+}

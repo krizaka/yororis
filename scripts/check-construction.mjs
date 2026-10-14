@@ -7,6 +7,10 @@
 //      may exist and must declare a single static site built from `site/` — no service, worker, job, database or
 //      function — and `site/` is a Next.js static export (`output: "export"`): no server code, route handler, middleware, server action or form (its own tests check the built page).
 //   4. No environment variable is named after the product or a vendor (krizaka/.github#46): `<CONTEXT>_<THING>`.
+//   5. The ONE other exception (AGENTS.md, "The member space"): `apps/web`, the member space and the organisation's console,
+//      runs LOCALLY and in CI only, on 127.0.0.1, with a fictional cast. It is never deployed: no Dockerfile, no deployment
+//      spec or platform file anywhere under apps/, no `output: "standalone"` (deployment packaging), its scripts bind
+//      127.0.0.1, it is private, and its env module refuses a production start without APP_RELEASE_APPROVAL.
 // Lifting construction mode is a written decision first, then a pull request that changes this file on purpose.
 import { execSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
@@ -65,6 +69,26 @@ if (existsSync(sitePkg)) {
   }
 }
 
+// The member space: a non-deployed app. Anything that would ship it is refused; the shape that keeps it local is required.
+const appFiles = execSync("git ls-files --cached --others --exclude-standard apps", { cwd: root, encoding: "utf8" }).split("\n").filter(Boolean);
+const SHIPPING = /(^|\/)(Dockerfile[^/]*|\.dockerignore|app\.ya?ml|[^/]*\.app\.ya?ml|docker-compose[^/]*|vercel\.json|netlify\.toml|fly\.toml|render\.ya?ml|railway[^/]*|Procfile|serverless\.ya?ml|\.do|deploy)(\/|$)/i;
+for (const f of appFiles) if (SHIPPING.test(f)) failures.push(`${f}: a deployment file under apps/ — the member space is never deployed in construction mode.`);
+if (appFiles.length) {
+  const pkgPath = join(root, "apps/web/package.json");
+  if (!existsSync(pkgPath)) failures.push("apps/ may hold only apps/web (the member space).");
+  else {
+    const p = JSON.parse(readFileSync(pkgPath, "utf8"));
+    if (p.private !== true) failures.push("apps/web/package.json must be private.");
+    for (const name of ["dev", "start"]) if (!/(^|\s)-H 127\.0\.0\.1(\s|$)/.test(p.scripts?.[name] ?? "")) failures.push(`apps/web/package.json: the "${name}" script must listen on 127.0.0.1 only (-H 127.0.0.1).`);
+    for (const name of Object.keys(p.scripts ?? {})) if (/deploy|publish|release|docker|doctl|vercel/i.test(`${name} ${p.scripts[name]}`)) failures.push(`apps/web/package.json: script "${name}" ships something — the member space is local.`);
+    const cfg = join(root, "apps/web/next.config.mjs");
+    if (existsSync(cfg) && /output:\s*["']standalone["']/.test(readFileSync(cfg, "utf8"))) failures.push('apps/web/next.config.mjs: `output: "standalone"` is deployment packaging.');
+    const env = join(root, "apps/web/lib/env.ts");
+    if (!existsSync(env) || !/APP_RELEASE_APPROVAL/.test(readFileSync(env, "utf8"))) failures.push("apps/web/lib/env.ts must refuse a production start without APP_RELEASE_APPROVAL.");
+  }
+  if (existsSync(spec) && /apps\//.test(readFileSync(spec, "utf8"))) failures.push(".do/app.yaml must not reference apps/: only site/ is deployed.");
+}
+
 // An env-like name (FOO_BAR) starting with the product or a vendor, anywhere in the tracked text.
 export const VENDOR_OR_PRODUCT_ENV = /\b(?:NEXT_PUBLIC_|EXPO_PUBLIC_)?(?:YORORIS|KRIZAKA|BUNNY|MAILGUN|RESEND|STRIPE|TURNSTILE|EXPO|GOOGLE|FACEBOOK|VERCEL|REDIS|DIGITALOCEAN|OPENAI|ANTHROPIC|FIREBASE)_[A-Z0-9_]*[A-Z0-9]\b/;
 const tracked = execSync("git ls-files", { cwd: root, encoding: "utf8" }).split("\n").filter((f) => f && !/\.(svg|png|jpg|webp|lock)$/.test(f) && f !== "scripts/check-construction.mjs");
@@ -77,4 +101,4 @@ if (failures.length) {
   console.error(`Construction mode check failed:\n- ${failures.join("\n- ")}`);
   process.exit(1);
 }
-console.log("Construction mode: banner in place, FRAMEWORK.md present, no deployment or publishing workflow (but the one static site), env names by context.");
+console.log("Construction mode: banner in place, FRAMEWORK.md present, no deployment or publishing workflow (but the one static site), the member space local only, env names by context.");

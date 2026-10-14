@@ -12,7 +12,7 @@ import { Facts, Section, Ticks } from "@krizaka/ui/page";
 import { PageHero } from "@krizaka/ui/page-hero";
 import { getMessages, type Locale } from "@/lib/messages";
 import { reveal } from "@/lib/motion";
-import { ADR_051, ADR_055, CONTACT, FRAMEWORK, REPO } from "@/lib/site";
+import { ADR_051, ADR_055, CONTACT, FRAMEWORK, REPO, SHOTS } from "@/lib/site";
 import { Crisis } from "./Crisis";
 import { GitHubMark } from "./GitHubMark";
 
@@ -134,6 +134,30 @@ export function Home({ locale }: { locale: Locale }) {
             <MascotQuote bird="crane" mood="thinking" label={locale === "fr" ? "La grue dit" : "The crane says"}>
               {m.how.rule}
             </MascotQuote>
+          </div>
+          <div className="rd-stack" {...reveal()}>
+            <h3 className="rd-h3">{m.how.app.title}</h3>
+            <p className="rd-prose is-small">{m.how.app.lead}</p>
+            <p className="yo-shot-status" role="note">
+              {m.how.app.status}
+            </p>
+            <ul className="yo-shots">
+              {SHOTS.map(({ id, desktop, phone }) => (
+                <li key={id} className="yo-shot">
+                  <figure>
+                    <img className="yo-shot-desktop" src={desktop.src} width={desktop.width} height={desktop.height} alt={m.how.app.shots[id].alt} loading="lazy" decoding="async" />
+                    <figcaption>
+                      {m.how.app.shots[id].label} · {m.how.app.desktop}
+                    </figcaption>
+                  </figure>
+                  <figure>
+                    <img className="yo-shot-phone" src={phone.src} width={phone.width} height={phone.height} alt={m.how.app.shots[id].alt} loading="lazy" decoding="async" />
+                    <figcaption>{m.how.app.phone}</figcaption>
+                  </figure>
+                </li>
+              ))}
+            </ul>
+            <p className="rd-prose is-small">{m.how.app.note}</p>
           </div>
           <h3 className="rd-h3" {...reveal()}>
             {m.how.open.title}

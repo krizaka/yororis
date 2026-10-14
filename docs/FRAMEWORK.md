@@ -75,7 +75,7 @@ Questions only, by jurisdiction — answers are recorded privately with their da
 | Where | Rule |
 | :--- | :--- |
 | Repositories | Public, opening with the banner; this document exists. Checked by CI. |
-| Deployment | No deployment workflow; nothing is published, no production variable exists. Checked by CI. One exception: the static page `site/` at dev.yororis.com (see AGENTS.md) — no app, no backend, no sign-up. |
+| Deployment | No deployment workflow; nothing is published, no production variable exists. Checked by CI. One exception: the static page `site/` at dev.yororis.com (see AGENTS.md) — no app, no backend, no sign-up. The member space `apps/web` runs on `127.0.0.1` with a fictional cast, never deployed (the guard refuses any deployment file under `apps/`). |
 | Production start | `NODE_ENV=production` refuses to start without `APP_RELEASE_APPROVAL`, the reference of a written and signed decision. |
 | Accounts | No open sign-up: an invitation code is required; only the maintainers and a fictional demo cast. |
 | Mobile builds | Development and preview builds for the maintainers' devices only; no public build, no store submission. |

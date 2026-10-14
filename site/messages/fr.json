@@ -183,7 +183,29 @@
         "Partout : les conditions d'un pilote avec des personnes extérieures, et l'assurance"
       ]
     },
-    "rule": "La grue écoute avant de bouger. Nous étudions avant d'offrir."
+    "rule": "La grue écoute avant de bouger. Nous étudions avant d'offrir.",
+    "app": {
+      "title": "L’espace membre, en développement",
+      "lead": "Un premier regard sur l’espace que nous construisons pour les personnes d’une organisation : un accueil calme, un compte, et les membres. Il tourne sur nos propres ordinateurs avec un cast fictif. Il n’est pas disponible.",
+      "status": "En développement, non disponible",
+      "desktop": "Ordinateur, sombre",
+      "phone": "Téléphone, clair",
+      "note": "Captures de la version locale. Rien ici ne peut être ouvert, rejoint ni téléchargé.",
+      "shots": {
+        "home": {
+          "label": "Accueil",
+          "alt": "L’accueil de l’espace membre : une présence qui s’arrête, tes moments, ce que je garde, le fil, mon carnet — chacun vide, et les lignes à appeler."
+        },
+        "account": {
+          "label": "Compte",
+          "alt": "Le compte : profil, choix d’affichage, consentement, ce qu’on apporte, suppression."
+        },
+        "members": {
+          "label": "Membres",
+          "alt": "Les membres de l’organisation : une liste où chercher et filtrer, avec le statut de chaque membre."
+        }
+      }
+    }
   },
   "not": {
     "title": "Ce que Yororis n'est pas",
