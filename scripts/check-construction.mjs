@@ -3,7 +3,9 @@
 //   1. README.md opens with the banner, word for word.
 //   2. docs/FRAMEWORK.md exists.
 //   3. No workflow deploys or publishes anything: none names a deployment target, a deploy/ folder, a store
-//      submission or a release artifact.
+//      submission or a release artifact. The ONE exception (AGENTS.md, "The static-site exception"): `.do/app.yaml`
+//      may exist and must declare a single static site built from `site/` — no service, worker, job, database or
+//      function — and `site/` must carry no server code, script or form (its own tests check the page).
 //   4. No environment variable is named after the product or a vendor (krizaka/.github#46): `<CONTEXT>_<THING>`.
 // Lifting construction mode is a written decision first, then a pull request that changes this file on purpose.
 import { execSync } from "node:child_process";
@@ -28,6 +30,24 @@ for (const file of existsSync(workflows) ? readdirSync(workflows) : []) {
   for (const pattern of FORBIDDEN) if (pattern.test(text)) failures.push(`.github/workflows/${file} matches ${pattern}: no workflow deploys or publishes in construction mode.`);
 }
 
+// The static-site exception: exactly this, and nothing else.
+const spec = join(root, ".do/app.yaml");
+if (existsSync(spec)) {
+  const yml = readFileSync(spec, "utf8");
+  for (const kind of ["services", "workers", "jobs", "databases", "functions", "ingress", "envs"]) if (new RegExp(`^${kind}:`, "m").test(yml)) failures.push(`.do/app.yaml declares \`${kind}:\` — construction mode allows one static site only.`);
+  const sites = yml.match(/^\s{2}- name:/gm) ?? [];
+  if (!/^static_sites:/m.test(yml) || sites.length !== 1) failures.push(".do/app.yaml must declare exactly one static site.");
+  if (!/^\s+source_dir: site$/m.test(yml)) failures.push(".do/app.yaml: the static site is built from site/.");
+  if (/^\s+(run_command|dockerfile_path|envs):/m.test(yml)) failures.push(".do/app.yaml: no run command, Dockerfile or variable for a static site.");
+}
+const SITE_SERVER = /(express|fastify|koa|next|hono|@nestjs|pg|mysql2?|mongoose|prisma|stripe|nodemailer)/;
+const sitePkg = join(root, "site/package.json");
+if (existsSync(sitePkg)) {
+  const p = JSON.parse(readFileSync(sitePkg, "utf8"));
+  if (p.dependencies && Object.keys(p.dependencies).length) failures.push("site/package.json: build tools go in devDependencies; the site ships no runtime dependency.");
+  for (const d of Object.keys(p.devDependencies ?? {})) if (SITE_SERVER.test(d.replace(/^@[^/]+\//, ""))) failures.push(`site/package.json: "${d}" looks like server code; the site is static.`);
+}
+
 // An env-like name (FOO_BAR) starting with the product or a vendor, anywhere in the tracked text.
 export const VENDOR_OR_PRODUCT_ENV = /\b(?:NEXT_PUBLIC_|EXPO_PUBLIC_)?(?:YORORIS|KRIZAKA|BUNNY|MAILGUN|RESEND|STRIPE|TURNSTILE|EXPO|GOOGLE|FACEBOOK|VERCEL|REDIS|DIGITALOCEAN|OPENAI|ANTHROPIC|FIREBASE)_[A-Z0-9_]*[A-Z0-9]\b/;
 const tracked = execSync("git ls-files", { cwd: root, encoding: "utf8" }).split("\n").filter((f) => f && !/\.(svg|png|jpg|webp|lock)$/.test(f) && f !== "scripts/check-construction.mjs");
@@ -40,4 +60,4 @@ if (failures.length) {
   console.error(`Construction mode check failed:\n- ${failures.join("\n- ")}`);
   process.exit(1);
 }
-console.log("Construction mode: banner in place, FRAMEWORK.md present, no deployment or publishing workflow, env names by context.");
+console.log("Construction mode: banner in place, FRAMEWORK.md present, no deployment or publishing workflow (but the one static site), env names by context.");

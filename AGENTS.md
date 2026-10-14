@@ -10,6 +10,15 @@ product, §4 architecture) is the source of truth. Its rules already apply:
    text, doc, file, table, route or identifier — the only exception is docs/FRAMEWORK.md §2, which denies them.
 2. **Construction mode.** No deployment workflow, no production app or variable, no public build, no store submission,
    no outside person. `node scripts/check-construction.mjs` (CI) must stay green.
+   **The static-site exception (Oussama, 2026-10-14).** Exactly one deployment is allowed: `site/`, a static page at
+   https://dev.yororis.com — plain HTML + CSS built by `site/build.mjs` (mark from the published `@krizaka/ui`, colours
+   from `@krizaka/tokens`, dark and light through `prefers-color-scheme`), shipped as a free DigitalOcean App Platform
+   static site (`.do/app.yaml`, app `yororis-dev`, project `yororis`). It carries the reviewed "under construction"
+   and "What Yororis is not" texts (copied from krizaka.com `site.yororis.reviewed.*`, fingerprinted in
+   `site/site.test.mjs`), one call to action ("Talk to us about Yororis" → krizaka.com/contact?topic=yororis), the
+   footer "A Krizaka product" and the version. No app, no backend, no sign-up, no form, no script, no variable.
+   `check-construction.mjs` refuses anything else in `.do/app.yaml` (service, worker, job, database, function, variable)
+   or server code in `site/`; `npm test` in `site/` runs the lexicon on the page text.
 3. **All AI goes through Orazaka** (the wellbeing pack); no other provider. The crisis response comes from Orazaka and is
    never generated or rephrased.
 4. Conventional Commits, a branch and a pull request for every change (`main` is protected, squash only).

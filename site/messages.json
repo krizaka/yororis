@@ -1,0 +1,48 @@
+{
+  "en": {
+    "reviewed": {
+      "construction": "We're building Yororis in the open and studying its framework — legal, ethical, clinical — before making it available. Nothing is live, nothing is offered, and there is no date.",
+      "isNot": [
+        "Not care: Yororis makes no health claim and replaces no one who supports you.",
+        "Not an emergency service: in a crisis, people trained to listen answer right away.",
+        "Not a person: an AI presence that says so, every time."
+      ],
+      "isNotRule": "Not care, not an emergency service, not a person. In a crisis in Canada, call or text 9-8-8 — in Québec, 811 (Info-Social)."
+    },
+    "lang": "en",
+    "title": "Yororis — under construction",
+    "description": "Yororis is under construction. Nothing is live, nothing is offered, and there is no date.",
+    "eyebrow": "Under construction",
+    "h1": "Yororis",
+    "lead": "A listening space with a face and a voice.",
+    "isNotTitle": "What Yororis is not",
+    "cta": "Talk to us about Yororis",
+    "product": "A Krizaka product",
+    "version": "Version",
+    "other": "Français",
+    "otherLabel": "Lire en français"
+  },
+  "fr": {
+    "reviewed": {
+      "construction": "Nous construisons Yororis en public et nous étudions son cadre — juridique, éthique, clinique — avant toute mise à disposition. Rien n'est en ligne, rien n'est offert, et il n'y a pas de date.",
+      "isNot": [
+        "Pas un soin : Yororis ne prétend à aucun effet sur la santé et ne remplace personne qui vous accompagne.",
+        "Pas un service d'urgence : en cas de crise, des personnes formées à l'écoute répondent tout de suite.",
+        "Pas une personne : une présence IA qui le dit, chaque fois."
+      ],
+      "isNotRule": "Pas un soin, pas un service d'urgence, pas une personne. En cas de crise au Canada, appelez ou textez le 9-8-8 — au Québec, le 811 (Info-Social)."
+    },
+    "lang": "fr",
+    "title": "Yororis — en construction",
+    "description": "Yororis est en construction. Rien n'est en ligne, rien n'est offert, et il n'y a pas de date.",
+    "eyebrow": "En construction",
+    "h1": "Yororis",
+    "lead": "Un espace d'écoute avec un visage et une voix.",
+    "isNotTitle": "Ce que Yororis n'est pas",
+    "cta": "Discuter de Yororis",
+    "product": "Un produit Krizaka",
+    "version": "Version",
+    "other": "English",
+    "otherLabel": "Read in English"
+  }
+}

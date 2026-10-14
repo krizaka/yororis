@@ -1,0 +1,9 @@
+{
+  "name": "@krizaka/yororis-site",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "The static page of Yororis (under construction)",
+  "scripts": { "build": "node build.mjs", "test": "node --test" },
+  "devDependencies": { "@krizaka/tokens": "3.7.0", "@krizaka/ui": "3.7.0", "react": "19.2.0", "react-dom": "19.2.0" }
+}
