@@ -3,7 +3,29 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "description": "The static page of Yororis (under construction)",
-  "scripts": { "build": "node build.mjs", "test": "node --test" },
-  "devDependencies": { "@krizaka/tokens": "3.7.0", "@krizaka/ui": "3.7.0", "react": "19.2.0", "react-dom": "19.2.0" }
+  "description": "The static site of Yororis (under construction): a Next.js static export, no server",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "@krizaka/fonts": "0.2.0",
+    "@krizaka/icons": "^0.5.0",
+    "@krizaka/tailwind": "3.8.0",
+    "@krizaka/tokens": "3.8.0",
+    "@krizaka/ui": "3.8.0",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "next": "^16.3.8",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=22"
+  }
 }

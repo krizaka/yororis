@@ -5,7 +5,7 @@
 //   3. No workflow deploys or publishes anything: none names a deployment target, a deploy/ folder, a store
 //      submission or a release artifact. The ONE exception (AGENTS.md, "The static-site exception"): `.do/app.yaml`
 //      may exist and must declare a single static site built from `site/` — no service, worker, job, database or
-//      function — and `site/` must carry no server code, script or form (its own tests check the page).
+//      function — and `site/` is a Next.js static export (`output: "export"`): no server code, route handler, middleware, server action or form (its own tests check the built page).
 //   4. No environment variable is named after the product or a vendor (krizaka/.github#46): `<CONTEXT>_<THING>`.
 // Lifting construction mode is a written decision first, then a pull request that changes this file on purpose.
 import { execSync } from "node:child_process";
@@ -38,14 +38,31 @@ if (existsSync(spec)) {
   const sites = yml.match(/^\s{2}- name:/gm) ?? [];
   if (!/^static_sites:/m.test(yml) || sites.length !== 1) failures.push(".do/app.yaml must declare exactly one static site.");
   if (!/^\s+source_dir: site$/m.test(yml)) failures.push(".do/app.yaml: the static site is built from site/.");
+  if (!/^\s+output_dir: out$/m.test(yml)) failures.push(".do/app.yaml: the static site's output_dir is out (Next.js static export).");
   if (/^\s+(run_command|dockerfile_path|envs):/m.test(yml)) failures.push(".do/app.yaml: no run command, Dockerfile or variable for a static site.");
 }
-const SITE_SERVER = /(express|fastify|koa|next|hono|@nestjs|pg|mysql2?|mongoose|prisma|stripe|nodemailer)/;
+const SITE_SERVER = /(express|fastify|koa|hono|@nestjs|pg|mysql2?|mongoose|prisma|stripe|nodemailer)/;
 const sitePkg = join(root, "site/package.json");
 if (existsSync(sitePkg)) {
   const p = JSON.parse(readFileSync(sitePkg, "utf8"));
   if (p.dependencies && Object.keys(p.dependencies).length) failures.push("site/package.json: build tools go in devDependencies; the site ships no runtime dependency.");
   for (const d of Object.keys(p.devDependencies ?? {})) if (SITE_SERVER.test(d.replace(/^@[^/]+\//, ""))) failures.push(`site/package.json: "${d}" looks like server code; the site is static.`);
+}
+
+// The site is a Next.js STATIC EXPORT (`output: "export"`): next is a build tool here, never a server. No route handler,
+// no middleware/proxy, no pages API, no server action, no env file, no env read in the site's code.
+if (existsSync(sitePkg)) {
+  const cfg = join(root, "site/next.config.mjs");
+  if (!existsSync(cfg) || !/output:\s*["']export["']/.test(readFileSync(cfg, "utf8"))) failures.push('site/next.config.mjs must set `output: "export"` (a static export, no Next.js server).');
+  const files = execSync("git ls-files site", { cwd: root, encoding: "utf8" }).split("\n").filter(Boolean);
+  for (const f of files) {
+    if (/^site\/(app|pages)\/(.*\/)?(route|api\/.*)\.(t|j)sx?$/.test(f) || /^site\/(middleware|proxy)\.(t|j)sx?$/.test(f) || /^site\/\.env/.test(f)) failures.push(`${f}: server code or an env file — the site is a static export.`);
+    if (/\.(t|m?j)sx?$/.test(f) && f !== "site/tests/site.test.mjs") {
+      const src = readFileSync(join(root, f), "utf8");
+      if (/["']use server["']/.test(src)) failures.push(`${f}: a server action — the site is a static export.`);
+      if (/process\.env\.(?!APP_VERSION\b|APP_VERSION_SHA\b|NODE_ENV\b)/.test(src)) failures.push(`${f}: reads an environment variable other than the build's APP_VERSION / APP_VERSION_SHA.`);
+    }
+  }
 }
 
 // An env-like name (FOO_BAR) starting with the product or a vendor, anywhere in the tracked text.
