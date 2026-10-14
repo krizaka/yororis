@@ -8,6 +8,7 @@ import { getMessages, homePath, type Locale } from "@/lib/messages";
 import { siteJsonLd } from "@/lib/jsonld";
 import { ORIGIN } from "@/lib/site";
 import { Bar } from "./Bar";
+import { version } from "@/lib/version";
 import { Footer } from "./Footer";
 import { Providers } from "./Providers";
 
@@ -47,9 +48,9 @@ export function Shell({ locale, children }: { locale: Locale; children: ReactNod
       <body className="brand-yororis">
         <Providers>
           <SkipLink href="#main">{m.bar.skip}</SkipLink>
-          <Bar m={m.bar} home={homePath(locale)} otherHref={m.otherHref} otherLabel={m.otherLabel} other={m.other} />
+          <Bar m={m.bar} locale={locale} version={version()} home={homePath(locale)} otherHref={m.otherHref} otherLabel={m.otherLabel} other={m.other} />
           {children}
-          <Footer m={m.footer} crisis={m.crisis} />
+          <Footer locale={locale} m={m.footer} crisis={m.crisis} version={version()} />
         </Providers>
       </body>
     </html>

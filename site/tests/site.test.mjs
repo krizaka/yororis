@@ -6,6 +6,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { NodeType, parse } from "node-html-parser";
+import { familyLabels, sites } from "@krizaka/ui/sites";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "..");
@@ -19,9 +20,14 @@ assert.ok(existsSync(join(out, "index.html")), "site/out is missing: run `npm ru
 // text nodes outside style/script/svg, links are attributes — no regex stripping or unescaping of markup.
 const raw = (l) => readFileSync(join(out, PAGES[l]), "utf8");
 const dom = (l) => parse(raw(l));
+// The family's links to the OTHER sites (the switcher, the footer's columns) carry @krizaka/ui's words about those sites
+// ("Coming soon" for Yasakia): they are not Yororis' text, so the lexicon does not read them. Yororis' own link stays.
+const OTHER_SITES = new Set(sites.filter((s) => s.id !== "yororis").map((s) => new URL(s.url).host));
+const isOtherSite = (n) => n.rawTagName?.toLowerCase() === "a" && OTHER_SITES.has(new URL(n.getAttribute("href") ?? "about:blank", "https://dev.yororis.com").host);
 const textOf = (l) => {
   const parts = [];
   const walk = (n) => {
+    if (n.nodeType === NodeType.ELEMENT_NODE && isOtherSite(n)) return;
     if (n.nodeType === NodeType.TEXT_NODE) parts.push(n.text);
     else if (n.nodeType === NodeType.ELEMENT_NODE && !["style", "script", "svg"].includes(n.rawTagName?.toLowerCase())) n.childNodes.forEach(walk);
     else if (n.childNodes) n.childNodes.forEach(walk);
@@ -81,8 +87,8 @@ for (const l of ["en", "fr"]) {
     assert.ok(textOf(l).includes(messages[l].bar.talk));
     for (const tel of ["tel:988", "tel:811"]) assert.ok(hrefs.some((x) => x.href === tel), `the crisis line ${tel} is one tap away`);
     assert.ok(/9-8-8/.test(textOf(l)) && /811/.test(textOf(l)));
-    assert.ok(hrefs.some((x) => hostOf(x.href) === "www.krizaka.com" && new URL(x.href).pathname === "/" && x.text === messages[l].footer.product), "footer: A Krizaka product");
-    assert.ok(new RegExp(`${messages[l].footer.version} \\d+\\.\\d+\\.\\d+`).test(textOf(l)), "the version is shown");
+    assert.ok(raw(l).includes(`>${familyLabels[l].signature.product}<`), "footer: A Krizaka product");
+    assert.ok(/v\d+\.\d+\.\d+/.test(textOf(l)), "the version is shown");
     assert.equal(d.querySelector("html").getAttribute("lang"), l);
     assert.equal(d.querySelectorAll("form, input, textarea, button[type=submit]").length, 0, "no form");
     assert.ok(!hrefs.some((x) => x.href?.startsWith("/api/")), "no API call");
@@ -145,3 +151,12 @@ for (const l of ["en", "fr"]) {
     assert.deepEqual(auditHtml(raw(l), path, { host: HOST, types: ["WebSite", "SoftwareApplication"], home: true }), []);
   });
 }
+
+test("the bar and the footer are @krizaka/ui's family navigation: current = yororis, DEV badge, the family last on the phone", () => {
+  const bar = readFileSync(join(root, "components/Bar.tsx"), "utf8");
+  assert.equal((bar.match(/<NavBar\.Family current="yororis"/g) ?? []).length, 2, "desktop switcher and phone panel");
+  assert.match(bar, /<NavBar\.Badge env="dev" version=/);
+  assert.match(bar, /<NavBar\.Repo /);
+  assert.match(readFileSync(join(root, "components/Footer.tsx"), "utf8"), /<SiteFooter current="yororis"[^>]*env="dev"/);
+  for (const l of ["en", "fr"]) assert.match(textOf(l), /dev · v\d+\.\d+\.\d+/, `${l}: the dev badge and the version are on the page`);
+});
