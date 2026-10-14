@@ -1,0 +1,28 @@
+# Yororis
+
+> Yororis is a listening space with a face and a voice, made by Krizaka (Montréal). It is under construction: built in the
+> open, its framework studied before anything is offered. Nothing is live, and there is no date. This site is a static
+> page in English and French; the source and the framework are public (Apache-2.0).
+
+## Key pages
+
+- [Yororis](https://dev.yororis.com/): what it is, how it is being built, and what it is not
+- [Yororis (français)](https://dev.yororis.com/fr/): the same page in French
+- [Talk to us about Yororis](https://www.krizaka.com/contact?topic=yororis): the one way to reach the team
+
+## Source
+
+- [Yororis repository](https://github.com/krizaka/yororis): the site, the framework and the decisions
+- [Framework](https://github.com/krizaka/yororis/blob/main/docs/FRAMEWORK.md): the rules the product is built on
+
+## The Krizaka family
+
+- [Krizaka](https://www.krizaka.com): the company, an open-source software studio in Montréal
+- [Orazaka](https://dev.orazaka.com): sovereign, on-premise AI orchestration
+- [Orochia](https://dev.orochia.com): an open-source video platform
+- [Yasakia](https://dev.yasakia.com): a mobile dating app where you talk first
+- [Krizaka UI](https://ui.krizaka.com): the design system, web and native
+- [Krizaka Java](https://java.krizaka.com): the Spring Boot building blocks
+- [GitHub](https://github.com/krizaka): every repository, public
+
+Sitemap: https://dev.yororis.com/sitemap.xml

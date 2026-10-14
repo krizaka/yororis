@@ -32,3 +32,8 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm test
+      - name: SEO family contract (served from out/)
+        run: |
+          python3 -m http.server 3000 --directory out >/dev/null 2>&1 &
+          sleep 2
+          node scripts/check-seo-family.mjs --base http://localhost:3000 --host https://dev.yororis.com --types WebSite,SoftwareApplication

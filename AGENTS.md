@@ -34,3 +34,10 @@ product, §4 architecture) is the source of truth. Its rules already apply:
 6. **No test, not done.** Every feature and every fix ships with its tests (unit for logic, end-to-end for a route or a
    flow, a render test for a component); a fix starts with a failing test that reproduces the bug. CI runs them and
    must be green.
+
+## Search engines & AI assistants (Krizaka family contract)
+
+The contract is defined once, in krizaka-com `AGENTS.md` §2.4, and checked here by `scripts/check-seo-family.mjs` (a copy of
+the same dependency-free file in every site's repository — keep the copies identical; its unit test sits beside it).
+
+dev.yororis.com is **indexed**. Construction mode keeps it static: `llms.txt` is a file in `site/public/` (a route handler is forbidden), the JSON-LD (WebSite + SoftwareApplication, publisher = the Krizaka Organization) offers nothing — no `offers`, no download — and the lexicon applies to `llms.txt` too (`site/tests/site.test.mjs`).
