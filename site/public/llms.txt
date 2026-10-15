@@ -15,14 +15,8 @@
 - [Yororis repository](https://github.com/krizaka/yororis): the site, the framework and the decisions
 - [Framework](https://github.com/krizaka/yororis/blob/main/docs/FRAMEWORK.md): the rules the product is built on
 
-## The Krizaka family
+## Publisher
 
-- [Krizaka](https://www.krizaka.com): the company, an open-source software studio in Montréal
-- [Orazaka](https://dev.orazaka.com): sovereign, on-premise AI orchestration
-- [Orochia](https://dev.orochia.com): an open-source video platform
-- [Yasakia](https://dev.yasakia.com): a mobile dating app where you talk first
-- [Krizaka UI](https://ui.krizaka.com): the design system, web and native
-- [Krizaka Java](https://java.krizaka.com): the Spring Boot building blocks
-- [GitHub](https://github.com/krizaka): every repository, public
+- [Krizaka](https://www.krizaka.com): the company that publishes Yororis, an open-source software studio in Montréal
 
 Sitemap: https://dev.yororis.com/sitemap.xml
