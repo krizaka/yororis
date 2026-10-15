@@ -18,7 +18,7 @@ product, §4 architecture) is the source of truth. Its rules already apply:
    the idea, how it is built in the open, the reviewed "under construction" and "What Yororis is not" texts (copied from
    krizaka.com `site.yororis.reviewed.*`, fingerprinted in `site/tests/site.test.mjs`), the crisis lines (9-8-8, 811), one call
    to action ("Talk to us about Yororis" → krizaka.com/contact?topic=yororis), the footer "A Krizaka product", the version.
-   No app, no backend, no sign-up, no form, no date, no variable (only the build's `APP_VERSION`). The only scripts are the
+   No app, no backend, no sign-up, no form, no date, no variable (only the build's `APP_VERSION` and `APP_SEARCH_INDEXING`, which is `off` on dev: noindex, robots `Disallow: /`, no sitemap, the line « Development environment — access by invitation » in the footer; production flips it). The only scripts are the
    design system's (theme, bar, motion). `check-construction.mjs` refuses anything else in `.do/app.yaml` (service, worker,
    job, database, function, variable) or server code in `site/` (route handler, middleware, server action, env file);
    `npm run build && npm test` in `site/` runs the lexicon and the page contract on the built HTML.

@@ -43,7 +43,13 @@ if (existsSync(spec)) {
   if (!/^static_sites:/m.test(yml) || sites.length !== 1) failures.push(".do/app.yaml must declare exactly one static site.");
   if (!/^\s+source_dir: site$/m.test(yml)) failures.push(".do/app.yaml: the static site is built from site/.");
   if (!/^\s+output_dir: out$/m.test(yml)) failures.push(".do/app.yaml: the static site's output_dir is out (Next.js static export).");
-  if (/^\s+(run_command|dockerfile_path|envs):/m.test(yml)) failures.push(".do/app.yaml: no run command, Dockerfile or variable for a static site.");
+  if (/^\s+(run_command|dockerfile_path):/m.test(yml)) failures.push(".do/app.yaml: no run command or Dockerfile for a static site.");
+  // One build-time variable is allowed: APP_SEARCH_INDEXING (off on dev — noindex, robots Disallow /, no sitemap). Nothing else.
+  if (/^\s+envs:/m.test(yml)) {
+    const keys = [...yml.matchAll(/^\s+-?\s*key:\s*(\S+)/gm)].map((m) => m[1]);
+    if (keys.length !== 1 || keys[0] !== "APP_SEARCH_INDEXING") failures.push(".do/app.yaml: the only variable of a static site is APP_SEARCH_INDEXING (build time).");
+    if (/^\s+(-\s*)?type:\s*SECRET/m.test(yml)) failures.push(".do/app.yaml: no secret for a static site.");
+  }
 }
 const SITE_SERVER = /(express|fastify|koa|hono|@nestjs|pg|mysql2?|mongoose|prisma|stripe|nodemailer)/;
 const sitePkg = join(root, "site/package.json");
@@ -64,7 +70,7 @@ if (existsSync(sitePkg)) {
     if (/\.(t|m?j)sx?$/.test(f) && f !== "site/tests/site.test.mjs") {
       const src = readFileSync(join(root, f), "utf8");
       if (/["']use server["']/.test(src)) failures.push(`${f}: a server action — the site is a static export.`);
-      if (/process\.env\.(?!APP_VERSION\b|APP_VERSION_SHA\b|NODE_ENV\b)/.test(src)) failures.push(`${f}: reads an environment variable other than the build's APP_VERSION / APP_VERSION_SHA.`);
+      if (/process\.env\.(?!APP_VERSION\b|APP_VERSION_SHA\b|APP_SEARCH_INDEXING\b|NODE_ENV\b)/.test(src)) failures.push(`${f}: reads an environment variable other than the build's APP_VERSION / APP_VERSION_SHA / APP_SEARCH_INDEXING.`);
     }
   }
 }
