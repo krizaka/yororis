@@ -1,7 +1,7 @@
 "use client";
 
-/* The bar of the Krizaka family (NAV-SYS), built on @krizaka/ui's NavBar, in three fixed zones.
-   Left — who am I: the Yororis mark, the family switcher (NavBar.Family, @krizaka/ui/sites) and the DEV · version badge.
+/* The bar, built on @krizaka/ui's NavBar, in three fixed zones. Yororis is independent: no family switcher.
+   Left — who am I: the Yororis mark and the DEV · version badge.
    Centre — this site: What it is · How we're building it · What it is not (never a link to another site).
    Right — tools: the repository (NavBar.Repo) · theme · language · the one action, "Talk to us about Yororis". */
 
@@ -10,7 +10,6 @@ import { MoonIcon, SunIcon } from "@krizaka/icons";
 import { YororisLogo } from "@krizaka/ui";
 import { Button } from "@krizaka/ui/button";
 import { NavBar } from "@krizaka/ui/nav-bar";
-import { familyLabels } from "@krizaka/ui/sites";
 import { useTheme } from "@krizaka/ui/theme";
 import type { Locale, Messages } from "@/lib/messages";
 import { CONTACT, REPO, SECTIONS } from "@/lib/site";
@@ -31,7 +30,7 @@ function useShownTheme() {
   return { theme, toggle };
 }
 
-export function Bar({ m, locale, version, home, otherHref, otherLabel, other }: { m: Messages["bar"]; locale: Locale; version: string; home: string; otherHref: string; otherLabel: string; other: string }) {
+export function Bar({ m, version, home, otherHref, otherLabel, other }: { m: Messages["bar"]; locale: Locale; version: string; home: string; otherHref: string; otherLabel: string; other: string }) {
   const { theme, toggle } = useShownTheme();
   const themeLabel = theme === "dark" ? m.toLight : m.toDark;
   const themeIcon = theme === "dark" ? <SunIcon size={16} /> : <MoonIcon size={16} />;
@@ -44,7 +43,6 @@ export function Bar({ m, locale, version, home, otherHref, otherLabel, other }: 
             Yororis
           </a>
         </NavBar.Brand>
-        <NavBar.Family current="yororis" labels={familyLabels[locale]} />
         <NavBar.Badge env="dev" version={version} />
 
         <NavBar.Items>
@@ -88,8 +86,7 @@ export function Bar({ m, locale, version, home, otherHref, otherLabel, other }: 
             <Button asChild variant="primary" size="md" shape="cut" className="mt-2 font-bold">
               <a href={CONTACT}>{m.talk}</a>
             </Button>
-            <NavBar.Family current="yororis" labels={familyLabels[locale]} />
-          </NavBar.Mobile>
+              </NavBar.Mobile>
         </NavBar.Actions>
       </NavBar.Root>
     </div>

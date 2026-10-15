@@ -6,7 +6,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { NodeType, parse } from "node-html-parser";
-import { familyLabels, sites } from "@krizaka/ui/sites";
+import { familyLabels } from "@krizaka/ui/sites";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "..");
@@ -20,14 +20,9 @@ assert.ok(existsSync(join(out, "index.html")), "site/out is missing: run `npm ru
 // text nodes outside style/script/svg, links are attributes — no regex stripping or unescaping of markup.
 const raw = (l) => readFileSync(join(out, PAGES[l]), "utf8");
 const dom = (l) => parse(raw(l));
-// The family's links to the OTHER sites (the switcher, the footer's columns) carry @krizaka/ui's words about those sites
-// ("Coming soon" for Yasakia): they are not Yororis' text, so the lexicon does not read them. Yororis' own link stays.
-const OTHER_SITES = new Set(sites.filter((s) => s.id !== "yororis").map((s) => new URL(s.url).host));
-const isOtherSite = (n) => n.rawTagName?.toLowerCase() === "a" && OTHER_SITES.has(new URL(n.getAttribute("href") ?? "about:blank", "https://dev.yororis.com").host);
 const textOf = (l) => {
   const parts = [];
   const walk = (n) => {
-    if (n.nodeType === NodeType.ELEMENT_NODE && isOtherSite(n)) return;
     if (n.nodeType === NodeType.TEXT_NODE) parts.push(n.text);
     else if (n.nodeType === NodeType.ELEMENT_NODE && !["style", "script", "svg"].includes(n.rawTagName?.toLowerCase())) n.childNodes.forEach(walk);
     else if (n.childNodes) n.childNodes.forEach(walk);
@@ -152,12 +147,12 @@ for (const l of ["en", "fr"]) {
   });
 }
 
-test("the bar and the footer are @krizaka/ui's family navigation: current = yororis, DEV badge, the family last on the phone", () => {
+test("the bar and the footer are those of an independent product: DEV badge, no family switcher, family={false} footer", () => {
   const bar = readFileSync(join(root, "components/Bar.tsx"), "utf8");
-  assert.equal((bar.match(/<NavBar\.Family current="yororis"/g) ?? []).length, 2, "desktop switcher and phone panel");
+  assert.ok(!bar.includes("NavBar.Family"), "no family switcher, desktop or phone");
   assert.match(bar, /<NavBar\.Badge env="dev" version=/);
   assert.match(bar, /<NavBar\.Repo /);
-  assert.match(readFileSync(join(root, "components/Footer.tsx"), "utf8"), /<SiteFooter current="yororis"[^>]*env="dev"/);
+  assert.match(readFileSync(join(root, "components/Footer.tsx"), "utf8"), /<SiteFooter current="yororis" family=\{false\}[^>]*env="dev"/);
   for (const l of ["en", "fr"]) assert.match(textOf(l), /dev · v\d+\.\d+\.\d+/, `${l}: the dev badge and the version are on the page`);
 });
 
@@ -178,3 +173,16 @@ for (const l of ["en", "fr"]) {
     assert.equal(root.querySelectorAll(".yo-shots a, .yo-shots button, .yo-shots form").length, 0, "pictures only: nothing to click");
   });
 }
+
+// NAV-INDEP: once deployed, Yororis is an independent product — no link to, nor mention of, another product's (or any
+// other Krizaka site's) domain. Krizaka is the publisher, in the footer only ("A Krizaka product" -> www.krizaka.com).
+const FOREIGN = /(?:[a-z0-9-]+\.)*(?:orazaka|orochia|yasakia|yazakia)\.com|ui\.krizaka\.com|java\.krizaka\.com/i;
+// The pages, not the bundled client chunks (_next/), which ship @krizaka/ui's registry of sites.
+const walkOut = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? (e.name === "_next" ? [] : walkOut(join(dir, e.name))) : /\.(html|txt|xml|json)$/.test(e.name) ? [join(dir, e.name)] : []));
+test("independent: no built file names another product's domain, no family switcher or column is rendered", () => {
+  for (const file of walkOut(out)) assert.doesNotMatch(readFileSync(file, "utf8"), FOREIGN, `${file.replace(out, "out")} links another product`);
+  for (const l of ["en", "fr"]) {
+    assert.ok(!raw(l).includes(familyLabels[l].family), `${l}: no “${familyLabels[l].family}” navigation`);
+    assert.ok(raw(l).includes(`>${familyLabels[l].signature.product}<`), `${l}: the publisher line stays`);
+  }
+});
