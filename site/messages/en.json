@@ -213,8 +213,7 @@
   },
   "cta": {
     "title": "Talk to us about Yororis",
-    "body": "An organisation with a wellbeing programme, a professional who wants to read the framework, a developer who wants to build it with us: write to us. While Yororis is under construction, that is the one door open.",
-    "follow": "Follow the construction"
+    "body": "An organisation with a wellbeing programme, a professional who wants to read the framework, a developer who wants to build it with us: write to us. While Yororis is under construction, that is the one door open."
   },
   "footer": {
     "nav": "Site footer",
@@ -225,5 +224,10 @@
     "body": "This page does not exist.",
     "home": "Back to Yororis",
     "docs": "Retour à Yororis (français)"
+  },
+  "changelog": {
+    "label": "What moved this week",
+    "lead": "Merged into the repository in the last seven days: the construction, in the open. Titles only.",
+    "empty": "Nothing merged this week. The construction goes on."
   }
 }

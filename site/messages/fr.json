@@ -213,8 +213,7 @@
   },
   "cta": {
     "title": "Discuter de Yororis",
-    "body": "Une organisation qui a un programme de mieux-être, une professionnelle qui veut lire le cadre, un développeur qui veut le construire avec nous : écrivez-nous. Tant que Yororis est en construction, c'est la seule porte ouverte.",
-    "follow": "Suivre la construction"
+    "body": "Une organisation qui a un programme de mieux-être, une professionnelle qui veut lire le cadre, un développeur qui veut le construire avec nous : écrivez-nous. Tant que Yororis est en construction, c'est la seule porte ouverte."
   },
   "footer": {
     "nav": "Pied de page",
@@ -225,5 +224,10 @@
     "body": "Cette page n'existe pas.",
     "home": "Retour à Yororis",
     "docs": "Back to Yororis (English)"
+  },
+  "changelog": {
+    "label": "Ce qui a avancé cette semaine",
+    "lead": "Fusionné dans le dépôt au cours des sept derniers jours : la construction, à ciel ouvert. Titres seulement.",
+    "empty": "Rien de fusionné cette semaine. La construction continue."
   }
 }
