@@ -13,6 +13,8 @@ import { PageHero } from "@krizaka/ui/page-hero";
 import { getMessages, type Locale } from "@/lib/messages";
 import { reveal } from "@/lib/motion";
 import { ADR_051, ADR_055, CONTACT, FRAMEWORK, REPO, SHOTS } from "@/lib/site";
+import CHANGELOG from "@/lib/changelog.generated.json";
+
 import { Crisis } from "./Crisis";
 import { GitHubMark } from "./GitHubMark";
 
@@ -189,19 +191,26 @@ export function Home({ locale }: { locale: Locale }) {
         </div>
       </Section>
 
-      <Section spacing="sm" aria-labelledby="talk-title">
+              <Section spacing="sm" title={m.changelog.label} lead={m.changelog.lead} reveal>
+          {CHANGELOG.entries.length ? (
+            <ol className="yo-changelog">
+              {CHANGELOG.entries.map((e) => (
+                <li key={e.number}>
+                  <time dateTime={e.mergedAt}>{new Date(e.mergedAt).toLocaleDateString(locale === "fr" ? "fr-CA" : "en-CA", { day: "numeric", month: "short", timeZone: "UTC" })}</time>
+                  <span>{e.title}</span>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p className="yo-changelog-empty">{m.changelog.empty}</p>
+          )}
+        </Section>
+<Section spacing="sm" aria-labelledby="talk-title">
         <CtaPanel id="talk-title" title={m.cta.title} body={m.cta.body} reveal>
           <Button asChild variant="primary" size="lg" shape="cut">
             <a href={CONTACT}>{m.cta.title}</a>
           </Button>
-          <ActionBar
-            label={m.cta.follow}
-            actions={[
-              { href: REPO, label: "krizaka/yororis", icon: <GitHubMark size={14} /> },
-              { href: FRAMEWORK, label: m.how.open.links.framework.name, icon: <ThreadIcon size={14} aria-hidden /> },
-            ]}
-          />
-        </CtaPanel>
+                  </CtaPanel>
       </Section>
     </main>
   );
