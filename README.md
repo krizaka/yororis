@@ -22,7 +22,7 @@
 4. Between two moments there is no transcript, only **what I keep**: three lines you read, edit or delete. They become **the thread** of the next moment.
 5. What you bring **to your therapist, doctor or whoever supports you** — never instead of them.
 
-Yororis is **powered by [Orazaka](https://www.krizaka.com/products/orazaka)'s wellbeing pack**: versioned consent, a crisis
+Yororis is **powered by Orazaka's wellbeing pack**: versioned consent, a crisis
 guard that cannot be switched off, a scope guard, short retention and an append-only audit — every word stays on Orazaka,
 with no third-party AI provider. It is the fourth open-source product of [Krizaka](https://krizaka.com).
 
@@ -41,3 +41,7 @@ framework, never a side effect of the code.
 ## License
 
 [Apache-2.0](LICENSE) — see [NOTICE](NOTICE). Security reports: [SECURITY.md](SECURITY.md).
+
+---
+
+<sub>A Krizaka product · [krizaka.com](https://www.krizaka.com) · Apache-2.0</sub>
