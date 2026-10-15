@@ -56,3 +56,15 @@ test("the production-start refusal must exist, and .do/app.yaml must not point a
   const spec = "name: x\nstatic_sites:\n  - name: site\n    source_dir: site\n    output_dir: out\n    build_command: cd apps/web && npm run build\n";
   assert.match(run(repo({ ".do/app.yaml": spec })).stderr, /must not reference apps\//);
 });
+
+const SITE_SPEC = (envs) => `name: yororis-dev\nregion: tor\nstatic_sites:\n  - name: site\n    source_dir: site\n    build_command: npm ci && npm run build\n    output_dir: out\n${envs}`;
+
+test("the static site may carry exactly one build-time variable: APP_SEARCH_INDEXING", () => {
+  const ok = run(repo({ ".do/app.yaml": SITE_SPEC('    envs:\n      - key: APP_SEARCH_INDEXING\n        scope: BUILD_TIME\n        value: "off"\n') }));
+  assert.equal(ok.status, 0, ok.stderr);
+  const other = run(repo({ ".do/app.yaml": SITE_SPEC('    envs:\n      - key: DATABASE_URL\n        scope: BUILD_TIME\n        value: "x"\n') }));
+  assert.equal(other.status, 1);
+  assert.match(other.stderr, /only variable/);
+  const two = run(repo({ ".do/app.yaml": SITE_SPEC('    envs:\n      - key: APP_SEARCH_INDEXING\n        value: "off"\n      - key: API_KEY\n        value: "y"\n') }));
+  assert.equal(two.status, 1);
+});

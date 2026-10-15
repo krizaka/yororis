@@ -38,6 +38,10 @@ jobs:
           python3 -m http.server 3000 --directory out >/dev/null 2>&1 &
           sleep 2
           node scripts/check-seo-family.mjs --base http://localhost:3000 --host https://dev.yororis.com --types WebSite,SoftwareApplication
+      - name: Closed build (APP_SEARCH_INDEXING=off, the dev deployment)
+        run: |
+          APP_SEARCH_INDEXING=off npm run build
+          npm run test:closed
   member-space:
     name: Member space (local only)
     runs-on: ubuntu-latest

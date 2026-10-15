@@ -217,7 +217,8 @@
     "follow": "Follow the construction"
   },
   "footer": {
-    "nav": "Site footer"
+    "nav": "Site footer",
+    "devNotice": "Development environment — access by invitation"
   },
   "notFound": {
     "title": "Page not found",

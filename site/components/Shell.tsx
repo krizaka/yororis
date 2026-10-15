@@ -6,6 +6,7 @@ import { cn } from "@krizaka/ui/cn";
 import { displayFace, monoFace, textFace } from "@/lib/fonts";
 import { getMessages, homePath, type Locale } from "@/lib/messages";
 import { siteJsonLd } from "@/lib/jsonld";
+import { indexable } from "@/lib/indexing";
 import { ORIGIN } from "@/lib/site";
 import { Bar } from "./Bar";
 import { version } from "@/lib/version";
@@ -17,6 +18,7 @@ export function metadataFor(locale: Locale): Metadata {
   const other: Locale = locale === "en" ? "fr" : "en";
   const url = `${ORIGIN}${homePath(locale)}`;
   return {
+    ...(indexable() ? {} : { robots: { index: false, follow: false, noarchive: true } }),
     metadataBase: new URL(ORIGIN),
     title: m.meta.title,
     description: m.meta.description,
@@ -50,7 +52,7 @@ export function Shell({ locale, children }: { locale: Locale; children: ReactNod
           <SkipLink href="#main">{m.bar.skip}</SkipLink>
           <Bar m={m.bar} locale={locale} version={version()} home={homePath(locale)} otherHref={m.otherHref} otherLabel={m.otherLabel} other={m.other} />
           {children}
-          <Footer locale={locale} m={m.footer} crisis={m.crisis} version={version()} />
+          <Footer locale={locale} m={m.footer} crisis={m.crisis} version={version()} devNotice={indexable() ? undefined : m.footer.devNotice} />
         </Providers>
       </body>
     </html>

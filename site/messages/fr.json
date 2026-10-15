@@ -217,7 +217,8 @@
     "follow": "Suivre la construction"
   },
   "footer": {
-    "nav": "Pied de page"
+    "nav": "Pied de page",
+    "devNotice": "Environnement de développement — accès sur invitation"
   },
   "notFound": {
     "title": "Page introuvable",
