@@ -50,7 +50,11 @@ export function Home({ locale }: { locale: Locale }) {
         }
         title={m.hero.title}
         lead={m.hero.lead}
-        aside={<Mascot bird="crane" mood="welcome" size={176} className="yo-hero-mark" />}
+        aside={
+          <div className="yo-hero-crane">
+            <Mascot bird="crane" mood="welcome" size={176} className="yo-hero-mark" />
+          </div>
+        }
       >
         <div className="rd-stack">
           <div aria-label={m.crisis.aria} role="group">
