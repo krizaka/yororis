@@ -35,6 +35,8 @@ function wav(ms = 900) {
   for (let i = 0; i < n; i++) buf.writeInt16LE(Math.round(Math.sin((2 * Math.PI * 330 * i) / 16000) * 9000 * (0.6 + 0.4 * Math.sin(i / 900))), 44 + i * 2);
   return buf;
 }
+// The portraits are on the CDN: the run answers them with a small picture, so it needs no network and tests the page, not the CDN.
+const PNG = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==", "base64");
 const sse = (events) => events.map(([name, data]) => `event: ${name}\ndata: ${JSON.stringify(data)}\n\n`).join("");
 
 // The stand-in edge: installs once, and answers a turn like the voice turn does (sentences, or the fixed reply on a cue).
@@ -115,6 +117,7 @@ let signIns = 0;
 async function open(viewport, scheme, locale = "en") {
   const context = await browser.newContext({ viewport, colorScheme: scheme, locale, permissions: ["microphone"] });
   context.setDefaultTimeout(process.env.E2E_DEV === "1" ? 40_000 : 15_000);
+  if (process.env.E2E_REAL_PORTRAITS !== "1") await context.route("**/people/personas/**", (route) => route.fulfill({ contentType: "image/png", body: PNG }));
   const login = await context.request.post(`${APP}/api/auth/password`, { data: { email: CAST[signIns++ % CAST.length], password: "e2e-demo-password" }, headers: { origin: APP } });
   assert.equal(login.status(), 200);
   // The cookie is Secure in production (tested in api.test.mjs); this run is plain http on 127.0.0.1, so it is set by hand.
@@ -166,6 +169,7 @@ for (const [device, viewport] of Object.entries(VIEWPORTS)) {
       assert.ok(await page.getByRole("timer").first().isVisible(), "the timer is shown");
       assert.ok(await page.getByText("AI", { exact: true }).first().isVisible(), "the AI mark is shown");
       await assertLinesVisible(page, viewport, `after an answer (${tag})`);
+      await page.waitForFunction(() => document.querySelector(".presence-face img")?.complete === true, null, { timeout: 15_000 });
       if (shots) await page.screenshot({ path: `${shots}/moment-${device}-${scheme}.png` });
       await page.getByRole("button", { name: "End this moment" }).click();
       await page.getByText("This moment has ended").waitFor();
@@ -212,6 +216,13 @@ for (const [device, viewport] of Object.entries(VIEWPORTS)) {
     await page.getByText("I spoke out loud tonight").waitFor();
     await page.getByText("What weighs the most right now?").waitFor();
     await page.waitForFunction(() => document.querySelector('[data-testid="voice-line"]')?.getAttribute("data-speaking") === "true", null, { timeout: 8000 });
+    // The face follows the real signal while it speaks, wears the AI mark, and stays inside the screen.
+    await page.waitForFunction(() => Number.parseFloat(document.querySelector('[data-testid="presence-face"]')?.style.getPropertyValue("--presence-energy") || "0") > 0.02, null, { timeout: 8000 });
+    const face = await page.getByTestId("presence-face").boundingBox();
+    assert.ok(face && face.x >= 0 && face.x + face.width <= viewport.width + 0.5, "the face is cut at the side");
+    assert.ok(await page.getByTestId("presence-face").getByText("AI", { exact: true }).isVisible(), "the AI mark is on the face");
+    assert.equal(await page.getByTestId("presence-face").getAttribute("data-speaking"), "true");
+    await page.waitForFunction(() => document.querySelector(".presence-face img")?.complete === true, null, { timeout: 15_000 });
     if (shots) await page.screenshot({ path: `${shots}/speaking-${device}.png` });
     await page.waitForFunction(() => document.querySelector('[data-testid="voice-line"]')?.getAttribute("data-speaking") === "false", null, { timeout: 12000 });
     // Voice off: the captions and the answer stay, the sound does not.
@@ -227,6 +238,21 @@ for (const [device, viewport] of Object.entries(VIEWPORTS)) {
     await context.close();
   });
 }
+
+await step("the face holds still under reduced motion, and breathes otherwise", async () => {
+  const { context, page } = await open(VIEWPORTS.phone, "dark");
+  await page.getByText("Léa", { exact: true }).first().click();
+  await page.getByRole("checkbox").click();
+  await page.getByRole("button", { name: /Begin a moment with Léa/ }).click();
+  const body = page.locator(".presence-face__body");
+  await body.waitFor();
+  const animation = () => body.evaluate((el) => getComputedStyle(el).animationName);
+  assert.equal(await animation(), "presence-breathe", "the face does not breathe");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  assert.equal(await animation(), "none", "the face moves under prefers-reduced-motion");
+  await page.getByRole("button", { name: "End this moment" }).click();
+  await context.close();
+});
 
 await step("french: the lines read « Besoin d'aide maintenant ? » and « Appeler le 9-8-8 » at 360 px", async () => {
   const { context, page } = await open(VIEWPORTS.phone, "dark", "fr");

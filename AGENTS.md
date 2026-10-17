@@ -51,6 +51,9 @@ product, §4 architecture) is the source of truth. Its rules already apply:
    Voice: the person holds a button to talk (recording ≤ 30 s, WebM or Ogg/Opus, sent to `/api/moment/turn`, transcribed by Orazaka's
    Whisper) and the presence's sentences are played from `/api/moment/clip`, which relays only the edge's own signed clip
    addresses (`lib/orazaka.ts`, `tests/voice.test.mjs`); captions are always shown, the sound can be turned off.
+   Face: `PresenceFace` — a generated, fictitious person of the shared library (`people/personas/ui`, on the CDN, never committed) with the
+   permanent AI mark; it breathes, and while a sentence plays it follows the energy of the real signal (the pack's lip-sync source is
+   `ENERGY`: the voice turn returns no word timings). Calm under `prefers-reduced-motion` and the member's `calmMotion`.
 4. Conventional Commits, a branch and a pull request for every change (`main` is protected, squash only).
 5. **Environment variables are named by bounded context** (krizaka/.github#46): `<CONTEXT>_<THING>` with CONTEXT one of
    `APP_` `DATABASE_` `AUTH_` `MEDIA_` `MAIL_` `PUSH_` `PAYMENTS_` `REALTIME_` `ABUSE_` `OBSERVABILITY_` `AI_` `OPERATOR_`

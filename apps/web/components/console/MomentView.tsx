@@ -4,7 +4,6 @@ import { SoundIcon } from "@krizaka/icons";
 import { krizakaFetch, useMutation } from "@krizaka/query";
 import { Alert } from "@krizaka/ui/alert";
 import { Avatar } from "@krizaka/ui/avatar";
-import { Badge } from "@krizaka/ui/badge";
 import { Button,buttonVariants } from "@krizaka/ui/button";
 import { MessageBubble, MessageComposer, TypingIndicator } from "@krizaka/ui/chat";
 import { Checkbox } from "@krizaka/ui/checkbox";
@@ -17,6 +16,7 @@ import { errorKey } from "@/lib/client";
 import { useSay } from "@/lib/i18n-client";
 import { type Presence,PRESENCES } from "@/lib/presences";
 
+import { PresenceFace } from "./PresenceFace";
 import { useHoldToTalk, useSpeech } from "./voice";
 
 export interface MomentProps {
@@ -25,6 +25,8 @@ export interface MomentProps {
   minutes: number;
   /** The presence that has stopped for today or this week: when it opens again (ISO), else null. */
   stops: { reason: "DAY" | "WEEK"; nextAt: string } | null;
+  /** The member's own choice (account > display): the face holds still. */
+  calmMotion: boolean;
 }
 
 interface Line {
@@ -77,28 +79,12 @@ export function HelpNow() {
   );
 }
 
-/** The presence's face for now: its initial and the permanent AI mark. The animated portrait comes with the face (docs/FRAMEWORK.md). */
-function Face({ presence }: { presence: Presence }) {
-  const { say } = useSay();
-  return (
-    <div className="flex items-center gap-3">
-      <Avatar size="lg" fallback={presence.name.slice(0, 1)} alt="" />
-      <div className="flex flex-col gap-1">
-        <span className="font-display text-lg font-extrabold text-fg">{presence.name}</span>
-        <Badge tone="accent" size="md">
-          {say("moment.aiMark")}
-        </Badge>
-      </div>
-    </div>
-  );
-}
-
 const STYLE = { lea: "moment.styleLea", samuel: "moment.styleSamuel", noor: "moment.styleNoor" } as const;
 
 const fmt = (iso: string, locale: string) => new Intl.DateTimeFormat(locale, { weekday: "long", hour: "numeric", minute: "2-digit" }).format(new Date(iso));
 
 /** The Moment: choose a presence, agree to what is kept, talk in text with captions on both sides, until the moment stops. */
-export function MomentView({ available, minutes, stops }: MomentProps) {
+export function MomentView({ available, minutes, stops, calmMotion }: MomentProps) {
   const { say, locale } = useSay();
   const [chosen, setChosen] = useState<Presence | null>(null);
   const [agreed, setAgreed] = useState(false);
@@ -249,7 +235,7 @@ export function MomentView({ available, minutes, stops }: MomentProps) {
               {PRESENCES.map((p) => (
                 <label key={p.id} className="flex cursor-pointer items-center gap-3 rounded-lg border border-border-default bg-surface-1 p-3 has-[:checked]:border-accent">
                   <input type="radio" name="presence" className="sr-only" checked={chosen?.id === p.id} onChange={() => setChosen(p)} />
-                  <Avatar size="md" fallback={p.name.slice(0, 1)} alt="" />
+                  <Avatar size="md" src={p.face} fallback={p.name.slice(0, 1)} alt="" />
                   <span className="flex flex-col">
                     <span className="font-semibold text-fg">{p.name}</span>
                     <span className="text-sm text-fg-secondary">{say(STYLE[p.id])}</span>
@@ -282,18 +268,24 @@ export function MomentView({ available, minutes, stops }: MomentProps) {
   return frame(
     <>
       <header className="flex flex-wrap items-center justify-between gap-3">
-        <Face presence={presence} />
+        <div className="flex items-center gap-4">
+          <PresenceFace presence={presence} speaking={speech.speaking} energy={speech.energy} calm={calmMotion} />
+          <span className="font-display text-xl font-extrabold text-fg">{presence.name}</span>
+        </div>
         <Countdown target={moment.endsAt} label={say("moment.timerLabel")} showLabel units={{ d: "d", h: "h", m: "m", s: "s" }} />
       </header>
-      <p className="text-xs text-fg-muted">{say("moment.aiNote", { name: presence.name })}</p>
+      <p className="hidden text-xs text-fg-muted sm:block">{say("moment.aiNote", { name: presence.name })}</p>
       <div className="flex items-center gap-3" data-testid="voice-line" data-speaking={speech.speaking}>
-        <Waveform className="flex-1" peaks={speech.peaks} playing={speech.speaking} size="sm" />
+        <Waveform className="min-w-0 flex-1" peaks={speech.peaks} playing={speech.speaking} size="sm" />
         <Button size="sm" variant="ghost" aria-pressed={speech.muted} onClick={() => speech.mute(!speech.muted)}>
           {speech.muted ? say("moment.voiceOff") : say("moment.voiceOn")}
         </Button>
+        <Button size="sm" variant="ghost" loading={close.isPending} onClick={() => close.mutate()}>
+          {say("moment.end")}
+        </Button>
       </div>
       {nearly ? <Alert tone="info">{say("moment.nearlyOver")}</Alert> : null}
-      <ol role="log" aria-label={say("moment.conversation")} aria-live="polite" className="flex flex-1 flex-col gap-2">
+      <ol role="log" aria-label={say("moment.conversation")} aria-live="polite" tabIndex={0} className="flex max-h-[32dvh] min-h-28 flex-1 flex-col gap-2 overflow-y-auto sm:max-h-[50dvh]">
         {lines.map((l, i) => (
           <li key={i} className="list-none">
             <MessageBubble mine={l.who === "person"} text={l.text} context={l.who === "person" ? say("moment.you") : presence.name} />
@@ -353,11 +345,6 @@ export function MomentView({ available, minutes, stops }: MomentProps) {
           ) : null
         }
       />
-      <div>
-        <Button size="sm" variant="ghost" loading={close.isPending} onClick={() => close.mutate()}>
-          {say("moment.end")}
-        </Button>
-      </div>
     </>,
   );
 }
