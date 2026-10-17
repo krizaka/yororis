@@ -34,6 +34,9 @@ test("the cookie is signed, expires, and cannot be forged", () => {
   assert.equal(verify(`${Buffer.from(JSON.stringify({ sub: ID(1), exp: 9e9 })).toString("base64url")}.${t.split(".")[1]}`), null);
   assert.match(cookieHeader(t), /HttpOnly; SameSite=Lax/);
   assert.match(cookieHeader(null), /Max-Age=0/);
+  process.env.NODE_ENV = "production";
+  assert.match(cookieHeader(t), /HttpOnly; SameSite=Lax; Secure/);
+  delete process.env.NODE_ENV;
 });
 
 test("writes must come from this origin", () => {

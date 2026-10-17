@@ -8,8 +8,16 @@ import { cookieHeader, issue, sameOrigin,samePassword } from "@/lib/token";
 const Body = z.object({ email: z.string().trim().email().max(254), password: z.string().min(1).max(200) });
 
 const tries = new Map<string, { n: number; reset: number }>();
+const MAX_TRIES = 1000;
+
 const tooMany = (key: string) => {
   const now = Date.now();
+  if (tries.size > MAX_TRIES) {
+    for (const [k, v] of tries) {
+      if (v.reset < now) tries.delete(k);
+    }
+    if (tries.size > MAX_TRIES) tries.clear();
+  }
   const t = tries.get(key);
   if (!t || t.reset < now) tries.set(key, { n: 1, reset: now + 15 * 60_000 });
   else t.n++;
@@ -24,7 +32,7 @@ export async function POST(req: Request) {
   const { email, password } = parsed.data;
   if (tooMany(email.toLowerCase())) return fail(429, "RATE_LIMITED");
   const member = findByEmail(email);
-  const right = samePassword(password);
+  const right = await samePassword(password);
   if (!member || !right) {
     if (member) record("sign_in_refused", member.email, member.id);
     return fail(401, "INVALID_CREDENTIALS");
