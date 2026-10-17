@@ -42,6 +42,9 @@ jobs:
           python3 -m http.server 3000 --directory out >/dev/null 2>&1 &
           sleep 2
           node scripts/check-seo-family.mjs --base http://localhost:3000 --host https://dev.yororis.com --types WebSite,SoftwareApplication
+          # Responsive guard: no horizontal overflow at 360–1440 px in both themes; the crisis lines in the first 360 px screen.
+          npx playwright-core install --with-deps chromium
+          npm run check:overflow -- --base http://localhost:3000
       - name: Closed build (APP_SEARCH_INDEXING=off, the dev deployment)
         run: |
           APP_SEARCH_INDEXING=off npm run build
