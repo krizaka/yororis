@@ -8,7 +8,7 @@
     "dev": "next dev",
     "build": "next build",
     "prebuild": "node scripts/changelog.mjs",
-    "test": "node --test tests/site.test.mjs tests/check-seo-family.test.mjs tests/changelog.test.mjs",
+    "test": "node --test tests/site.test.mjs tests/check-seo-family.test.mjs tests/changelog.test.mjs tests/indexing-deploy.test.mjs",
     "test:closed": "node --test tests/closed.test.mjs"
   },
   "devDependencies": {
