@@ -29,6 +29,13 @@ export interface Turn {
   declined: { text: string; audio: z.infer<typeof Audio> | null } | null;
 }
 
+/**
+ * What the app answers when Orazaka cannot be reached, answers badly or refuses: 424 Failed Dependency, never 502/503/504 — the
+ * platform (DigitalOcean App Platform) replaces an application's own 502/503/504 with its generic error page, and the person would
+ * lose the calm sentence that tells them what is happening. Found on the first deployment (the 503 came back as a 504).
+ */
+export const UPSTREAM_FAILED = 424;
+
 /** A refusal in terms Yororis words: a stable code and the HTTP status to answer with. */
 export class OrazakaError extends Error {
   constructor(
@@ -41,11 +48,11 @@ export class OrazakaError extends Error {
 
 export function refusalOf(status: number): OrazakaError {
   if (status === 451) return new OrazakaError(409, "CONSENT");
-  if (status === 402) return new OrazakaError(503, "AI_UNAVAILABLE");
-  if (status === 403 || status === 401) return new OrazakaError(502, "AI_KEY");
+  if (status === 402) return new OrazakaError(UPSTREAM_FAILED, "AI_UNAVAILABLE");
+  if (status === 403 || status === 401) return new OrazakaError(UPSTREAM_FAILED, "AI_KEY");
   if (status === 422) return new OrazakaError(422, "NO_VOICE");
   if (status === 400) return new OrazakaError(400, "INVALID_PAYLOAD");
-  return new OrazakaError(503, "AI_UNAVAILABLE");
+  return new OrazakaError(UPSTREAM_FAILED, "AI_UNAVAILABLE");
 }
 
 /** Reads the SSE body of a voice turn. An unknown event is ignored; a malformed one makes the turn fail rather than guess. */
@@ -63,7 +70,7 @@ export function parseTurn(body: string): Turn {
     try {
       json = JSON.parse(data.join("\n"));
     } catch {
-      throw new OrazakaError(502, "AI_SHAPE");
+      throw new OrazakaError(UPSTREAM_FAILED, "AI_SHAPE");
     }
     if (name === "transcript") turn.transcript = z.object({ text: z.string() }).parse(json).text;
     else if (name === "sentence") {
@@ -75,7 +82,7 @@ export function parseTurn(body: string): Turn {
     } else if (name === "scope.refused") {
       const r = Refused.parse(json);
       turn.declined = { text: r.text ?? r.refusal ?? "", audio: r.audio ?? null };
-    } else if (name === "error") throw new OrazakaError(502, "AI_UNAVAILABLE");
+    } else if (name === "error") throw new OrazakaError(UPSTREAM_FAILED, "AI_UNAVAILABLE");
   }
   turn.sentences.sort((a, b) => a.index - b.index);
   return turn;
@@ -135,7 +142,7 @@ export function createOrazakaClient(options: { baseUrl: string; apiKey: string; 
         cache: "no-store",
       });
     } catch {
-      throw new OrazakaError(503, "AI_UNAVAILABLE");
+      throw new OrazakaError(UPSTREAM_FAILED, "AI_UNAVAILABLE");
     }
   }
   const idOf = (v: unknown) => {
@@ -157,7 +164,7 @@ export function createOrazakaClient(options: { baseUrl: string; apiKey: string; 
     });
     if (!made.ok) throw refusalOf(made.status);
     const id = idOf(await made.json().catch(() => null));
-    if (!id) throw new OrazakaError(502, "AI_SHAPE");
+    if (!id) throw new OrazakaError(UPSTREAM_FAILED, "AI_SHAPE");
     return (installationId = id);
   }
 
@@ -169,7 +176,7 @@ export function createOrazakaClient(options: { baseUrl: string; apiKey: string; 
       try {
         return await doFetch(`${base}${path}`, { signal: AbortSignal.timeout(options.timeoutMs ?? 30_000), cache: "no-store" });
       } catch {
-        throw new OrazakaError(503, "AI_UNAVAILABLE");
+        throw new OrazakaError(UPSTREAM_FAILED, "AI_UNAVAILABLE");
       }
     },
     async turn(input) {

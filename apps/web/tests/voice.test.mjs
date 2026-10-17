@@ -172,11 +172,11 @@ test("the clip door: members only, edge addresses only, audio only, never stored
   assert.equal(ok.headers.get("cache-control"), "no-store");
   assert.deepEqual(stub.clips, [CLIP]);
   useOrazakaClient(engine({ clip: async () => new Response("<html>", { headers: { "content-type": "text/html" } }) }));
-  assert.equal((await get(CLIP)).status, 502, "what is not audio is not relayed");
+  assert.equal((await get(CLIP)).status, 424, "what is not audio is not relayed");
   useOrazakaClient(engine({ clip: async () => new Response("gone", { status: 410 }) }));
   assert.equal((await get(CLIP)).status, 404);
   useOrazakaClient(null);
-  assert.equal((await get(CLIP)).status, 503);
+  assert.equal((await get(CLIP)).status, 424);
 });
 
 test("parseTurn still reads an audio turn's transcript before the sentences", () => {

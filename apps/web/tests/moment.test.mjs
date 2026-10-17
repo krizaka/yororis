@@ -85,6 +85,8 @@ test("the voice turn is read as Orazaka sends it: sentences in order, the fixed 
   assert.throws(() => parseTurn("event: sentence\ndata: {not json\n\n"), /AI_SHAPE/);
   assert.throws(() => parseTurn(sse([["error", { code: "x" }]])), /AI_UNAVAILABLE/);
   assert.equal(refusalOf(451).code, "CONSENT");
+  assert.equal(refusalOf(503).status, 424);
+  assert.equal(refusalOf(401).status, 424);
 });
 
 test("the client talks to the edge with the service key, installs the pack once with its consent, and sends the context", async () => {
@@ -113,7 +115,7 @@ test("the client talks to the edge with the service key, installs the pack once 
 test("nothing configured: the moment is not available, it never answers by itself", async () => {
   useOrazakaClient(null);
   const { res, json } = await begin(as(2));
-  assert.equal(res.status, 503);
+  assert.equal(res.status, 424, "424, never 502/503/504: the platform replaces those with its own error page");
   assert.equal(json.code, "AI_UNAVAILABLE");
 });
 
