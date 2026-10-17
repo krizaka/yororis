@@ -158,7 +158,12 @@ test("the bar and the footer are those of an independent product: no version chi
   assert.ok(!bar.includes("NavBar.Badge"), "no version chip in the bar");
   assert.match(bar, /<NavBar\.Repo /);
   assert.match(readFileSync(join(root, "components/Footer.tsx"), "utf8"), /<SiteFooter\s+current="yororis"\s+family=\{false\}[^>]*env="dev"/);
-  for (const l of ["en", "fr"]) assert.match(textOf(l), /dev · v\d+\.\d+\.\d+/, `${l}: the dev badge and the version are on the page`);
+  // The footer says DEV (the environment) and shows the version as a link to its changelog entry (/changelog/#<version>).
+  for (const l of ["en", "fr"]) {
+    assert.match(textOf(l), /\bDEV\b/, `${l}: the dev badge is on the page`);
+    assert.match(textOf(l), /\bv\d+\.\d+\.\d+\b/, `${l}: the version is on the page`);
+    assert.ok(links(l).some((a) => /\/changelog\/#\d+\.\d+\.\d+$/.test(a.href ?? "")), `${l}: the version links to its changelog entry`);
+  }
 });
 
 // The member space is shown ONLY as pictures — hashed files on the CDN, never in the repository — each labelled "in
@@ -233,7 +238,8 @@ test("one footer: the shell renders it once after the children; no <footer> and 
   assert.ok(shell.indexOf("{children}") < shell.indexOf("<Footer "));
   const footer = readFileSync(join(root, "components/Footer.tsx"), "utf8");
   assert.doesNotMatch(footer, /<footer\b/);
-  assert.match(footer, /legal=\{devNotice \?/);
+  // The dev line ends the signature row: it is inside the footer's `legal` slot, after the version link.
+  assert.match(footer, /legal=\{\s*<>[\s\S]*\{devNotice \?/);
   assert.doesNotMatch(footer, /<\/SiteFooter>\s*\{devNotice/);
   const offenders = [];
   const walk = (dir) => {
