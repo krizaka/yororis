@@ -14,9 +14,9 @@
   "devDependencies": {
     "@krizaka/fonts": "0.2.0",
     "@krizaka/icons": "^0.5.0",
-    "@krizaka/tailwind": "^3.23.0",
-    "@krizaka/tokens": "^3.23.0",
-    "@krizaka/ui": "^3.25.0",
+    "@krizaka/tailwind": "^3.26.0",
+    "@krizaka/tokens": "^3.26.0",
+    "@krizaka/ui": "^3.26.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^22",
     "@types/react": "^19",
