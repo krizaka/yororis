@@ -9,6 +9,7 @@ import { useCallback, useSyncExternalStore } from "react";
 import { MoonIcon, SunIcon } from "@krizaka/icons";
 import { YororisLogo } from "@krizaka/ui";
 import { Button } from "@krizaka/ui/button";
+import { languageNames } from "@krizaka/ui/language-switch";
 import { NavBar } from "@krizaka/ui/nav-bar";
 import { useTheme } from "@krizaka/ui/theme";
 import type { Locale, Messages } from "@/lib/messages";
@@ -30,7 +31,12 @@ function useShownTheme() {
   return { theme, toggle };
 }
 
-export function Bar({ m, home, otherHref, otherLabel, other }: { m: Messages["bar"]; locale: Locale; home: string; otherHref: string; otherLabel: string; other: string }) {
+export function Bar({ m, locale, home, otherHref, otherName }: { m: Messages["bar"]; locale: Locale; home: string; otherHref: string; otherName: string }) {
+  const otherCode = locale === "en" ? "fr" : "en";
+  const languages = [
+    { code: locale, name: languageNames[locale] ?? locale, href: home },
+    { code: otherCode, name: otherName, href: otherHref },
+  ].sort((a, b) => a.code.localeCompare(b.code));
   const { theme, toggle } = useShownTheme();
   const themeLabel = theme === "dark" ? m.toLight : m.toDark;
   const themeIcon = theme === "dark" ? <SunIcon size={16} /> : <MoonIcon size={16} />;
@@ -56,11 +62,9 @@ export function Bar({ m, home, otherHref, otherLabel, other }: { m: Messages["ba
           <Button type="button" variant="ghost" size="icon" shape="pill" onClick={toggle} aria-label={themeLabel} className="hidden h-9 w-9 md:inline-flex">
             {themeIcon}
           </Button>
-          <Button asChild variant="outline" size="sm" className="hidden h-7 w-9 px-0 font-mono text-[11px] font-semibold tracking-wide md:inline-flex">
-            <a href={otherHref} hrefLang={other.toLowerCase()} lang={other.toLowerCase()} aria-label={otherLabel}>
-              {other}
-            </a>
-          </Button>
+          <span className="hidden md:inline-flex">
+            <NavBar.Language label={m.language} current={locale} languages={languages} />
+          </span>
           <Button asChild variant="primary" size="sm" shape="cut" className="ml-1 hidden font-bold md:inline-flex">
             <a href={CONTACT}>{m.talk}</a>
           </Button>
@@ -71,16 +75,12 @@ export function Bar({ m, home, otherHref, otherLabel, other }: { m: Messages["ba
                 <a href={`#${s.id}`}>{m[s.key]}</a>
               </NavBar.MobileLink>
             ))}
-            <NavBar.MobileLink asChild>
-              <button type="button" onClick={toggle} className="w-full text-left">
-                {themeLabel}
-              </button>
-            </NavBar.MobileLink>
-            <NavBar.MobileLink asChild>
-              <a href={otherHref} hrefLang={other.toLowerCase()} lang={other.toLowerCase()}>
-                {otherLabel}
-              </a>
-            </NavBar.MobileLink>
+            <NavBar.MobilePreferences label={m.preferences}>
+              <Button type="button" variant="ghost" size="icon" shape="pill" onClick={toggle} aria-label={themeLabel} className="h-9 w-9">
+                {themeIcon}
+              </Button>
+              <NavBar.Language label={m.language} current={locale} languages={languages} />
+            </NavBar.MobilePreferences>
             <Button asChild variant="primary" size="md" shape="cut" className="mt-2 font-bold">
               <a href={CONTACT}>{m.talk}</a>
             </Button>
