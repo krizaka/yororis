@@ -130,7 +130,7 @@
     "lead": "The repositories are public, the framework is written down, and the code refuses to go further than the study. Nothing here is a promise of availability.",
     "guards": {
       "title": "The guardrails",
-      "lead": "Every AI call goes through Orazaka's wellbeing pack — Yororis has no other AI provider. Its guards live in the engine, not in a prompt.",
+      "lead": "Yororis has no AI provider of its own: every AI call goes through the wellbeing pack of its engine, Orazaka. The guards live in the engine, not in a prompt.",
       "items": [
         "Consent to a versioned statement, blocking: no consent, no moment (`451`)",
         "A crisis guard that runs first and cannot be switched off: a fixed, reviewed answer and a sourced regional line — never generated",
