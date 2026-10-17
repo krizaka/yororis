@@ -68,3 +68,7 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+      - name: The Moment in a browser (360 px and desktop, dark and light, against a stand-in for Orazaka)
+        run: |
+          npx playwright install --with-deps chromium
+          npm run test:e2e
