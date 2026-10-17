@@ -130,7 +130,7 @@
     "lead": "Les dépôts sont publics, le cadre est écrit, et le code refuse d'aller plus vite que l'étude. Rien ici n'est une promesse de disponibilité.",
     "guards": {
       "title": "Les garde-fous",
-      "lead": "Tout appel d'IA passe par le pack bien-être d'Orazaka — Yororis n'a aucun autre fournisseur d'IA. Ses gardes vivent dans le moteur, pas dans un prompt.",
+      "lead": "Yororis n'a aucun fournisseur d'IA à lui : tout appel d'IA passe par le pack bien-être de son moteur, Orazaka. Les gardes vivent dans le moteur, pas dans un prompt.",
       "items": [
         "Consentement à un énoncé versionné, bloquant : pas de consentement, pas de moment (`451`)",
         "Une garde de crise qui passe en premier et ne se débranche pas : une réponse fixe, relue, et une ressource régionale sourcée — jamais générée",
