@@ -12,5 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: `${ORIGIN}/`, lastModified, alternates: { languages } },
     { url: `${ORIGIN}/fr/`, lastModified, alternates: { languages } },
+    { url: `${ORIGIN}/changelog/`, lastModified, alternates: { languages: { en: `${ORIGIN}/changelog/`, fr: `${ORIGIN}/fr/changelog/` } } },
+    { url: `${ORIGIN}/fr/changelog/`, lastModified, alternates: { languages: { en: `${ORIGIN}/changelog/`, fr: `${ORIGIN}/fr/changelog/` } } },
   ];
 }

@@ -7,6 +7,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { changelogRss, releasesFromPulls } from "@krizaka/ui/changelog-page";
+
 export const REPO = "krizaka/yororis";
 export const WINDOW_DAYS = 7;
 const KINDS = new Set(["feat", "fix", "docs", "refactor"]);
@@ -14,6 +16,15 @@ const KINDS = new Set(["feat", "fix", "docs", "refactor"]);
 const HIDDEN_SCOPES = new Set(["dev", "deploy", "ci", "deps", "release"]);
 // A title that would read as a promise we do not make (see the lexicon, prompts-yororis.md §2.1) never reaches the page.
 const NEVER = /coming soon|beta|early access|waiting list|sign-?up|inscri|essai|trial|download|t[ée]l[ée]charg|launch|lancement/i;
+
+/** Whether a merged pull request may be shown at all: user-facing type, not infrastructure, nothing we do not offer. */
+export function showable(pr) {
+  if (!pr.merged_at) return false;
+  const match = /^(\w+)(?:\(([^)]*)\))?!?:\s*(.+)$/.exec(pr.title ?? "");
+  if (!match) return false;
+  const [, kind, scope = "", title] = match;
+  return KINDS.has(kind) && !HIDDEN_SCOPES.has(scope) && !NEVER.test(title);
+}
 
 /** The entries of the window: merged, user-facing, titles only, newest first. Pure: the tests call it with fixtures. */
 export function changelogFrom(pulls, now = new Date(), days = WINDOW_DAYS) {
@@ -34,9 +45,9 @@ export function changelogFrom(pulls, now = new Date(), days = WINDOW_DAYS) {
 }
 
 /** The closed pull requests of the repository, most recently updated first. An error is an empty list, never a throw. */
-export async function fetchPulls(fetchImpl = fetch, repo = REPO) {
+export async function fetchPulls(fetchImpl = fetch, repo = REPO, perPage = 50) {
   try {
-    const res = await fetchImpl(`https://api.github.com/repos/${repo}/pulls?state=closed&sort=updated&direction=desc&per_page=50`, {
+    const res = await fetchImpl(`https://api.github.com/repos/${repo}/pulls?state=closed&sort=updated&direction=desc&per_page=${perPage}`, {
       headers: { accept: "application/vnd.github+json", "user-agent": "yororis-site-build" },
     });
     if (!res.ok) return [];
@@ -54,4 +65,15 @@ if (isMain) {
   const out = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "lib", "changelog.generated.json");
   fs.writeFileSync(out, `${JSON.stringify({ generatedAt: now.toISOString(), window: WINDOW_DAYS, entries }, null, 2)}\n`);
   console.log(`changelog: ${entries.length} entries in the last ${WINDOW_DAYS} days → lib/changelog.generated.json`);
+  // The changelog page and its feed: every showable merged pull request, by week (releasesFromPulls).
+  const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
+  const releases = releasesFromPulls((await fetchPulls(fetch, REPO, 100)).filter(showable), "Yororis", "https://github.com/krizaka/yororis/pulls?q=is%3Apr+is%3Amerged");
+  fs.writeFileSync(path.join(root, "lib", "changelog-weeks.generated.json"), `${JSON.stringify({ releases }, null, 2)}\n`);
+  const en = JSON.parse(fs.readFileSync(path.join(root, "messages", "en.json"), "utf8")).changelogPage;
+  fs.mkdirSync(path.join(root, "public", "changelog"), { recursive: true });
+  fs.writeFileSync(
+    path.join(root, "public", "changelog", "feed.xml"),
+    changelogRss({ releases, title: en.feedTitle, description: en.feedDescription, siteUrl: "https://dev.yororis.com/", pageUrl: "https://dev.yororis.com/changelog/", feedUrl: "https://dev.yororis.com/changelog/feed.xml", language: en.langTag, tagLabel: en.tags }),
+  );
+  console.log(`changelog: ${releases.length} weeks → lib/changelog-weeks.generated.json, public/changelog/feed.xml`);
 }

@@ -252,5 +252,39 @@
     "lead": "Fusionné dans le dépôt au cours des sept derniers jours : la construction, à ciel ouvert. Titres seulement.",
     "empty": "Rien de fusionné cette semaine. La construction continue."
   },
-  "dateLocale": "fr-CA"
+  "dateLocale": "fr-CA",
+  "changelogPage": {
+    "metaTitle": "Journal des changements",
+    "metaDescription": "Ce qui a changé dans Yororis, semaine par semaine : nouveautés, corrections, sécurité et ruptures, avec la pull request derrière chaque ligne.",
+    "eyebrow": "Journal des changements",
+    "title": "Ce qui a été livré",
+    "lead": "Ce qui a changé dans Yororis, la semaine la plus récente d'abord — lu dans les pull requests fusionnées, pas écrit pour la page.",
+    "runs": "Ce site tourne en v{version} sur Krizaka UI {ui}.",
+    "runsNoUi": "Ce site tourne en v{version}.",
+    "feed": "S'abonner (RSS)",
+    "logLabel": "Semaines",
+    "empty": "Les changements n'ont pas pu être lus pour l'instant.",
+    "emptyLink": "Voir les pull requests sur GitHub",
+    "kinds": {
+      "added": "Nouveau",
+      "changed": "Modifié",
+      "fixed": "Corrigé",
+      "removed": "Retiré",
+      "security": "Sécurité",
+      "breaking": "Rupture"
+    },
+    "tags": {
+      "feature": "Nouveau",
+      "fix": "Corrigé",
+      "security": "Sécurité",
+      "breaking": "Rupture",
+      "change": "Modifié"
+    },
+    "pull": "Pull request n° {number}",
+    "week": "Semaine du {date}",
+    "feedTitle": "Yororis — journal des changements",
+    "feedDescription": "Ce que Yororis a livré, semaine par semaine.",
+    "footerVersion": "v{version}",
+    "langTag": "fr-CA"
+  }
 }
