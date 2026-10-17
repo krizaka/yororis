@@ -1,0 +1,106 @@
+{
+  "$schema": "https://raw.githubusercontent.com/krizaka/.github/main/docs/standards/dev-preview.schema.json",
+  "version": 1,
+  "product": "yororis",
+  "index": "on",
+  "criteria": {
+    "site.healthy": {
+      "evidence": null,
+      "gap": "Yororis is a static page in construction mode (no accounts, nothing offered, no mobile, no admin). Every Dev preview criterion about accounts, journey…",
+      "issue": "https://github.com/krizaka/yororis/issues/23"
+    },
+    "site.signup-closed": {
+      "evidence": null,
+      "gap": "Yororis is a static page in construction mode (no accounts, nothing offered, no mobile, no admin). Every Dev preview criterion about accounts, journey…",
+      "issue": "https://github.com/krizaka/yororis/issues/23"
+    },
+    "site.qa-signin": {
+      "evidence": null,
+      "gap": "Yororis is a static page in construction mode (no accounts, nothing offered, no mobile, no admin). Every Dev preview criterion about accounts, journey…",
+      "issue": "https://github.com/krizaka/yororis/issues/23"
+    },
+    "journey.core": {
+      "evidence": null,
+      "gap": "Yororis is a static page in construction mode (no accounts, nothing offered, no mobile, no admin). Every Dev preview criterion about accounts, journey…",
+      "issue": "https://github.com/krizaka/yororis/issues/23"
+    },
+    "journey.ai-via-orazaka": {
+      "evidence": null,
+      "gap": "Yororis is a static page in construction mode (no accounts, nothing offered, no mobile, no admin). Every Dev preview criterion about accounts, journey…",
+      "issue": "https://github.com/krizaka/yororis/issues/23"
+    },
+    "ui.krizaka-ui": {
+      "evidence": null,
+      "gap": "Yororis is a static page in construction mode (no accounts, nothing offered, no mobile, no admin). Every Dev preview criterion about accounts, journey…",
+      "issue": "https://github.com/krizaka/yororis/issues/23"
+    },
+    "ui.themes-devices": {
+      "evidence": null,
+      "gap": "Yororis is a static page in construction mode (no accounts, nothing offered, no mobile, no admin). Every Dev preview criterion about accounts, journey…",
+      "issue": "https://github.com/krizaka/yororis/issues/23"
+    },
+    "ux.ia-review": {
+      "evidence": null,
+      "gap": "Yororis is a static page in construction mode (no accounts, nothing offered, no mobile, no admin). Every Dev preview criterion about accounts, journey…",
+      "issue": "https://github.com/krizaka/yororis/issues/23"
+    },
+    "mobile.build": {
+      "evidence": null,
+      "gap": "Yororis is a static page in construction mode (no accounts, nothing offered, no mobile, no admin). Every Dev preview criterion about accounts, journey…",
+      "issue": "https://github.com/krizaka/yororis/issues/23"
+    },
+    "mobile.ux-review": {
+      "evidence": null,
+      "gap": "Yororis is a static page in construction mode (no accounts, nothing offered, no mobile, no admin). Every Dev preview criterion about accounts, journey…",
+      "issue": "https://github.com/krizaka/yororis/issues/23"
+    },
+    "quality.ci-green": {
+      "evidence": "https://github.com/krizaka/yororis/actions?query=branch%3Amain",
+      "checked": "2026-10-16"
+    },
+    "quality.tests": {
+      "evidence": "https://github.com/krizaka/yororis/actions?query=branch%3Amain",
+      "checked": "2026-10-16"
+    },
+    "security.alerts": {
+      "evidence": "https://github.com/krizaka/yororis/security",
+      "checked": "2026-10-16"
+    },
+    "docs.current": {
+      "evidence": null,
+      "gap": "Yororis is a static page in construction mode (no accounts, nothing offered, no mobile, no admin). Every Dev preview criterion about accounts, journey…",
+      "issue": "https://github.com/krizaka/yororis/issues/23"
+    },
+    "seo.family": {
+      "evidence": null,
+      "gap": "Yororis is a static page in construction mode (no accounts, nothing offered, no mobile, no admin). Every Dev preview criterion about accounts, journey…",
+      "issue": "https://github.com/krizaka/yororis/issues/23"
+    },
+    "ops.cost": {
+      "evidence": null,
+      "gap": "The organisation's cloud total is ≈ 106 USD/month (> 100 USD target, INFRA-COST 2026-10-16); ops.cost cannot be evidenced for any product until it is …",
+      "issue": "https://github.com/krizaka/.github/issues/79"
+    },
+    "admin.gated": {
+      "na": "No operator console exists: Yororis is a static page in construction mode (no accounts, nothing offered)."
+    },
+    "admin.noindex": {
+      "na": "No operator console exists: Yororis is a static page in construction mode (no accounts, nothing offered)."
+    },
+    "admin.operator-tasks": {
+      "na": "No operator console exists: Yororis is a static page in construction mode (no accounts, nothing offered)."
+    },
+    "admin.audit-log": {
+      "na": "No operator console exists: Yororis is a static page in construction mode (no accounts, nothing offered)."
+    },
+    "admin.shell": {
+      "na": "No operator console exists: Yororis is a static page in construction mode (no accounts, nothing offered)."
+    },
+    "admin.ux-review": {
+      "na": "No operator console exists: Yororis is a static page in construction mode (no accounts, nothing offered)."
+    },
+    "admin.ci": {
+      "na": "No operator console exists: Yororis is a static page in construction mode (no accounts, nothing offered)."
+    }
+  }
+}
