@@ -4,7 +4,7 @@ import { done, fail, requireMember } from "@/lib/http";
 import { limits } from "@/lib/moment-api";
 import { allowance } from "@/lib/moment-policy";
 import { begin, liveOf, takenBy } from "@/lib/moments";
-import { orazaka,OrazakaError } from "@/lib/orazaka";
+import { orazaka,OrazakaError, UPSTREAM_FAILED } from "@/lib/orazaka";
 import { presenceOf } from "@/lib/presences";
 
 const Body = z.object({ presence: z.string(), language: z.enum(["en", "fr"]), agreed: z.literal(true) }).strict();
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
   const presence = body.success ? presenceOf(body.data.presence) : undefined;
   if (!body.success || !presence) return fail(400, "INVALID_PAYLOAD");
   const client = orazaka();
-  if (!client) return fail(503, "AI_UNAVAILABLE");
+  if (!client) return fail(UPSTREAM_FAILED, "AI_UNAVAILABLE");
   if (liveOf(r.member.id)) return fail(409, "MOMENT_OPEN");
   const lim = limits();
   const may = allowance(takenBy(r.member.id), Date.now(), lim);
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
   try {
     await client.installation();
   } catch (e) {
-    return e instanceof OrazakaError ? fail(e.status, e.code) : fail(503, "AI_UNAVAILABLE");
+    return e instanceof OrazakaError ? fail(e.status, e.code) : fail(UPSTREAM_FAILED, "AI_UNAVAILABLE");
   }
   const moment = begin({ memberId: r.member.id, presence: presence.id, language: body.data.language }, lim);
   return done({ moment: { id: moment.id, presence: presence.id, startedAt: new Date(moment.startedAt).toISOString(), endsAt: new Date(moment.endsAt).toISOString() } }, { status: 201 });

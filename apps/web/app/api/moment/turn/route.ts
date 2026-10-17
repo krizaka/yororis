@@ -4,7 +4,7 @@ import { done, fail, isUuid, requireMember } from "@/lib/http";
 import { limits, MAX_AUDIO_BYTES } from "@/lib/moment-api";
 import { isNearlyOver, isOver } from "@/lib/moment-policy";
 import { contextOf, findMoment, finish, MAX_TURNS, remember } from "@/lib/moments";
-import { clipHref, orazaka, OrazakaError, type TurnInput } from "@/lib/orazaka";
+import { clipHref, orazaka, OrazakaError, type TurnInput, UPSTREAM_FAILED } from "@/lib/orazaka";
 import { presenceOf } from "@/lib/presences";
 
 const Text = z.object({ momentId: z.string().refine(isUuid), text: z.string().trim().min(1).max(2000) }).strict();
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
   const now = Date.now();
   if (isOver(moment.startedAt, now, lim) || moment.turns >= MAX_TURNS) return fail(409, "MOMENT_OVER");
   const client = orazaka();
-  if (!client) return fail(503, "AI_UNAVAILABLE");
+  if (!client) return fail(UPSTREAM_FAILED, "AI_UNAVAILABLE");
   if (moment.busy) return fail(429, "RATE_LIMITED");
   const presence = presenceOf(moment.presence);
   if (!presence) return fail(404, "MOMENT_NOT_FOUND");
@@ -69,7 +69,7 @@ export async function POST(req: Request) {
       nearlyOver: isNearlyOver(moment.startedAt, Date.now(), lim),
     });
   } catch (e) {
-    return e instanceof OrazakaError ? fail(e.status, e.code) : fail(503, "AI_UNAVAILABLE");
+    return e instanceof OrazakaError ? fail(e.status, e.code) : fail(UPSTREAM_FAILED, "AI_UNAVAILABLE");
   } finally {
     moment.busy = false;
   }
