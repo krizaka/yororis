@@ -1,4 +1,5 @@
 import crypto from "node:crypto";
+import { promisify } from "node:util";
 
 import { readEnv } from "./env";
 
@@ -31,13 +32,21 @@ export function verify(token: string | undefined, now = Date.now()): string | nu
   }
 }
 
-export function samePassword(given: string): boolean {
-  // Both sides go through a slow key derivation (never a bare hash of a password), then a constant-time comparison.
-  const derive = (value: string) => crypto.scryptSync(value, "member-space-demo", 32);
-  return crypto.timingSafeEqual(derive(given), derive(readEnv().AUTH_DEMO_PASSWORD));
+const scryptAsync = promisify(crypto.scrypt);
+let cachedDemoKey: Buffer | null = null;
+
+export async function samePassword(given: string): Promise<boolean> {
+  if (!cachedDemoKey) {
+    cachedDemoKey = (await scryptAsync(readEnv().AUTH_DEMO_PASSWORD, "member-space-demo", 32)) as Buffer;
+  }
+  const givenKey = (await scryptAsync(given, "member-space-demo", 32)) as Buffer;
+  return crypto.timingSafeEqual(givenKey, cachedDemoKey);
 }
 
-export const cookieHeader = (token: string | null) => `${COOKIE}=${token ?? ""}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${token ? TTL_SECONDS : 0}`;
+export const cookieHeader = (token: string | null) => {
+  const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
+  return `${COOKIE}=${token ?? ""}; Path=/; HttpOnly; SameSite=Lax${secure}; Max-Age=${token ? TTL_SECONDS : 0}`;
+};
 
 
 /** A write must come from this origin (the second lock next to SameSite=Lax). */
