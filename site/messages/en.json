@@ -27,14 +27,14 @@
   "hero": {
     "eyebrow": "Under construction",
     "title": "A listening space with a face and a voice.",
-    "lead": "Some evenings you need to put words on what you carry. Yororis gives you a presence — an AI that says it is one — that listens, reflects back, asks one question, and stops. What you keep is yours. We are building it in the open, and studying its framework before anyone uses it.",
+    "lead": "Some evenings you need to put words on what you carry. Yororis gives you a presence — an AI that says it is one — that listens, asks one question, and stops.",
     "factsLabel": "Where Yororis stands",
     "facts": {
       "status": "Under construction",
       "open": "Open source · Apache-2.0",
       "date": "No date"
     },
-    "explore": "How we're building it"
+    "explore": "How a moment goes"
   },
   "crisis": {
     "label": "In a crisis",
@@ -54,75 +54,35 @@
     "isNotRule": "Not care, not an emergency service, not a person. In a crisis in Canada, call or text 9-8-8 — in Québec, 811 (Info-Social)."
   },
   "what": {
-    "eyebrow": "What it is",
+    "eyebrow": "How a moment goes",
     "title": "A presence that listens, and stops",
-    "lead": "A person opens a moment with a presence: an AI with a first name, an animated portrait carrying a permanent “AI” mark, a voice and exact subtitles. It is meant for organisations first — a wellbeing programme, a professional order, an employer — which set the limits for their members.",
-    "cards": {
-      "presence": {
-        "title": "A presence with a face and a voice",
-        "meta": "an AI, and it says so",
-        "hook": "A clearly synthetic portrait, a voice and exact subtitles — presence comes from timing and attention.",
-        "items": [
-          "It introduces itself as an AI at the start of every moment",
-          "It listens, reflects back, asks one question at a time",
-          "It helps put words on what is being lived"
-        ]
-      },
-      "moment": {
-        "title": "A moment that ends",
-        "meta": "25 min · one a day · three a week",
-        "hook": "A maximum length and a number of moments per day and per week — the limits are the product.",
-        "items": [
-          "Defaults an organisation can lower",
-          "Applied by the server, shown on screen",
-          "Not instead of the people who support you"
-        ]
-      },
-      "keep": {
-        "title": "What I keep",
-        "meta": "a summary that is yours",
-        "hook": "When a moment closes, the transcript is gone. What remains is short, and it is yours.",
-        "items": [
-          "A summary you read, edit or delete",
-          "The thread that carries it into the next moment",
-          "One page to bring to the people who support you"
-        ]
-      }
+    "status": "Under construction",
+    "statusNote": "None of these four steps is available yet. This is what we are building, in order.",
+    "labels": {
+      "done": "Done",
+      "current": "In progress",
+      "upcoming": "Under construction",
+      "error": "Failed"
     },
-    "label": "What it is",
-    "instead": "In short",
-    "expand": "In detail",
-    "stops": {
-      "eyebrow": "Signature",
-      "title": "A presence that stops",
-      "lead": "The limits are not a technical constraint: they are the product. Set by the organisation that offers Yororis, applied by the server, shown on screen.",
-      "decisions": [
-        {
-          "chose": "Up to 25 minutes, one moment a day, three a week — defaults an organisation can lower",
-          "refused": "A presence available around the clock",
-          "because": "Endless availability is what makes these apps hard to put down, and the evening still ends. A moment with an end sends you back to your life and your people.",
-          "cost": "Some evenings you will want more and won't get it. “That's all for today — see you tomorrow from 9 am.”"
-        },
-        {
-          "chose": "A presence that says it is an AI, every moment, with a permanent “AI” mark on a clearly synthetic portrait",
-          "refused": "A face that could pass for a person",
-          "because": "Presence comes from timing, voice and attention — not from fooling anyone. Europe's AI Act asks for it; honesty asks for it everywhere.",
-          "cost": "Less of an illusion. That is the point."
-        },
-        {
-          "chose": "A mood you give yourself, 1 to 5, before and after",
-          "refused": "Reading feelings from your voice or your words",
-          "because": "No model decides how you feel, and nothing is computed about you. It is more honest, and it keeps Yororis clear of reading emotions.",
-          "cost": "No automatic chart of your evenings — only what you said."
-        },
-        {
-          "chose": "No nudge to return, no daily counter, no extra moment for sale",
-          "refused": "Engagement mechanics",
-          "because": "A listening space that wants you back is not listening.",
-          "cost": "Growth we will have to earn another way: through organisations, not attention."
-        }
-      ]
-    }
+    "steps": [
+      {
+        "title": "You arrive",
+        "text": "Your organisation invites you. You read a short statement, confirm your age and choose your language."
+      },
+      {
+        "title": "The presence introduces itself",
+        "text": "It says it is an AI, with a permanent “AI” mark on its portrait. You give your mood yourself, from 1 to 5."
+      },
+      {
+        "title": "You talk, it listens",
+        "text": "It listens, reflects back and asks one question at a time. The time left is always on screen."
+      },
+      {
+        "title": "It stops, you keep a summary",
+        "text": "At the end of the moment the transcript is gone. A short summary remains, yours to read, edit or delete."
+      }
+    ],
+    "lead": "A person opens a moment with a presence: an AI with a first name, an animated portrait carrying a permanent “AI” mark, a voice and exact subtitles. It is meant for organisations first — a wellbeing programme, a professional order, an employer — which set the limits for their members."
   },
   "how": {
     "eyebrow": "In the open",
@@ -188,22 +148,31 @@
       "title": "The member space, in development",
       "lead": "A first look at the space we are building for the people of an organisation: a calm home, an account, and the members. It runs on our own computers with a fictional cast. It is not available.",
       "status": "In development, not available",
-      "desktop": "Computer, dark",
       "phone": "Phone, light",
       "note": "Screenshots of the local build. Nothing here can be opened, joined or downloaded.",
       "shots": {
         "home": {
           "label": "Home",
-          "alt": "The member space’s home: a presence that stops, your moments, what I keep, the thread, my notebook — each empty, and the lines to call."
+          "alt": "The member space’s home: a presence that stops, your moments, what I keep, the thread, my notebook — each empty, and the lines to call.",
+          "line": "A calm home: the presence that stops, your moments, what you keep."
         },
         "account": {
           "label": "Account",
-          "alt": "The account: profile, display choices, consent, what to bring, deletion."
+          "alt": "The account: profile, display choices, consent, what to bring, deletion.",
+          "line": "The account: profile, display choices, consent, deletion."
         },
         "members": {
           "label": "Members",
-          "alt": "The organisation’s members: a searchable, filterable list with each member’s status."
+          "alt": "The organisation’s members: a searchable, filterable list with each member’s status.",
+          "line": "For an organiser: the members, never what they say or keep."
         }
+      },
+      "player": {
+        "label": "The member space on a phone, three screens",
+        "play": "Play the screens",
+        "pause": "Pause the screens",
+        "step": "Screen {n} of {total}",
+        "title": "yororis · local build"
       }
     },
     "crane": "The crane listens"
@@ -212,7 +181,57 @@
     "title": "What Yororis is not",
     "lead": "Said once, plainly, so that nobody has to guess.",
     "falcon": "The falcon keeps watch",
-    "powered": "Its AI will run on Orazaka's wellbeing pack."
+    "powered": "Its AI will run on Orazaka's wellbeing pack.",
+    "stops": {
+      "eyebrow": "Signature",
+      "title": "A presence that stops",
+      "lead": "The limits are not a technical constraint: they are the product. Set by the organisation that offers Yororis, applied by the server, shown on screen.",
+      "decisions": [
+        {
+          "chose": "Up to 25 minutes, one moment a day, three a week — defaults an organisation can lower",
+          "refused": "A presence available around the clock",
+          "because": "Endless availability is what makes these apps hard to put down, and the evening still ends. A moment with an end sends you back to your life and your people.",
+          "cost": "Some evenings you will want more and won't get it. “That's all for today — see you tomorrow from 9 am.”"
+        },
+        {
+          "chose": "A presence that says it is an AI, every moment, with a permanent “AI” mark on a clearly synthetic portrait",
+          "refused": "A face that could pass for a person",
+          "because": "Presence comes from timing, voice and attention — not from fooling anyone. Europe's AI Act asks for it; honesty asks for it everywhere.",
+          "cost": "Less of an illusion. That is the point."
+        },
+        {
+          "chose": "A mood you give yourself, 1 to 5, before and after",
+          "refused": "Reading feelings from your voice or your words",
+          "because": "No model decides how you feel, and nothing is computed about you. It is more honest, and it keeps Yororis clear of reading emotions.",
+          "cost": "No automatic chart of your evenings — only what you said."
+        },
+        {
+          "chose": "No nudge to return, no daily counter, no extra moment for sale",
+          "refused": "Engagement mechanics",
+          "because": "A listening space that wants you back is not listening.",
+          "cost": "Growth we will have to earn another way: through organisations, not attention."
+        }
+      ]
+    },
+    "privacy": {
+      "eyebrow": "What is kept",
+      "title": "What is kept, for how long, who reads it",
+      "lead": "Short answers, taken from the guardrails already written and reviewed.",
+      "items": [
+        {
+          "q": "What is kept",
+          "a": "A short summary of each moment, yours to read, edit or delete. The transcript is destroyed when the summary is made."
+        },
+        {
+          "q": "For how long",
+          "a": "Retention is short: 30 days, shorter on request. Everything is encrypted and every access is recorded."
+        },
+        {
+          "q": "Who reads it",
+          "a": "You. The organisation that offers Yororis sees aggregate statistics only, never what anyone says or keeps."
+        }
+      ]
+    }
   },
   "cta": {
     "title": "Talk to us about Yororis",

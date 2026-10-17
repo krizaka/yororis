@@ -27,14 +27,14 @@
   "hero": {
     "eyebrow": "En construction",
     "title": "Un espace d'écoute avec un visage et une voix.",
-    "lead": "Certains soirs, on a besoin de mettre des mots sur ce qu'on porte. Yororis vous donne une présence — une IA qui le dit — qui écoute, reformule, pose une question, et s'arrête. Ce que vous gardez est à vous. Nous le construisons en public, et nous étudions son cadre avant que quiconque l'utilise.",
+    "lead": "Certains soirs, on a besoin de mettre des mots sur ce qu'on porte. Yororis vous donne une présence — une IA qui le dit — qui écoute, pose une question, et s'arrête.",
     "factsLabel": "Où en est Yororis",
     "facts": {
       "status": "En construction",
       "open": "Open source · Apache-2.0",
       "date": "Pas de date"
     },
-    "explore": "Comment on le construit"
+    "explore": "Comment se passe un moment"
   },
   "crisis": {
     "label": "En cas de crise",
@@ -54,75 +54,35 @@
     "isNotRule": "Pas un soin, pas un service d'urgence, pas une personne. En cas de crise au Canada, appelez ou textez le 9-8-8 — au Québec, le 811 (Info-Social)."
   },
   "what": {
-    "eyebrow": "Ce que c'est",
+    "eyebrow": "Comment se passe un moment",
     "title": "Une présence qui écoute, et qui s'arrête",
-    "lead": "Une personne ouvre un moment avec une présence : une IA qui a un prénom, un portrait animé portant une marque « IA » permanente, une voix et des sous-titres exacts. Elle est pensée d'abord pour les organisations — un programme de mieux-être, un ordre professionnel, un employeur — qui fixent les limites pour leurs membres.",
-    "cards": {
-      "presence": {
-        "title": "Une présence avec un visage et une voix",
-        "meta": "une IA, et elle le dit",
-        "hook": "Un portrait clairement synthétique, une voix et des sous-titres exacts — la présence vient du rythme et de l'attention.",
-        "items": [
-          "Elle se présente comme une IA au début de chaque moment",
-          "Elle écoute, reformule, pose une question à la fois",
-          "Elle aide à mettre des mots sur ce qui se vit"
-        ]
-      },
-      "moment": {
-        "title": "Un moment qui finit",
-        "meta": "25 min · un par jour · trois par semaine",
-        "hook": "Une durée maximale et un nombre de moments par jour et par semaine — les limites sont le produit.",
-        "items": [
-          "Des valeurs par défaut qu'une organisation peut baisser",
-          "Appliquées par le serveur, affichées à l'écran",
-          "Pas à la place des personnes qui vous soutiennent"
-        ]
-      },
-      "keep": {
-        "title": "Ce que je garde",
-        "meta": "un résumé qui est à vous",
-        "hook": "À la fermeture du moment, la transcription disparaît. Ce qui reste est court, et c'est à vous.",
-        "items": [
-          "Un résumé que vous lisez, modifiez ou supprimez",
-          "Le fil qui le porte jusqu'au moment suivant",
-          "Une page à apporter aux personnes qui vous soutiennent"
-        ]
-      }
+    "status": "En construction",
+    "statusNote": "Aucune de ces quatre étapes n'est encore disponible. Voici ce que nous construisons, dans l'ordre.",
+    "labels": {
+      "done": "Terminé",
+      "current": "En cours",
+      "upcoming": "En construction",
+      "error": "Échec"
     },
-    "label": "Ce que c'est",
-    "instead": "En bref",
-    "expand": "En détail",
-    "stops": {
-      "eyebrow": "Signature",
-      "title": "Une présence qui s'arrête",
-      "lead": "Les limites ne sont pas une contrainte technique : ce sont le produit. Fixées par l'organisation qui offre Yororis, appliquées par le serveur, affichées à l'écran.",
-      "decisions": [
-        {
-          "chose": "Jusqu'à 25 minutes, un moment par jour, trois par semaine — des valeurs par défaut qu'une organisation peut abaisser",
-          "refused": "Une présence disponible jour et nuit",
-          "because": "La disponibilité sans fin est ce qui rend ces apps difficiles à lâcher, et la soirée finit quand même. Un moment qui a une fin vous renvoie à votre vie et à vos proches.",
-          "cost": "Certains soirs, vous en voudrez plus et ne l'aurez pas. « C'est tout pour aujourd'hui. On se retrouve demain à partir de 9 h. »"
-        },
-        {
-          "chose": "Une présence qui dit qu'elle est une IA, à chaque moment, avec une marque « IA » permanente sur un portrait clairement synthétique",
-          "refused": "Un visage qui pourrait passer pour une personne",
-          "because": "La présence vient du rythme, de la voix et de l'attention — pas d'une illusion. Le règlement européen sur l'IA l'exige ; l'honnêteté l'exige partout.",
-          "cost": "Moins d'illusion. C'est voulu."
-        },
-        {
-          "chose": "Une humeur que vous indiquez vous-même, de 1 à 5, avant et après",
-          "refused": "Lire vos sentiments dans votre voix ou vos mots",
-          "because": "Aucun modèle ne décide de ce que vous ressentez, et rien n'est calculé sur vous. C'est plus honnête, et Yororis ne lit pas les émotions.",
-          "cost": "Aucun graphique automatique de vos soirées — seulement ce que vous avez dit."
-        },
-        {
-          "chose": "Aucune incitation à revenir, aucun compteur de jours, aucun moment de plus à vendre",
-          "refused": "Les mécaniques d'engagement",
-          "because": "Un espace d'écoute qui veut vous voir revenir n'écoute pas.",
-          "cost": "Une croissance à gagner autrement : par les organisations, pas par l'attention."
-        }
-      ]
-    }
+    "steps": [
+      {
+        "title": "Vous arrivez",
+        "text": "Votre organisation vous invite. Vous lisez un court énoncé, confirmez votre âge et choisissez votre langue."
+      },
+      {
+        "title": "La présence se présente",
+        "text": "Elle dit qu'elle est une IA, avec une marque « IA » permanente sur son portrait. Vous donnez vous-même votre humeur, de 1 à 5."
+      },
+      {
+        "title": "Vous parlez, elle écoute",
+        "text": "Elle écoute, reformule et pose une question à la fois. Le temps qui reste est toujours à l'écran."
+      },
+      {
+        "title": "Elle s'arrête, vous gardez un résumé",
+        "text": "À la fin du moment, la transcription disparaît. Il reste un court résumé, à vous de le lire, le modifier ou le supprimer."
+      }
+    ],
+    "lead": "Une personne ouvre un moment avec une présence : une IA qui a un prénom, un portrait animé portant une marque « IA » permanente, une voix et des sous-titres exacts. Elle est pensée d'abord pour les organisations — un programme de mieux-être, un ordre professionnel, un employeur — qui fixent les limites pour leurs membres."
   },
   "how": {
     "eyebrow": "En public",
@@ -188,22 +148,31 @@
       "title": "L’espace membre, en développement",
       "lead": "Un premier regard sur l’espace que nous construisons pour les personnes d’une organisation : un accueil calme, un compte, et les membres. Il tourne sur nos propres ordinateurs avec un cast fictif. Il n’est pas disponible.",
       "status": "En développement, non disponible",
-      "desktop": "Ordinateur, sombre",
       "phone": "Téléphone, clair",
       "note": "Captures de la version locale. Rien ici ne peut être ouvert, rejoint ni téléchargé.",
       "shots": {
         "home": {
           "label": "Accueil",
-          "alt": "L’accueil de l’espace membre : une présence qui s’arrête, tes moments, ce que je garde, le fil, mon carnet — chacun vide, et les lignes à appeler."
+          "alt": "L’accueil de l’espace membre : une présence qui s’arrête, vos moments, ce que je garde, le fil, mon carnet — chacun vide, et les lignes à appeler.",
+          "line": "Un accueil calme : la présence qui s’arrête, vos moments, ce que vous gardez."
         },
         "account": {
           "label": "Compte",
-          "alt": "Le compte : profil, choix d’affichage, consentement, ce qu’on apporte, suppression."
+          "alt": "Le compte : profil, choix d’affichage, consentement, ce qu’on apporte, suppression.",
+          "line": "Le compte : profil, affichage, consentement, suppression."
         },
         "members": {
           "label": "Membres",
-          "alt": "Les membres de l’organisation : une liste où chercher et filtrer, avec le statut de chaque membre."
+          "alt": "Les membres de l’organisation : une liste où chercher et filtrer, avec le statut de chaque membre.",
+          "line": "Pour une personne qui organise : les membres, jamais ce qu’ils disent ou gardent."
         }
+      },
+      "player": {
+        "label": "L’espace membre sur un téléphone, trois écrans",
+        "play": "Lire les écrans",
+        "pause": "Mettre les écrans en pause",
+        "step": "Écran {n} sur {total}",
+        "title": "yororis · version locale"
       }
     },
     "crane": "La grue écoute"
@@ -212,7 +181,57 @@
     "title": "Ce que Yororis n'est pas",
     "lead": "Dit une fois, clairement, pour que personne n'ait à deviner.",
     "falcon": "Le faucon veille",
-    "powered": "Son IA passera par le pack bien-être d'Orazaka."
+    "powered": "Son IA passera par le pack bien-être d'Orazaka.",
+    "stops": {
+      "eyebrow": "Signature",
+      "title": "Une présence qui s'arrête",
+      "lead": "Les limites ne sont pas une contrainte technique : ce sont le produit. Fixées par l'organisation qui offre Yororis, appliquées par le serveur, affichées à l'écran.",
+      "decisions": [
+        {
+          "chose": "Jusqu'à 25 minutes, un moment par jour, trois par semaine — des valeurs par défaut qu'une organisation peut abaisser",
+          "refused": "Une présence disponible jour et nuit",
+          "because": "La disponibilité sans fin est ce qui rend ces apps difficiles à lâcher, et la soirée finit quand même. Un moment qui a une fin vous renvoie à votre vie et à vos proches.",
+          "cost": "Certains soirs, vous en voudrez plus et ne l'aurez pas. « C'est tout pour aujourd'hui. On se retrouve demain à partir de 9 h. »"
+        },
+        {
+          "chose": "Une présence qui dit qu'elle est une IA, à chaque moment, avec une marque « IA » permanente sur un portrait clairement synthétique",
+          "refused": "Un visage qui pourrait passer pour une personne",
+          "because": "La présence vient du rythme, de la voix et de l'attention — pas d'une illusion. Le règlement européen sur l'IA l'exige ; l'honnêteté l'exige partout.",
+          "cost": "Moins d'illusion. C'est voulu."
+        },
+        {
+          "chose": "Une humeur que vous indiquez vous-même, de 1 à 5, avant et après",
+          "refused": "Lire vos sentiments dans votre voix ou vos mots",
+          "because": "Aucun modèle ne décide de ce que vous ressentez, et rien n'est calculé sur vous. C'est plus honnête, et Yororis ne lit pas les émotions.",
+          "cost": "Aucun graphique automatique de vos soirées — seulement ce que vous avez dit."
+        },
+        {
+          "chose": "Aucune incitation à revenir, aucun compteur de jours, aucun moment de plus à vendre",
+          "refused": "Les mécaniques d'engagement",
+          "because": "Un espace d'écoute qui veut vous voir revenir n'écoute pas.",
+          "cost": "Une croissance à gagner autrement : par les organisations, pas par l'attention."
+        }
+      ]
+    },
+    "privacy": {
+      "eyebrow": "Ce qui est gardé",
+      "title": "Ce qui est gardé, combien de temps, qui le lit",
+      "lead": "Des réponses courtes, tirées des garde-fous déjà écrits et relus.",
+      "items": [
+        {
+          "q": "Ce qui est gardé",
+          "a": "Un court résumé de chaque moment, à vous de le lire, le modifier ou le supprimer. La transcription est détruite quand le résumé est fait."
+        },
+        {
+          "q": "Combien de temps",
+          "a": "La rétention est courte : 30 jours, moins sur demande. Tout est chiffré et chaque accès est consigné."
+        },
+        {
+          "q": "Qui le lit",
+          "a": "Vous. L'organisation qui offre Yororis ne voit que des statistiques agrégées, jamais ce que quelqu'un dit ou garde."
+        }
+      ]
+    }
   },
   "cta": {
     "title": "Discuter de Yororis",
