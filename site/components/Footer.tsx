@@ -15,19 +15,18 @@ export function Footer({ locale, m, crisis, version, ui, devNotice }: { locale: 
       labels={familyLabels[locale]}
       aria-label={m.nav}
       env="dev"
-      legal={
-        <>
-          <SiteFooter.Link href={`${locale === "en" ? "" : "/fr"}/changelog/#${version}`}>
-            {getMessages(locale).changelogPage.footerVersion.replace("{version}", version)}
-            {ui ? ` · Krizaka UI ${ui}` : ""}
-          </SiteFooter.Link>
-          {devNotice ? <span data-testid="dev-environment-notice">{devNotice}</span> : undefined}
-        </>
-      }
+      version={version}
+      legal={devNotice ? <span data-testid="dev-environment-notice">{devNotice}</span> : undefined}
     >
       <SiteFooter.Column title={crisis.label}>
         <SiteFooter.Link href="tel:988">9-8-8</SiteFooter.Link>
         <SiteFooter.Link href="tel:811">{crisis.quebecName}</SiteFooter.Link>
+      </SiteFooter.Column>
+      <SiteFooter.Column title={getMessages(locale).changelogPage.eyebrow}>
+        <SiteFooter.Link href={`${locale === "en" ? "" : "/fr"}/changelog/#${version}`}>
+          {getMessages(locale).changelogPage.footerVersion.replace("{version}", version)}
+          {ui ? ` · Krizaka UI ${ui}` : ""}
+        </SiteFooter.Link>
       </SiteFooter.Column>
     </SiteFooter>
   );
