@@ -2,7 +2,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { NodeType, parse } from "node-html-parser";
@@ -152,7 +152,7 @@ test("the bar and the footer are those of an independent product: DEV badge, no 
   assert.ok(!bar.includes("NavBar.Family"), "no family switcher, desktop or phone");
   assert.match(bar, /<NavBar\.Badge env="dev" version=/);
   assert.match(bar, /<NavBar\.Repo /);
-  assert.match(readFileSync(join(root, "components/Footer.tsx"), "utf8"), /<SiteFooter current="yororis" family=\{false\}[^>]*env="dev"/);
+  assert.match(readFileSync(join(root, "components/Footer.tsx"), "utf8"), /<SiteFooter\s+current="yororis"\s+family=\{false\}[^>]*env="dev"/);
   for (const l of ["en", "fr"]) assert.match(textOf(l), /dev · v\d+\.\d+\.\d+/, `${l}: the dev badge and the version are on the page`);
 });
 
@@ -184,5 +184,38 @@ test("independent: no built file names another product's domain, no family switc
   for (const l of ["en", "fr"]) {
     assert.ok(!raw(l).includes(familyLabels[l].family), `${l}: no “${familyLabels[l].family}” navigation`);
     assert.ok(raw(l).includes(`>${familyLabels[l].signature.product}<`), `${l}: the publisher line stays`);
+  }
+});
+
+// One footer, one contentinfo: the shell renders the footer once, after the page, and nothing else renders a footer or a strip under it.
+test("one footer: the shell renders it once after the children; no <footer> and no separate dev strip", () => {
+  const shell = readFileSync(join(root, "components/Shell.tsx"), "utf8");
+  assert.equal(shell.match(/<Footer /g)?.length, 1);
+  assert.ok(shell.indexOf("{children}") < shell.indexOf("<Footer "));
+  const footer = readFileSync(join(root, "components/Footer.tsx"), "utf8");
+  assert.doesNotMatch(footer, /<footer\b/);
+  assert.match(footer, /legal=\{devNotice \?/);
+  assert.doesNotMatch(footer, /<\/SiteFooter>\s*\{devNotice/);
+  const offenders = [];
+  const walk = (dir) => {
+    for (const name of readdirSync(join(root, dir))) {
+      const rel = `${dir}/${name}`;
+      if (statSync(join(root, rel)).isDirectory()) walk(rel);
+      else if (/\.tsx$/.test(rel) && rel !== "components/Footer.tsx" && /<footer\b|<SiteFooter\b/.test(readFileSync(join(root, rel), "utf8"))) offenders.push(rel);
+    }
+  };
+  walk("app");
+  walk("components");
+  assert.deepEqual(offenders, []);
+});
+
+// ...and in the built pages: a single footer landmark (not inside <main>), the dev line inside it, in both languages.
+test("built pages: exactly one contentinfo, outside main, with the dev line inside it", () => {
+  for (const l of ["en", "fr"]) {
+    const root_ = dom(l);
+    const footers = root_.querySelectorAll("footer");
+    assert.equal(footers.length, 1, `${l}: one footer`);
+    assert.equal(root_.querySelectorAll("main footer").length, 0, `${l}: the footer is outside main`);
+    assert.ok(footers[0].querySelector('[data-testid="dev-environment-notice"]') || !raw(l).includes("dev-environment-notice"), `${l}: the dev line is inside the footer`);
   }
 });
