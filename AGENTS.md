@@ -69,6 +69,8 @@ product, §4 architecture) is the source of truth. Its rules already apply:
    `NEXT_PUBLIC_` / `EXPO_PUBLIC_` only where the framework requires it, then the context. One typed env module per app
    (zod), fail-closed in production, its table generated into the docs. `scripts/check-construction.mjs` refuses a
    product- or vendor-prefixed variable name.
+6. **No mobile app in the QA Dev preview** (decision of 2026-10-17): the web app is phone-first (checked at 360 px by `npm run test:e2e`); a native app comes after
+   the lawyer review, in this repository (`apps/mobile`), never as a separate `yororis-mobile`.
 6. **No test, not done.** Every feature and every fix ships with its tests (unit for logic, end-to-end for a route or a
    flow, a render test for a component); a fix starts with a failing test that reproduces the bug. CI runs them and
    must be green.

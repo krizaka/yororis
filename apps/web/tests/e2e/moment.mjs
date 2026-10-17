@@ -75,13 +75,18 @@ const env = {
 };
 // E2E_DEV=1 runs against `next dev` (no build needed, slower first loads); CI and the default use the production build.
 const dev = process.env.E2E_DEV === "1";
-const server = spawn("npx", ["next", dev ? "dev" : "start", "-H", "127.0.0.1", "-p", "3400"], { env: dev ? { ...env, NODE_ENV: "development" } : env, stdio: "ignore" });
+const server = spawn("npx", ["next", dev ? "dev" : "start", "-H", "127.0.0.1", "-p", "3400"], { env: dev ? { ...env, NODE_ENV: "development" } : env, stdio: "ignore", detached: true });
 setTimeout(() => {
   console.log("watchdog: the run took more than 5 minutes");
   process.exit(2);
 }, 300_000).unref();
 const stop = () => {
-  server.kill();
+  // The whole group: `npx` starts the server as its child, and a stale server would hold the port for the next run.
+  try {
+    process.kill(-server.pid);
+  } catch {
+    server.kill();
+  }
   edge.close();
 };
 process.on("exit", stop);
