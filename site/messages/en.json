@@ -205,11 +205,14 @@
           "alt": "The organisation’s members: a searchable, filterable list with each member’s status."
         }
       }
-    }
+    },
+    "crane": "The crane listens"
   },
   "not": {
     "title": "What Yororis is not",
-    "lead": "Said once, plainly, so that nobody has to guess."
+    "lead": "Said once, plainly, so that nobody has to guess.",
+    "falcon": "The falcon keeps watch",
+    "powered": "Its AI will run on Orazaka's wellbeing pack."
   },
   "cta": {
     "title": "Talk to us about Yororis",
@@ -229,5 +232,6 @@
     "label": "What moved this week",
     "lead": "Merged into the repository in the last seven days: the construction, in the open. Titles only.",
     "empty": "Nothing merged this week. The construction goes on."
-  }
+  },
+  "dateLocale": "en-CA"
 }
