@@ -9,6 +9,7 @@ import { siteJsonLd } from "@/lib/jsonld";
 import { indexable } from "@/lib/indexing";
 import { ORIGIN } from "@/lib/site";
 import { Bar } from "./Bar";
+import { uiVersion } from "@/lib/platform";
 import { version } from "@/lib/version";
 import { Footer } from "./Footer";
 import { Providers } from "./Providers";
@@ -52,7 +53,7 @@ export function Shell({ locale, children }: { locale: Locale; children: ReactNod
           <SkipLink href="#main">{m.bar.skip}</SkipLink>
           <Bar m={m.bar} locale={locale} home={homePath(locale)} otherHref={m.otherHref} otherLabel={m.otherLabel} other={m.other} />
           {children}
-          <Footer locale={locale} m={m.footer} crisis={m.crisis} version={version()} devNotice={indexable() ? undefined : m.footer.devNotice} />
+          <Footer locale={locale} m={m.footer} crisis={m.crisis} version={version()} ui={uiVersion()} devNotice={indexable() ? undefined : m.footer.devNotice} />
         </Providers>
       </body>
     </html>
