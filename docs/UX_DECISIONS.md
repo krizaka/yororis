@@ -29,4 +29,13 @@ One entry per notable choice: the decision, the problem, the principle (with its
 - **Cost.** One extra tap before the first moment.
 - **Signal that we are wrong.** People tick without reading (QA sessions are watched for it) — then the text is too long or too late.
 
+## 4. Voice: hold to talk, captions always, the voice can be turned off
+
+- **Decision.** The microphone opens only while the person holds the button (or holds Space or Enter on it) and closes the moment they let go, or after 30 seconds. What the presence says is also written, sentence by sentence, in the conversation, whether or not the sound is on; « Voice on / Voice off » turns only the sound. While the presence speaks, a waveform follows the real signal. A recording shorter than half a second is ignored with a gentle note.
+- **Problem.** An open microphone is a surveillance feeling in a conversation about one's life; a voice with no text excludes people who cannot or do not want to listen, and a spoken answer cannot be re-read.
+- **Principle.** Privacy by design, nothing on by default (Cavoukian, 2009); captions for live audio and a way to pause or stop audio that plays (WCAG 2.2, criteria 1.2.4 Captions (Live) and 1.4.2 Audio Control).
+- **Refused.** Always-listening and voice-activity detection (the browser would hear what was not meant for it); autoplaying without a gesture; a spoken answer with no text.
+- **Cost.** Holding a button is less fluid than talking; a browser that cannot record in WebM or Ogg/Opus is told so and offered the keyboard.
+- **Signal that we are wrong.** QA notes that holding is tiring on a phone, or that the cut at 30 seconds interrupts a thought — then a tap-to-start, tap-to-stop mode with the same visible state is the alternative.
+
 The text on this screen is **not yet reviewed by a lawyer** (krizaka/.github#40); the Moment is for the QA accounts only until it is.

@@ -15,6 +15,26 @@ const EDGE_PORT = 4010;
 const CRISIS_TEXT = "Je m'arrête là, parce que ce que vous venez d'écrire compte plus que l'exercice en cours. Des personnes formées écoutent, gratuitement et tout de suite :";
 const RESOURCE = { region: "CA-QC", label: "Ligne québécoise de prévention du suicide", contact: "1 866 APPELLE", availability: "En tout temps", sourceUrl: "https://www.quebec.ca/", verifiedOn: "2026-10-11" };
 const CRISIS_CUES = ["envie de mourir", "kill myself"];
+const CLIP = `/api/v1/voice/clips/3f2a9c1e-7b1d-4c55-9a0e-0123456789ab?expires=${Math.floor(Date.now() / 1000) + 300}&signature=e2e0123456789abcdefABCDEF_-`;
+/** A short sine, 16 kHz mono 16-bit: the stand-in for a spoken sentence. */
+function wav(ms = 900) {
+  const n = Math.floor((16000 * ms) / 1000);
+  const buf = Buffer.alloc(44 + n * 2);
+  buf.write("RIFF", 0);
+  buf.writeUInt32LE(36 + n * 2, 4);
+  buf.write("WAVEfmt ", 8);
+  buf.writeUInt32LE(16, 16);
+  buf.writeUInt16LE(1, 20);
+  buf.writeUInt16LE(1, 22);
+  buf.writeUInt32LE(16000, 24);
+  buf.writeUInt32LE(32000, 28);
+  buf.writeUInt16LE(2, 32);
+  buf.writeUInt16LE(16, 34);
+  buf.write("data", 36);
+  buf.writeUInt32LE(n * 2, 40);
+  for (let i = 0; i < n; i++) buf.writeInt16LE(Math.round(Math.sin((2 * Math.PI * 330 * i) / 16000) * 9000 * (0.6 + 0.4 * Math.sin(i / 900))), 44 + i * 2);
+  return buf;
+}
 const sse = (events) => events.map(([name, data]) => `event: ${name}\ndata: ${JSON.stringify(data)}\n\n`).join("");
 
 // The stand-in edge: installs once, and answers a turn like the voice turn does (sentences, or the fixed reply on a cue).
@@ -24,10 +44,17 @@ const edge = http.createServer(async (req, res) => {
   const body = Buffer.concat(chunks).toString("utf8");
   if (req.url === "/api/v1/studios/installations") return res.writeHead(200, { "content-type": "application/json" }).end("[]");
   if (req.url.startsWith("/api/v1/studios/")) return res.writeHead(201, { "content-type": "application/json" }).end(JSON.stringify({ id: "inst-e2e" }));
+  if (req.url.startsWith("/api/v1/voice/clips/")) return res.writeHead(200, { "content-type": "audio/wav" }).end(wav());
   if (req.url === "/api/v1/voice/turns") {
+    const spoken = body.includes('name="audio"');
     const cue = CRISIS_CUES.some((c) => body.toLowerCase().includes(c));
     res.writeHead(200, { "content-type": "text/event-stream" });
-    return res.end(cue ? sse([["safety.crisis", { response: "r", resource: RESOURCE, text: CRISIS_TEXT }], ["done", {}]]) : sse([["sentence", { index: 0, text: "I hear you." }], ["sentence", { index: 1, text: "What weighs the most right now?" }], ["done", {}]]));
+    const heard = spoken ? [["transcript", { text: "I spoke out loud tonight", seconds: 1 }]] : [];
+    return res.end(
+      cue
+        ? sse([["safety.crisis", { response: "r", resource: RESOURCE, text: CRISIS_TEXT }], ["done", {}]])
+        : sse([...heard, ["sentence", { index: 0, text: "I hear you.", audio: { url: CLIP, durationMs: 900 } }], ["sentence", { index: 1, text: "What weighs the most right now?", audio: { url: CLIP, durationMs: 900 } }], ["done", {}]]),
+    );
   }
   res.writeHead(404).end();
 });
@@ -44,7 +71,9 @@ const env = {
   APP_MOMENTS_PER_DAY: "20",
   APP_MOMENTS_PER_WEEK: "50",
 };
-const server = spawn("npx", ["next", "start", "-H", "127.0.0.1", "-p", "3400"], { env, stdio: "ignore" });
+// E2E_DEV=1 runs against `next dev` (no build needed, slower first loads); CI and the default use the production build.
+const dev = process.env.E2E_DEV === "1";
+const server = spawn("npx", ["next", dev ? "dev" : "start", "-H", "127.0.0.1", "-p", "3400"], { env: dev ? { ...env, NODE_ENV: "development" } : env, stdio: "ignore" });
 setTimeout(() => {
   console.log("watchdog: the run took more than 5 minutes");
   process.exit(2);
@@ -54,12 +83,12 @@ const stop = () => {
   edge.close();
 };
 process.on("exit", stop);
-for (let i = 0; i < 60; i++) {
+for (let i = 0; i < 120; i++) {
   if (await fetch(`${APP}/en/sign-in`).then((r) => r.ok, () => false)) break;
   await sleep(500);
 }
 
-const browser = await chromium.launch();
+const browser = await chromium.launch({ args: ["--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream", "--autoplay-policy=no-user-gesture-required"] });
 const shots = process.env.E2E_SHOTS;
 if (shots) mkdirSync(shots, { recursive: true });
 let failed = 0;
@@ -79,10 +108,14 @@ const step = async (name, fn) => {
   }
 };
 
+// Each context signs in as the next member of the fictional cast: sign-in is rate limited per address (10 tries), and a moment is per member.
+const CAST = ["marie-eve", "samir", "jordan", "camille", "noor", "etienne", "lina", "theo"].map((n) => `${n}@demo.yororis.test`);
+let signIns = 0;
+
 async function open(viewport, scheme, locale = "en") {
-  const context = await browser.newContext({ viewport, colorScheme: scheme, locale });
-  context.setDefaultTimeout(15_000);
-  const login = await context.request.post(`${APP}/api/auth/password`, { data: { email: "marie-eve@demo.yororis.test", password: "e2e-demo-password" }, headers: { origin: APP } });
+  const context = await browser.newContext({ viewport, colorScheme: scheme, locale, permissions: ["microphone"] });
+  context.setDefaultTimeout(process.env.E2E_DEV === "1" ? 40_000 : 15_000);
+  const login = await context.request.post(`${APP}/api/auth/password`, { data: { email: CAST[signIns++ % CAST.length], password: "e2e-demo-password" }, headers: { origin: APP } });
   assert.equal(login.status(), 200);
   // The cookie is Secure in production (tested in api.test.mjs); this run is plain http on 127.0.0.1, so it is set by hand.
   const value = /yororis_auth=([^;]+)/.exec(login.headers()["set-cookie"] ?? "")?.[1];
@@ -157,6 +190,42 @@ for (const [device, viewport] of Object.entries(VIEWPORTS)) {
       await context.close();
     });
   }
+}
+
+for (const [device, viewport] of Object.entries(VIEWPORTS)) {
+  await step(`${device}: hold to talk, the words are captioned, the presence answers aloud, and the voice can be turned off`, async () => {
+    const { context, page } = await open(viewport, "dark");
+    await page.getByText("Noor", { exact: true }).first().click();
+    await page.getByRole("checkbox").click();
+    await page.getByRole("button", { name: /Begin a moment with Noor/ }).click();
+    await page.getByRole("log").waitFor();
+    const talk = page.getByTestId("hold-to-talk");
+    await talk.waitFor();
+    await assertLinesVisible(page, viewport, `with the microphone button (${device})`);
+    const box = await talk.boundingBox();
+    assert.ok(box && box.x >= 0 && box.x + box.width <= viewport.width, "the talk button is cut at the side");
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.down();
+    await page.getByText(/Listening… let go to send/).waitFor();
+    await page.waitForTimeout(1200);
+    await page.mouse.up();
+    await page.getByText("I spoke out loud tonight").waitFor();
+    await page.getByText("What weighs the most right now?").waitFor();
+    await page.waitForFunction(() => document.querySelector('[data-testid="voice-line"]')?.getAttribute("data-speaking") === "true", null, { timeout: 8000 });
+    if (shots) await page.screenshot({ path: `${shots}/speaking-${device}.png` });
+    await page.waitForFunction(() => document.querySelector('[data-testid="voice-line"]')?.getAttribute("data-speaking") === "false", null, { timeout: 12000 });
+    // Voice off: the captions and the answer stay, the sound does not.
+    await page.getByRole("button", { name: "Voice on" }).click();
+    await page.getByRole("button", { name: "Voice off" }).waitFor();
+    await page.getByPlaceholder("Say what is on your mind").fill("And one more thing");
+    await page.keyboard.press("Enter");
+    await page.getByText("And one more thing").waitFor();
+    await page.waitForTimeout(1500);
+    assert.equal(await page.getByTestId("voice-line").getAttribute("data-speaking"), "false", "the voice is off");
+    await assertLinesVisible(page, viewport, `after speaking (${device})`);
+    await page.getByRole("button", { name: "End this moment" }).click();
+    await context.close();
+  });
 }
 
 await step("french: the lines read « Besoin d'aide maintenant ? » and « Appeler le 9-8-8 » at 360 px", async () => {
