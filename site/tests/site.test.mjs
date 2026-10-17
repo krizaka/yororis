@@ -162,20 +162,54 @@ test("the bar and the footer are those of an independent product: no version chi
 });
 
 // The member space is shown ONLY as pictures — hashed files on the CDN, never in the repository — each labelled "in
-// development, not available" (AGENTS.md, "The member-space exception"). No link, no button, no form leads to it.
+// development, not available" (AGENTS.md, "The member-space exception"), in one phone frame (StepShowcase). No link, no form leads to it.
 for (const l of ["en", "fr"]) {
-  test(`the member space appears as labelled screenshots only (${l})`, () => {
+  test(`the member space appears as labelled phone screenshots only (${l})`, () => {
     const root = dom(l);
-    const imgs = root.querySelectorAll("img.yo-shot-desktop, img.yo-shot-phone");
-    assert.equal(imgs.length, 6, "three screens, computer and phone");
+    const imgs = root.querySelectorAll('[data-device="phone"] img');
+    assert.equal(imgs.length, 3, "three real screens in one phone frame");
     for (const img of imgs) {
-      assert.match(img.getAttribute("src"), /^https:\/\/krizaka-assets\.b-cdn\.net\/site\/products\/yororis\/gallery\/[a-z-]+\.[0-9a-f]{10}\.webp$/, "a hashed CDN file");
-      assert.ok((img.getAttribute("alt") ?? "").length > 20, "a real alt text");
+      assert.match(img.getAttribute("src"), /^https:\/\/krizaka-assets\.b-cdn\.net\/site\/products\/yororis\/gallery\/[a-z]+-phone\.[0-9a-f]{10}\.webp$/, "a hashed CDN file");
     }
+    assert.ok((imgs[0].getAttribute("alt") ?? "").length > 20, "the screen in view has a real alt text (the others are described when they come into view)");
     const m = messages[l].how.app;
-    assert.ok(root.querySelector(".yo-shot-status")?.text.includes(m.status), "the status label sits above the pictures");
+    assert.ok(root.querySelector(".yo-shot-status")?.text.includes(m.status) || root.text.includes(m.status), "the status label sits with the pictures");
     assert.ok(root.text.includes(m.note), "the note says nothing can be opened, joined or downloaded");
-    assert.equal(root.querySelectorAll(".yo-shots a, .yo-shots button, .yo-shots form").length, 0, "pictures only: nothing to click");
+    assert.equal(root.querySelectorAll("form, input, textarea").length, 0, "pictures only: no form");
+  });
+
+  // The home tells one story: how a moment goes (every step marked "under construction", no invented screen), what Yororis
+  // is not, what is kept and for how long, and who reads it.
+  test(`the steps are honest: four, each under construction, no picture of a flow that does not exist (${l})`, () => {
+    const d = dom(l);
+    const m = messages[l].what;
+    const what = d.getElementById("what")?.closest("section");
+    assert.ok(what, "section #what");
+    assert.equal(what.querySelectorAll("ol > li").length, 4);
+    for (const s of m.steps) assert.ok(what.text.includes(s.title) && what.text.includes(s.text));
+    assert.ok(what.text.includes(m.labels.upcoming) && what.text.includes(m.status));
+    assert.equal(what.querySelectorAll("img, video").length, 0, "no screen is shown for a step that is not built");
+  });
+
+  test(`what is kept, for how long, who reads it: three answers in the "not" section, next to the limits (${l})`, () => {
+    const not = dom(l).getElementById("not")?.closest("section");
+    assert.ok(not);
+    for (const i of messages[l].not.privacy.items) assert.ok(not.text.includes(i.q) && not.text.includes(i.a), i.q);
+    for (const t of [...messages[l].reviewed.isNot, messages[l].reviewed.isNotRule]) assert.ok(not.text.includes(t), t);
+    assert.ok(not.querySelector('a[href="tel:988"]') && not.querySelector('a[href="tel:811"]'), "the crisis lines again");
+  });
+
+  test(`the crane is the hero's bird, and the crisis lines come before any section (${l})`, () => {
+    const d = dom(l);
+    const header = d.querySelector("main > header");
+    assert.ok(header.querySelector("svg"), "the hero draws the crane");
+    assert.ok(header.querySelector('a[href="tel:988"]') && header.querySelector('a[href="tel:811"]'));
+    assert.ok(header.querySelector(".yo-crisis"), "the crisis note is in the hero");
+    // Phone first (360 px): the lines come right after the lead, before the facts and the status text, and the lead stays short.
+    const html = header.outerHTML;
+    assert.ok(html.indexOf("yo-crisis") < html.indexOf("yo-status"), "the crisis lines come before the status text");
+    assert.ok(html.indexOf("yo-crisis") < html.indexOf(messages[l].hero.facts.open), "the crisis lines come before the facts");
+    assert.ok(messages[l].hero.lead.length <= 190, "a short lead keeps the crisis lines inside the first phone screen");
   });
 }
 
