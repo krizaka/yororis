@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { ConsoleShell } from "@/components/console/ConsoleShell";
 import { pageMember } from "@/lib/auth";
 import { asLocale } from "@/lib/i18n";
+import { appVersion } from "@/lib/version";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +13,7 @@ export default async function ConsoleLayout({ children, params }: { children: Re
   const member = await pageMember();
   if (!member) redirect(`/${locale}/sign-in`);
   return (
-    <ConsoleShell locale={locale} email={member.email} organiser={member.role === "ADMIN"}>
+    <ConsoleShell locale={locale} email={member.email} organiser={member.role === "ADMIN"} version={appVersion()}>
       {children}
     </ConsoleShell>
   );

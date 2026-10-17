@@ -39,8 +39,9 @@
       "language": "Language",
       "otherLanguage": "Français",
       "theme": "Switch between light and dark",
-      "banner": "In development, not available. A fictional cast, on this computer only.",
-      "moment": "A moment"
+      "banner": "In development, for the QA accounts only. A fictional cast: nobody real is here.",
+      "moment": "A moment",
+      "version": "Version {version}"
     },
     "signIn": {
       "title": "Welcome",
@@ -49,8 +50,8 @@
       "email": "E-mail",
       "password": "Password",
       "submit": "Sign in",
-      "noticeTitle": "In development, not available",
-      "notice": "This space runs on the team’s computers with a fictional cast. Nobody outside the team can use it, and nothing is offered.",
+      "noticeTitle": "In development, for the QA accounts only",
+      "notice": "This space is open to the team’s QA accounts and a fictional cast. Nobody outside the team can use it, and nothing is offered.",
       "contact": "Talk to us about Yororis",
       "asideFooter": "© Krizaka · Montréal"
     },

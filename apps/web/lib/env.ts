@@ -12,6 +12,11 @@ const Schema = z.object({
   AUTH_SESSION_SECRET: z.string().min(32, "must be at least 32 characters"),
   AUTH_DEMO_PASSWORD: z.string().min(12, "must be at least 12 characters"),
   APP_RELEASE_APPROVAL: z.string().min(1).optional(),
+  // Sign-up is closed, for good: there is no sign-up in this app (the cast is fixed and invited by construction), and the one door
+  // that exists (`/api/auth/sign-up`) answers 403. The flag exists so that no deployment can claim otherwise: only `false` starts.
+  AUTH_SIGNUP_ENABLED: z.string().default("false").refine((v) => v === "false", "sign-up is closed: AUTH_SIGNUP_ENABLED can only be false"),
+  // What runs, shown on the screen and answered by /api/healthz: `X.Y.Z+sha`, set by the image build.
+  APP_VERSION: z.string().min(1).optional(),
   // The moment's AI is Orazaka's wellbeing pack, through its edge and a service key (a DO SECRET). Both absent: the moment is
   // "not available right now", never a canned answer (fail closed).
   AI_API_URL: z.string().url().optional(),
@@ -33,6 +38,8 @@ export function readEnv(env: Env = process.env) {
     AUTH_SESSION_SECRET: env.AUTH_SESSION_SECRET,
     AUTH_DEMO_PASSWORD: env.AUTH_DEMO_PASSWORD,
     APP_RELEASE_APPROVAL: blank(env.APP_RELEASE_APPROVAL),
+    AUTH_SIGNUP_ENABLED: blank(env.AUTH_SIGNUP_ENABLED),
+    APP_VERSION: blank(env.APP_VERSION),
     AI_API_URL: blank(env.AI_API_URL),
     AI_API_KEY: blank(env.AI_API_KEY),
     AI_WELLBEING_CONSENT: blank(env.AI_WELLBEING_CONSENT),
