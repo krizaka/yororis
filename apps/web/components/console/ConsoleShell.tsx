@@ -15,7 +15,7 @@ import { useSay } from "@/lib/i18n-client";
  * The frame of the signed-in space: AppShell (sidebar that folds, drawer on a phone), the member's destinations and, for an
  * organiser, the organisation's. A permanent strip says what this is: in development, not available.
  */
-export function ConsoleShell({ locale, email, organiser, children }: { locale: "en" | "fr"; email: string; organiser: boolean; children: React.ReactNode }) {
+export function ConsoleShell({ locale, email, organiser, version, children }: { locale: "en" | "fr"; email: string; organiser: boolean; version: string; children: React.ReactNode }) {
   const { say } = useSay();
   const router = useRouter();
   const path = usePathname() ?? "";
@@ -52,6 +52,7 @@ export function ConsoleShell({ locale, email, organiser, children }: { locale: "
             <span className="truncate" title={email}>
               {say("shell.signedInAs", { email })}
             </span>
+            <span data-testid="app-version">{say("shell.version", { version })}</span>
           </div>
         }
       >

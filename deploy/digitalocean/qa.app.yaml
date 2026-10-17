@@ -1,0 +1,41 @@
+# Yororis QA app — DigitalOcean App Platform, project `yororis`, region tor. QA-only (docs/FRAMEWORK.md §5, krizaka/yororis#23):
+# sign-up closed, only the QA and fictional-cast accounts, the lexicon enforced, no real person until the lawyer review.
+# The smallest service ($5/month). Secrets are filled at apply time (`__NAME__`, never committed) and stored as SECRET.
+# The public static site (dev.yororis.com, .do/app.yaml) is a different app and stays « under construction ».
+name: yororis-qa
+region: tor
+alerts:
+  - rule: DEPLOYMENT_FAILED
+domains:
+  - domain: qa.yororis.com
+    type: PRIMARY
+services:
+  - name: web
+    dockerfile_path: deploy/docker/Dockerfile
+    source_dir: /
+    github:
+      repo: krizaka/yororis
+      branch: main
+      deploy_on_push: true
+    http_port: 8080
+    instance_count: 1
+    instance_size_slug: apps-s-1vcpu-0.5gb
+    health_check:
+      http_path: /api/healthz
+      initial_delay_seconds: 20
+      period_seconds: 15
+    envs:
+      - { key: APP_COMMIT_SHA, scope: BUILD_TIME, value: "${_self.COMMIT_HASH}" }
+      # The reference of the written decision that allows this start (FRAMEWORK §5; the private register, line of 2026-10-17).
+      - { key: APP_RELEASE_APPROVAL, scope: RUN_TIME, value: "yororis-cadre-6-2026-10-17-qa-only-dev" }
+      - { key: AUTH_SIGNUP_ENABLED, scope: RUN_TIME, value: "false" }
+      - { key: AUTH_SESSION_SECRET, scope: RUN_TIME, type: SECRET, value: "__AUTH_SESSION_SECRET__" }
+      - { key: AUTH_DEMO_PASSWORD, scope: RUN_TIME, type: SECRET, value: "__AUTH_DEMO_PASSWORD__" }
+      # The moment's AI is Orazaka's wellbeing pack, through its edge and the service key of the Yororis account.
+      - { key: AI_API_URL, scope: RUN_TIME, value: "https://dev.orazaka.com/edge" }
+      - { key: AI_API_KEY, scope: RUN_TIME, type: SECRET, value: "__AI_API_KEY__" }
+      - { key: APP_REGION, scope: RUN_TIME, value: "CA-QC" }
+      # QA widens the presence that stops (the product's defaults are 25 minutes, 1 a day, 3 a week); the length stays 25.
+      - { key: APP_MOMENT_MINUTES, scope: RUN_TIME, value: "25" }
+      - { key: APP_MOMENTS_PER_DAY, scope: RUN_TIME, value: "20" }
+      - { key: APP_MOMENTS_PER_WEEK, scope: RUN_TIME, value: "100" }

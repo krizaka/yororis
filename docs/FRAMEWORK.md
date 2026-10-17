@@ -1,6 +1,6 @@
 # The Yororis framework
 
-> **Under construction — not deployed, not offered to anyone.** This document says what Yororis is, what it is not,
+> **Under construction — QA only, not offered to anyone.** This document says what Yororis is, what it is not,
 > which controls it inherits from Orazaka, and what is being studied before it can be offered to anyone. It draws **no
 > legal conclusion**: that is the study's job, with a lawyer, and its answers are recorded privately by the maintainers
 > before anything changes here.
@@ -75,11 +75,11 @@ Questions only, by jurisdiction — answers are recorded privately with their da
 | Where | Rule |
 | :--- | :--- |
 | Repositories | Public, opening with the banner; this document exists. Checked by CI. |
-| Deployment | No deployment workflow; nothing is published, no production variable exists. Checked by CI. One exception: the static page `site/` at dev.yororis.com (see AGENTS.md) — no app, no backend, no sign-up. The member space `apps/web` runs on `127.0.0.1` with a fictional cast, never deployed (the guard refuses any deployment file under `apps/`). |
+| Deployment | No deployment workflow; nothing is published. Checked by CI. Two deployments exist: the static page `site/` at dev.yororis.com (no app, no backend, no sign-up) and, since the written decision of 2026-10-17, **one QA-only app** at qa.yororis.com (`deploy/`, krizaka/yororis#23): sign-up closed server-side, only the QA accounts and the fictional cast, the lexicon enforced, no real person until the lawyer review. CI builds its image but never deploys it. |
 | Production start | `NODE_ENV=production` refuses to start without `APP_RELEASE_APPROVAL`, the reference of a written and signed decision. |
-| Accounts | No open sign-up: an invitation code is required; only the maintainers and a fictional demo cast. |
+| Accounts | No sign-up, anywhere (`AUTH_SIGNUP_ENABLED` can only be `false`; the sign-up door answers 403): the QA accounts and a fictional demo cast only. |
 | Mobile builds | Development and preview builds for the maintainers' devices only; no public build, no store submission. |
-| Demo | Listens on `127.0.0.1` only, with a fictional cast. |
+| Demo | Locally on `127.0.0.1` and on the QA app, with a fictional cast. Nobody real. |
 | krizaka.com | The page says "under construction"; its only call to action is "Talk to us about Yororis". |
 | Pilot with outside people | Not while construction mode is active. |
 | Lifting the mode | A written decision (date, scope: internal · pilot · organisation · public, conditions), then a pull request "release: lift construction mode". Nothing lifts by accident. |

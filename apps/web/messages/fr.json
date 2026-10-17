@@ -39,8 +39,9 @@
       "language": "Langue",
       "otherLanguage": "English",
       "theme": "Passer du thème clair au sombre",
-      "banner": "En développement, non disponible. Un cast fictif, sur cet ordinateur seulement.",
-      "moment": "Un moment"
+      "banner": "En développement, pour les comptes de QA seulement. Une distribution fictive : personne de réel ici.",
+      "moment": "Un moment",
+      "version": "Version {version}"
     },
     "signIn": {
       "title": "Bienvenue",
@@ -49,8 +50,8 @@
       "email": "Courriel",
       "password": "Mot de passe",
       "submit": "Se connecter",
-      "noticeTitle": "En développement, non disponible",
-      "notice": "Cet espace tourne sur les ordinateurs de l’équipe avec un cast fictif. Personne en dehors de l’équipe ne peut l’utiliser, et rien n’est offert.",
+      "noticeTitle": "En développement, pour les comptes de QA seulement",
+      "notice": "Cet espace est ouvert aux comptes de QA de l’équipe et à une distribution fictive. Personne en dehors de l’équipe ne peut l’utiliser, et rien n’est offert.",
       "contact": "Discuter de Yororis",
       "asideFooter": "© Krizaka · Montréal"
     },

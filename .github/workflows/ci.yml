@@ -72,3 +72,18 @@ jobs:
         run: |
           npx playwright install --with-deps chromium
           npm run test:e2e
+  container:
+    name: Container image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # The QA image is built here to prove it builds and answers; it is never deployed from CI (the platform builds it from main).
+      - name: Build the image
+        run: docker build -f deploy/docker/Dockerfile --build-arg APP_COMMIT_SHA=${{ github.sha }} -t yororis-qa:ci .
+      - name: It starts, is healthy, shows its version and keeps sign-up closed
+        run: |
+          docker run -d --name qa -p 8080:8080 -e AUTH_SESSION_SECRET=ci-only-secret-0123456789abcdef0123456789 -e AUTH_DEMO_PASSWORD=ci-only-demo-password -e APP_RELEASE_APPROVAL=ci-only yororis-qa:ci
+          for i in $(seq 1 40); do curl -sf http://localhost:8080/api/healthz && break; sleep 1; done
+          curl -sf http://localhost:8080/api/healthz | grep -q '"version":"0\.0\.1+'
+          test "$(curl -s -o /dev/null -w '%{http_code}' -X POST http://localhost:8080/api/auth/sign-up)" = 403
+          docker logs qa

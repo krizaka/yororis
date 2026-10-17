@@ -1,4 +1,4 @@
-> **Under construction — not deployed, not offered to anyone. We are studying the legal, ethical and clinical framework in parallel. No date.**
+> **Under construction — QA only, not offered to anyone. We are studying the legal, ethical and clinical framework in parallel. No date.**
 
 <p align="center">
   <picture>
