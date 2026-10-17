@@ -1,7 +1,7 @@
 "use client";
 
 /* The bar, built on @krizaka/ui's NavBar, in three fixed zones. Yororis is independent: no family switcher.
-   Left — who am I: the Yororis mark and the DEV · version badge.
+   Left — who am I: the Yororis mark (no version chip: the version is in the footer).
    Centre — this site: What it is · How we're building it · What it is not (never a link to another site).
    Right — tools: the repository (NavBar.Repo) · theme · language · the one action, "Talk to us about Yororis". */
 
@@ -30,7 +30,7 @@ function useShownTheme() {
   return { theme, toggle };
 }
 
-export function Bar({ m, version, home, otherHref, otherLabel, other }: { m: Messages["bar"]; locale: Locale; version: string; home: string; otherHref: string; otherLabel: string; other: string }) {
+export function Bar({ m, home, otherHref, otherLabel, other }: { m: Messages["bar"]; locale: Locale; home: string; otherHref: string; otherLabel: string; other: string }) {
   const { theme, toggle } = useShownTheme();
   const themeLabel = theme === "dark" ? m.toLight : m.toDark;
   const themeIcon = theme === "dark" ? <SunIcon size={16} /> : <MoonIcon size={16} />;
@@ -43,8 +43,6 @@ export function Bar({ m, version, home, otherHref, otherLabel, other }: { m: Mes
             Yororis
           </a>
         </NavBar.Brand>
-        <NavBar.Badge env="dev" version={version} />
-
         <NavBar.Items>
           {SECTIONS.map((s) => (
             <NavBar.Link key={s.id} asChild>

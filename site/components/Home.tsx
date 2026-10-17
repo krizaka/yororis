@@ -2,12 +2,14 @@ import { ChatIcon, KeepIcon, MomentIcon, ShieldIcon, ThreadIcon } from "@krizaka
 import { YororisLogo } from "@krizaka/ui";
 import { ActionBar } from "@krizaka/ui/action-bar";
 import { ArgumentCard } from "@krizaka/ui/argument-card";
+import { Badge } from "@krizaka/ui/badge";
 import { Button } from "@krizaka/ui/button";
 import { CardGrid } from "@krizaka/ui/card-grid";
 import { CtaPanel } from "@krizaka/ui/cta-panel";
 import { DecisionList } from "@krizaka/ui/decision-list";
 import { LinkCard } from "@krizaka/ui/link-card";
 import { MascotQuote } from "@krizaka/ui/mascot-quote";
+import { MetaRow } from "@krizaka/ui/meta-row";
 import { Facts, Section, Ticks } from "@krizaka/ui/page";
 import { PageHero } from "@krizaka/ui/page-hero";
 import { getMessages, type Locale } from "@/lib/messages";
@@ -62,12 +64,11 @@ export function Home({ locale }: { locale: Locale }) {
               <a href="#how">{m.hero.explore}</a>
             </Button>
           </div>
+          <div aria-label={m.crisis.aria} role="group">
+            <Crisis m={m.crisis} />
+          </div>
         </div>
       </PageHero>
-
-      <Section spacing="sm" aria-label={m.crisis.aria}>
-        <Crisis m={m.crisis} />
-      </Section>
 
       <Section id="what" eyebrow={m.what.eyebrow} title={m.what.title} lead={m.what.lead} headingSize="sm" spacing="sm">
         <div className="rd-stack">
@@ -133,7 +134,7 @@ export function Home({ locale }: { locale: Locale }) {
             </div>
           </div>
           <div {...reveal()}>
-            <MascotQuote bird="crane" mood="thinking" label={locale === "fr" ? "La grue dit" : "The crane says"}>
+            <MascotQuote bird="crane" mood="thinking" label={m.how.crane}>
               {m.how.rule}
             </MascotQuote>
           </div>
@@ -161,14 +162,22 @@ export function Home({ locale }: { locale: Locale }) {
             </ul>
             <p className="rd-prose is-small">{m.how.app.note}</p>
           </div>
-          <h3 className="rd-h3" {...reveal()}>
-            {m.how.open.title}
-          </h3>
-          <CardGrid as="ul" columns={2} min={260} reveal>
-            {LINKS.map(({ id, href, icon }) => (
-              <LinkCard key={id} href={href} icon={icon} title={m.how.open.links[id].name} titleAs="span" description={m.how.open.links[id].line} target="_blank" rel="noopener noreferrer" />
-            ))}
-          </CardGrid>
+          <div className="rd-stack" {...reveal()}>
+            <h3 className="rd-h3">{m.changelog.label}</h3>
+            <p className="rd-prose is-small">{m.changelog.lead}</p>
+            {CHANGELOG.entries.length ? (
+              <ol className="yo-changelog">
+                {CHANGELOG.entries.map((e) => (
+                  <li key={e.number}>
+                    <time dateTime={e.mergedAt}>{new Date(e.mergedAt).toLocaleDateString(m.dateLocale, { day: "numeric", month: "short", timeZone: "UTC" })}</time>
+                    <span>{e.title}</span>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p className="yo-changelog-empty">{m.changelog.empty}</p>
+            )}
+          </div>
         </div>
       </Section>
 
@@ -183,29 +192,26 @@ export function Home({ locale }: { locale: Locale }) {
             </ul>
           </div>
           <div className="rd-stack" {...reveal(1)}>
-            <MascotQuote variant="callout" bird="falcon" mood="thinking" label={locale === "fr" ? "Le faucon dit" : "The falcon says"}>
+            <MascotQuote variant="callout" bird="falcon" mood="thinking" label={m.not.falcon}>
               {m.reviewed.isNotRule}
             </MascotQuote>
             <Crisis m={m.crisis} />
           </div>
         </div>
+        <div className="rd-stack mt-10">
+          <h3 className="rd-h3" {...reveal()}>
+            {m.how.open.title}
+          </h3>
+          <CardGrid as="ul" columns={2} min={260} reveal>
+            {LINKS.map(({ id, href, icon }) => (
+              <LinkCard key={id} href={href} icon={icon} title={m.how.open.links[id].name} titleAs="span" description={m.how.open.links[id].line} target="_blank" rel="noopener noreferrer" />
+            ))}
+          </CardGrid>
+          <MetaRow className="mt-2" size="md" items={[m.not.powered, m.hero.facts.open]} chips={[<Badge key="status" tone="warning">{m.hero.facts.status}</Badge>]} />
+        </div>
       </Section>
 
-              <Section spacing="sm" title={m.changelog.label} lead={m.changelog.lead} reveal>
-          {CHANGELOG.entries.length ? (
-            <ol className="yo-changelog">
-              {CHANGELOG.entries.map((e) => (
-                <li key={e.number}>
-                  <time dateTime={e.mergedAt}>{new Date(e.mergedAt).toLocaleDateString(locale === "fr" ? "fr-CA" : "en-CA", { day: "numeric", month: "short", timeZone: "UTC" })}</time>
-                  <span>{e.title}</span>
-                </li>
-              ))}
-            </ol>
-          ) : (
-            <p className="yo-changelog-empty">{m.changelog.empty}</p>
-          )}
-        </Section>
-<Section spacing="sm" aria-labelledby="talk-title">
+      <Section spacing="sm" aria-labelledby="talk-title">
         <CtaPanel id="talk-title" title={m.cta.title} body={m.cta.body} reveal>
           <Button asChild variant="primary" size="lg" shape="cut">
             <a href={CONTACT}>{m.cta.title}</a>

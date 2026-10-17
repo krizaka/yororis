@@ -94,6 +94,11 @@ for (const l of ["en", "fr"]) {
     assert.ok(d.querySelector('meta[name="description"]'));
     assert.ok(d.querySelector("body").classList.contains("brand-yororis"));
     for (const id of ["what", "how", "not"]) assert.ok(d.getElementById(id), `section #${id}`);
+    // One story in five sections: the promise (with the crisis lines), what it is, how it is built, what it is not, the call.
+    const blocks = d.querySelector("main").childNodes.filter((n) => n.nodeType === 1);
+    assert.ok(blocks.length <= 5, `${blocks.length} sections on the page — five at most`);
+    const crisis = d.querySelector("main > header");
+    assert.ok(crisis && /9-8-8/.test(crisis.text), "the crisis lines are in the first screen");
   });
 }
 
@@ -147,10 +152,10 @@ for (const l of ["en", "fr"]) {
   });
 }
 
-test("the bar and the footer are those of an independent product: DEV badge, no family switcher, family={false} footer", () => {
+test("the bar and the footer are those of an independent product: no version chip in the bar (it is in the footer), no family switcher, family={false} footer", () => {
   const bar = readFileSync(join(root, "components/Bar.tsx"), "utf8");
   assert.ok(!bar.includes("NavBar.Family"), "no family switcher, desktop or phone");
-  assert.match(bar, /<NavBar\.Badge env="dev" version=/);
+  assert.ok(!bar.includes("NavBar.Badge"), "no version chip in the bar");
   assert.match(bar, /<NavBar\.Repo /);
   assert.match(readFileSync(join(root, "components/Footer.tsx"), "utf8"), /<SiteFooter\s+current="yororis"\s+family=\{false\}[^>]*env="dev"/);
   for (const l of ["en", "fr"]) assert.match(textOf(l), /dev · v\d+\.\d+\.\d+/, `${l}: the dev badge and the version are on the page`);

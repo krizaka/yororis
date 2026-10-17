@@ -205,11 +205,14 @@
           "alt": "Les membres de l’organisation : une liste où chercher et filtrer, avec le statut de chaque membre."
         }
       }
-    }
+    },
+    "crane": "La grue écoute"
   },
   "not": {
     "title": "Ce que Yororis n'est pas",
-    "lead": "Dit une fois, clairement, pour que personne n'ait à deviner."
+    "lead": "Dit une fois, clairement, pour que personne n'ait à deviner.",
+    "falcon": "Le faucon veille",
+    "powered": "Son IA passera par le pack bien-être d'Orazaka."
   },
   "cta": {
     "title": "Discuter de Yororis",
@@ -229,5 +232,6 @@
     "label": "Ce qui a avancé cette semaine",
     "lead": "Fusionné dans le dépôt au cours des sept derniers jours : la construction, à ciel ouvert. Titres seulement.",
     "empty": "Rien de fusionné cette semaine. La construction continue."
-  }
+  },
+  "dateLocale": "fr-CA"
 }
