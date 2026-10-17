@@ -40,6 +40,14 @@ product, §4 architecture) is the source of truth. Its rules already apply:
    open", labelled "in development, not available".
 3. **All AI goes through Orazaka** (the wellbeing pack); no other provider. The crisis response comes from Orazaka and is
    never generated or rephrased.
+   **The Moment (2026-10-17, decision: QA-only on dev).** `apps/web/moment` is the listening moment: the person's words go to the
+   wellbeing pack's voice turn (`lib/orazaka.ts`, the only file that names the endpoint; `AI_API_URL` + `AI_API_KEY`, absent =
+   « not available right now », never a canned answer), and what comes back is what is shown. The pack's fixed crisis reply is
+   shown as sent and ends the moment; « Besoin d'aide maintenant ? » with the three lines is on the screen in every state
+   (checked at 360 px by `npm run test:e2e`). The presence stops: 25 minutes, 1 a day, 3 a week, enforced on the server. Nothing
+   of what is said is stored (`moments.ts` holds the last exchanges in memory while the moment lasts). Tests:
+   `tests/moment.test.mjs`, `tests/no-direct-model.test.mjs`, `tests/sign-up-closed.test.mjs`. The text of the screen is not
+   yet reviewed by a lawyer (krizaka/.github#40). `docs/UX_DECISIONS.md` says why.
 4. Conventional Commits, a branch and a pull request for every change (`main` is protected, squash only).
 5. **Environment variables are named by bounded context** (krizaka/.github#46): `<CONTEXT>_<THING>` with CONTEXT one of
    `APP_` `DATABASE_` `AUTH_` `MEDIA_` `MAIL_` `PUSH_` `PAYMENTS_` `REALTIME_` `ABUSE_` `OBSERVABILITY_` `AI_` `OPERATOR_`

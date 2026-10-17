@@ -1,6 +1,6 @@
 "use client";
 
-import { HomeIcon, LogoutIcon, SettingsIcon, UsersIcon } from "@krizaka/icons";
+import { HomeIcon, LogoutIcon, MomentIcon, SettingsIcon, UsersIcon } from "@krizaka/icons";
 import { krizakaFetch, useMutation } from "@krizaka/query";
 import { YororisLogo } from "@krizaka/ui";
 import { AppShell } from "@krizaka/ui/app-shell";
@@ -30,7 +30,7 @@ export function ConsoleShell({ locale, email, organiser, children }: { locale: "
     },
   });
   const current = (to: string, exact = false) => (exact ? path === to : path === to || path.startsWith(`${to}/`));
-  const titleKey = path.startsWith(`${home}/admin/members`) ? "shell.members" : path.startsWith(`${home}/account`) ? "shell.account" : "shell.dashboard";
+  const titleKey = path.startsWith(`${home}/admin/members`) ? "shell.members" : path.startsWith(`${home}/account`) ? "shell.account" : path.startsWith(`${home}/moment`) ? "shell.moment" : "shell.dashboard";
   const item = (to: string, label: string, icon: React.ReactNode, exact = false) => (
     <AppShell.Item asChild label={label} icon={icon} current={current(to, exact)}>
       <Link href={to}>{label}</Link>
@@ -57,6 +57,7 @@ export function ConsoleShell({ locale, email, organiser, children }: { locale: "
       >
         <AppShell.Group>{say("shell.groupYou")}</AppShell.Group>
         {item(home, say("shell.dashboard"), <HomeIcon />, true)}
+        {item(`${home}/moment`, say("shell.moment"), <MomentIcon />)}
         {item(`${home}/account`, say("shell.account"), <SettingsIcon />)}
         {organiser ? (
           <>

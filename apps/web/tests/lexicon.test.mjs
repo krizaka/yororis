@@ -20,13 +20,16 @@ const NEVER = [
 // The one other place a word of the "never" column may appear: the human OUTSIDE the product, to whom the notebook goes.
 const EXPORT_PHRASE = { en: "to bring to my therapist, doctor or whoever supports me", fr: "à apporter à ma thérapeute, mon médecin ou la personne qui m’accompagne" };
 
+// The presence's disclosure (§2.1 « Ce qu'elle dit toujours », ★): the word is allowed here because the sentence DENIES it.
+const DISCLOSURE = { en: "I'm not a therapist and not an emergency service.", fr: "Je ne suis ni thérapeute ni un service d'urgence." };
+
 const strings = (v) => (typeof v === "string" ? [v] : Array.isArray(v) ? v.flatMap(strings) : Object.values(v).flatMap(strings));
 const messages = { en: JSON.parse(readFileSync("messages/en.json", "utf8")), fr: JSON.parse(readFileSync("messages/fr.json", "utf8")) };
 
 for (const l of ["en", "fr"]) {
   test(`lexicon: no "never" word in any message (${l})`, () => {
     for (const raw of strings(messages[l])) {
-      const s = raw.replace(EXPORT_PHRASE[l], "");
+      const s = raw.replace(EXPORT_PHRASE[l], "").replace(DISCLOSURE[l], "");
       for (const re of NEVER) assert.ok(!re.test(s), `${re} in message "${raw}" (${l})`);
     }
   });
@@ -34,6 +37,10 @@ for (const l of ["en", "fr"]) {
 
 test("lexicon: the export phrase is used exactly where it should be (once per language)", () => {
   for (const l of ["en", "fr"]) assert.equal(strings(messages[l]).filter((s) => s.includes(EXPORT_PHRASE[l])).length, 1);
+});
+
+test("lexicon: the disclosure is used exactly where it should be (the presence's opening, once per language)", () => {
+  for (const l of ["en", "fr"]) assert.equal(strings(messages[l]).filter((s) => s.includes(DISCLOSURE[l])).length, 1);
 });
 
 test("lexicon: no file name, route or identifier of the code speaks the language of care", () => {
