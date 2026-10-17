@@ -78,7 +78,9 @@
       "MOMENT_NOT_FOUND": "Ce moment n'est plus ouvert.",
       "MOMENT_OVER": "Ce moment est terminé.",
       "STOPS_DAY": "C'est tout pour aujourd'hui.",
-      "STOPS_WEEK": "C'est tout pour cette semaine."
+      "STOPS_WEEK": "C'est tout pour cette semaine.",
+      "AUDIO_TOO_LONG": "Cet enregistrement est trop long. Maintiens le bouton 30 secondes au plus.",
+      "AUDIO_TYPE": "Ce navigateur a enregistré le son dans un format inutilisable. Écris plutôt."
     },
     "dashboard": {
       "greeting": "Bonjour, {name}",
@@ -289,7 +291,15 @@
       "crisisSource": "Vérifié le {date}",
       "declinedTitle": "Une question pour quelqu'un qui te connaît",
       "stopsDay": "C'est tout pour aujourd'hui. On se retrouve à partir de {time}.",
-      "stopsWeek": "C'est tout pour cette semaine. On se retrouve à partir de {time}."
+      "stopsWeek": "C'est tout pour cette semaine. On se retrouve à partir de {time}.",
+      "talk": "Maintiens pour parler",
+      "talking": "Je t'écoute… relâche pour envoyer",
+      "micDenied": "Le micro est bloqué. Autorise-le dans ton navigateur, ou écris.",
+      "tooShort": "Maintiens un peu plus longtemps.",
+      "voiceUnsupported": "Ce navigateur ne peut pas enregistrer. Écris plutôt.",
+      "silence": "Je n'ai rien entendu. Réessaie.",
+      "voiceOn": "Voix activée",
+      "voiceOff": "Voix coupée"
     }
   }
 }

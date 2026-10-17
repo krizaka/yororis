@@ -83,17 +83,38 @@ export function parseTurn(body: string): Turn {
 
 export interface TurnInput {
   conversationId: string;
-  text: string;
+  /** What the person typed. Exactly one of `text` and `audio`. */
+  text?: string;
+  /** What the person said: WAV, Ogg/Opus, WebM or MP3, about 30 s at most (3 MiB). Orazaka transcribes it with Whisper. */
+  audio?: Blob;
   locale: string;
   voice?: string;
   /** What was said so far (at most 8 000 characters): Orazaka's voice turn keeps no history. */
   context?: string;
 }
 
+/** The only paths of the edge a browser may be sent to fetch: one spoken sentence, by its signed address (ADR-076, valid five minutes). */
+const CLIP_PATH = /^\/api\/v1\/voice\/clips\/[A-Za-z0-9-]{8,64}\?expires=\d{9,13}&signature=[A-Za-z0-9_=-]{16,200}$/;
+export const isClipPath = (v: string) => CLIP_PATH.test(v);
+
+/** A sentence's audio as Yororis serves it: through its own door (`/api/moment/clip`), so the edge's address never reaches the browser. */
+export function clipHref(edgeUrl: string): string | null {
+  let path: string;
+  try {
+    const u = new URL(edgeUrl, "https://edge.invalid");
+    path = `${u.pathname}${u.search}`;
+  } catch {
+    return null;
+  }
+  return isClipPath(path) ? `/api/moment/clip?p=${encodeURIComponent(path)}` : null;
+}
+
 export interface OrazakaClient {
   /** The installation id the voice turns run under (the wellbeing pack, installed once with its consent). */
   installation(): Promise<string>;
   turn(input: TurnInput): Promise<Turn>;
+  /** One spoken sentence, by the signed path the edge gave (checked with `isClipPath`). */
+  clip(path: string): Promise<Response>;
 }
 
 const Installation = z.object({ id: z.string().optional(), installationId: z.string().optional(), studioKey: z.string().optional() });
@@ -142,9 +163,19 @@ export function createOrazakaClient(options: { baseUrl: string; apiKey: string; 
 
   return {
     installation,
+    async clip(path) {
+      if (!isClipPath(path)) throw new OrazakaError(400, "INVALID_PAYLOAD");
+      // The clip's signature is its credential (an <audio> element cannot send a bearer): no key is sent with it.
+      try {
+        return await doFetch(`${base}${path}`, { signal: AbortSignal.timeout(options.timeoutMs ?? 30_000), cache: "no-store" });
+      } catch {
+        throw new OrazakaError(503, "AI_UNAVAILABLE");
+      }
+    },
     async turn(input) {
       const form = new FormData();
-      form.set("text", input.text);
+      if (input.audio) form.set("audio", input.audio, "moment");
+      else form.set("text", input.text ?? "");
       form.set("conversationId", input.conversationId);
       form.set("locale", input.locale);
       form.set("installationId", await installation());

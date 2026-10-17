@@ -1,5 +1,6 @@
 "use client";
 
+import { SoundIcon } from "@krizaka/icons";
 import { krizakaFetch, useMutation } from "@krizaka/query";
 import { Alert } from "@krizaka/ui/alert";
 import { Avatar } from "@krizaka/ui/avatar";
@@ -8,12 +9,15 @@ import { Button,buttonVariants } from "@krizaka/ui/button";
 import { MessageBubble, MessageComposer, TypingIndicator } from "@krizaka/ui/chat";
 import { Checkbox } from "@krizaka/ui/checkbox";
 import { Countdown } from "@krizaka/ui/countdown";
+import { Waveform } from "@krizaka/ui/waveform";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 
 import { errorKey } from "@/lib/client";
 import { useSay } from "@/lib/i18n-client";
 import { type Presence,PRESENCES } from "@/lib/presences";
+
+import { useHoldToTalk, useSpeech } from "./voice";
 
 export interface MomentProps {
   /** Is an engine configured? When not, the moment says it is not available right now — it never answers by itself. */
@@ -28,14 +32,21 @@ interface Line {
   text: string;
 }
 
+const VoiceSchema = z.object({ clip: z.string().nullable(), durationMs: z.number().nullable() }).nullable();
 const CrisisSchema = z.object({
+  voice: VoiceSchema.optional(),
   text: z.string(),
   resource: z.object({ label: z.string(), contact: z.string(), availability: z.string(), sourceUrl: z.string(), verifiedOn: z.string() }).nullable(),
 });
 type Crisis = z.infer<typeof CrisisSchema>;
 const StartedSchema = z.object({ moment: z.object({ id: z.string(), presence: z.string(), endsAt: z.string() }) });
 const TurnSchema = z.object({
-  turn: z.object({ sentences: z.array(z.object({ text: z.string() })), crisis: CrisisSchema.nullable(), declined: z.object({ text: z.string() }).nullable() }),
+  turn: z.object({
+    heard: z.string().nullable(),
+    sentences: z.array(z.object({ text: z.string(), voice: VoiceSchema })),
+    crisis: CrisisSchema.nullable(),
+    declined: z.object({ text: z.string(), voice: VoiceSchema }).nullable(),
+  }),
   nearlyOver: z.boolean(),
 });
 type Started = z.infer<typeof StartedSchema>["moment"];
@@ -109,16 +120,33 @@ export function MomentView({ available, minutes, stops }: MomentProps) {
     },
     onError: (e) => setNote(say(`errors.${errorKey(e)}`)),
   });
+  const speech = useSpeech();
   const turn = useMutation({
-    mutationFn: (text: string) => krizakaFetch("/api/moment/turn", { schema: TurnSchema, method: "POST", json: { momentId: moment?.id, text } }),
+    mutationFn: (said: { text: string } | { audio: Blob }) => {
+      if ("text" in said) return krizakaFetch("/api/moment/turn", { schema: TurnSchema, method: "POST", json: { momentId: moment?.id, text: said.text } });
+      const form = new FormData();
+      form.set("momentId", moment?.id ?? "");
+      form.set("audio", said.audio, "moment");
+      return krizakaFetch("/api/moment/turn", { schema: TurnSchema, method: "POST", body: form });
+    },
     onSuccess: (r) => {
       const t = r.turn;
+      if (t.heard !== null) {
+        if (!t.heard.trim()) {
+          setNote(say("moment.silence"));
+          return;
+        }
+        setLines((l) => [...l, { who: "person", text: t.heard ?? "" }]);
+      }
       if (t.crisis) {
         setCrisis(t.crisis);
+        if (t.crisis.voice?.clip) speech.play([t.crisis.voice.clip]);
         return;
       }
+      const spoken = t.declined ? [t.declined.voice?.clip] : t.sentences.map((s) => s.voice?.clip);
       const said = t.declined?.text ? [t.declined.text] : t.sentences.map((s) => s.text);
       setLines((l) => [...l, { who: "presence", text: said.join(" ") }]);
+      speech.play(spoken.filter((c): c is string => typeof c === "string"));
       setNearly(r.nearlyOver);
     },
     onError: (e) => {
@@ -127,9 +155,16 @@ export function MomentView({ available, minutes, stops }: MomentProps) {
       else setNote(say(`errors.${key}`));
     },
   });
+  const talk = useHoldToTalk((audio) => {
+    if (turn.isPending || !moment) return;
+    setNote(null);
+    turn.mutate({ audio });
+  });
+  const talkNote = talk.problem === "denied" ? say("moment.micDenied") : talk.problem === "short" ? say("moment.tooShort") : talk.problem === "unsupported" ? say("moment.voiceUnsupported") : null;
   const close = useMutation({
     mutationFn: () => krizakaFetch("/api/moment/end", { method: "POST", json: { momentId: moment?.id } }),
     onSettled: () => {
+      speech.silence();
       setEnded("closed");
       setLines([]);
     },
@@ -142,10 +177,11 @@ export function MomentView({ available, minutes, stops }: MomentProps) {
   const send = () => {
     const text = draft.trim();
     if (!text || turn.isPending || !moment) return;
+    speech.silence();
     setLines((l) => [...l, { who: "person", text }]);
     setDraft("");
     setNote(null);
-    turn.mutate(text);
+    turn.mutate({ text });
   };
 
   // One frame for every state: the lines to call are the last thing on the screen, always.
@@ -250,6 +286,12 @@ export function MomentView({ available, minutes, stops }: MomentProps) {
         <Countdown target={moment.endsAt} label={say("moment.timerLabel")} showLabel units={{ d: "d", h: "h", m: "m", s: "s" }} />
       </header>
       <p className="text-xs text-fg-muted">{say("moment.aiNote", { name: presence.name })}</p>
+      <div className="flex items-center gap-3" data-testid="voice-line" data-speaking={speech.speaking}>
+        <Waveform className="flex-1" peaks={speech.peaks} playing={speech.speaking} size="sm" />
+        <Button size="sm" variant="ghost" aria-pressed={speech.muted} onClick={() => speech.mute(!speech.muted)}>
+          {speech.muted ? say("moment.voiceOff") : say("moment.voiceOn")}
+        </Button>
+      </div>
       {nearly ? <Alert tone="info">{say("moment.nearlyOver")}</Alert> : null}
       <ol role="log" aria-label={say("moment.conversation")} aria-live="polite" className="flex flex-1 flex-col gap-2">
         {lines.map((l, i) => (
@@ -264,8 +306,53 @@ export function MomentView({ available, minutes, stops }: MomentProps) {
         ) : null}
         <div ref={end} />
       </ol>
-      {note ? <Alert tone="danger">{note}</Alert> : null}
-      <MessageComposer value={draft} onValueChange={setDraft} onSend={send} placeholder={say("moment.placeholder")} sendLabel={say("moment.send")} busy={turn.isPending} maxLength={2000} />
+      {note ?? talkNote ? <Alert tone="danger">{note ?? talkNote}</Alert> : null}
+      <MessageComposer
+        value={draft}
+        onValueChange={setDraft}
+        onSend={send}
+        placeholder={say("moment.placeholder")}
+        sendLabel={say("moment.send")}
+        busy={turn.isPending}
+        maxLength={2000}
+        leading={
+          talk.supported ? (
+            <Button
+              type="button"
+              size="sm"
+              shape="cut"
+              variant={talk.state === "recording" ? "primary" : "secondary"}
+              aria-pressed={talk.state === "recording"}
+              disabled={turn.isPending}
+              data-testid="hold-to-talk"
+              className="touch-none select-none"
+              onPointerDown={(e) => {
+                e.preventDefault();
+                e.currentTarget.setPointerCapture?.(e.pointerId);
+                speech.silence();
+                void talk.start();
+              }}
+              onPointerUp={talk.stop}
+              onPointerCancel={talk.cancel}
+              onKeyDown={(e) => {
+                if ((e.key === " " || e.key === "Enter") && !e.repeat) {
+                  e.preventDefault();
+                  speech.silence();
+                  void talk.start();
+                }
+              }}
+              onKeyUp={(e) => {
+                if (e.key === " " || e.key === "Enter") {
+                  e.preventDefault();
+                  talk.stop();
+                }
+              }}
+            >
+              <SoundIcon size={16} /> {talk.state === "recording" ? say("moment.talking") : say("moment.talk")}
+            </Button>
+          ) : null
+        }
+      />
       <div>
         <Button size="sm" variant="ghost" loading={close.isPending} onClick={() => close.mutate()}>
           {say("moment.end")}

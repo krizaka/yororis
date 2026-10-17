@@ -48,6 +48,9 @@ product, §4 architecture) is the source of truth. Its rules already apply:
    of what is said is stored (`moments.ts` holds the last exchanges in memory while the moment lasts). Tests:
    `tests/moment.test.mjs`, `tests/no-direct-model.test.mjs`, `tests/sign-up-closed.test.mjs`. The text of the screen is not
    yet reviewed by a lawyer (krizaka/.github#40). `docs/UX_DECISIONS.md` says why.
+   Voice: the person holds a button to talk (recording ≤ 30 s, WebM or Ogg/Opus, sent to `/api/moment/turn`, transcribed by Orazaka's
+   Whisper) and the presence's sentences are played from `/api/moment/clip`, which relays only the edge's own signed clip
+   addresses (`lib/orazaka.ts`, `tests/voice.test.mjs`); captions are always shown, the sound can be turned off.
 4. Conventional Commits, a branch and a pull request for every change (`main` is protected, squash only).
 5. **Environment variables are named by bounded context** (krizaka/.github#46): `<CONTEXT>_<THING>` with CONTEXT one of
    `APP_` `DATABASE_` `AUTH_` `MEDIA_` `MAIL_` `PUSH_` `PAYMENTS_` `REALTIME_` `ABUSE_` `OBSERVABILITY_` `AI_` `OPERATOR_`

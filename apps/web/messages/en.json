@@ -78,7 +78,9 @@
       "MOMENT_NOT_FOUND": "This moment is not open any more.",
       "MOMENT_OVER": "This moment is over.",
       "STOPS_DAY": "That is all for today.",
-      "STOPS_WEEK": "That is all for this week."
+      "STOPS_WEEK": "That is all for this week.",
+      "AUDIO_TOO_LONG": "That recording is too long. Hold the button for up to 30 seconds.",
+      "AUDIO_TYPE": "This browser recorded sound in a format that cannot be used. Type instead."
     },
     "dashboard": {
       "greeting": "Hello, {name}",
@@ -289,7 +291,15 @@
       "crisisSource": "Verified {date}",
       "declinedTitle": "A question for someone who knows you",
       "stopsDay": "That is all for today. See you again from {time}.",
-      "stopsWeek": "That is all for this week. See you again from {time}."
+      "stopsWeek": "That is all for this week. See you again from {time}.",
+      "talk": "Hold to talk",
+      "talking": "Listening… let go to send",
+      "micDenied": "The microphone is blocked. Allow it in your browser, or type.",
+      "tooShort": "Hold a little longer.",
+      "voiceUnsupported": "This browser cannot record. Type instead.",
+      "silence": "I did not hear anything. Try again.",
+      "voiceOn": "Voice on",
+      "voiceOff": "Voice off"
     }
   }
 }
