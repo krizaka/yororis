@@ -4,6 +4,9 @@ import { done, fail, isUuid, requireMember } from "@/lib/http";
 import { findMoment, finish, turnsOf } from "@/lib/moments";
 import { orazaka, OrazakaError, UPSTREAM_FAILED } from "@/lib/orazaka";
 
+/** A line after the words, in the person's language: the Studio's own instructions are French and, on a small model, would otherwise win over `locale`. */
+const DIRECTIVE = { en: "(Write every value of the JSON in English.)", fr: "(Écris toutes les valeurs du JSON en français.)" } as const;
+
 const Body = z.object({ momentId: z.string().refine(isUuid), moodBefore: z.number().int().min(1).max(5).optional(), moodAfter: z.number().int().min(1).max(5).optional() }).strict();
 
 /**
@@ -23,7 +26,7 @@ export async function POST(req: Request) {
   if (moment.busy) return fail(429, "RATE_LIMITED");
   moment.busy = true;
   try {
-    const kept = await client.keep({ turns: turnsOf(moment), locale: moment.language === "fr" ? "fr-CA" : "en", moodBefore: body.data.moodBefore, moodAfter: body.data.moodAfter });
+    const kept = await client.keep({ turns: `${turnsOf(moment)}\n\n${DIRECTIVE[moment.language]}`, locale: moment.language === "fr" ? "fr-CA" : "en", moodBefore: body.data.moodBefore, moodAfter: body.data.moodAfter });
     finish(moment);
     return done({ kept });
   } catch (e) {

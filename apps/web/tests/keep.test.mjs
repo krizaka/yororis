@@ -114,7 +114,7 @@ test("keeping: the Studio gets the words in order, the person's own numbers, the
   assert.equal(stub.kept[0].locale, "fr-CA");
   assert.equal(stub.kept[0].moodBefore, 2);
   assert.equal(stub.kept[0].moodAfter, 4);
-  assert.equal(stub.kept[0].turns, "Person: Une semaine lourde\nPresence: I hear you.\nPerson: Surtout les soirées\nPresence: I hear you.");
+  assert.equal(stub.kept[0].turns, "Person: Une semaine lourde\nPresence: I hear you.\nPerson: Surtout les soirées\nPresence: I hear you.\n\n(Écris toutes les valeurs du JSON en français.)");
   assert.equal(moments.findMoment(id, ID(2)), undefined, "forgotten once written");
 });
 
