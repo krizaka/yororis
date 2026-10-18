@@ -63,6 +63,7 @@ then sign in as a QA account and open a moment.
   ports (8086, 8188) are held by the GPU pods.
 - The pack's prompt and fixed crisis reply serve both languages (orazaka-packs#57): an English member gets English answers, and the reply is the reviewed French text followed by its English translation (not yet read by a person), then the region's verified line.
 - Recorded takes of real moments on dev (video only): French https://krizaka-assets.b-cdn.net/pr-assets/yororis/take/take-moment-fr-phone.mp4 · English https://krizaka-assets.b-cdn.net/pr-assets/yororis/take/take-moment-en-phone.mp4 · the English crisis reply https://krizaka-assets.b-cdn.net/pr-assets/yororis/take/take-crisis-en-phone.mp4
+- More recorded takes, all real runs on dev (video only): what I keep https://krizaka-assets.b-cdn.net/pr-assets/yororis/take/take-keep-en-phone.mp4 · the presence picker and Samuel's voice https://krizaka-assets.b-cdn.net/pr-assets/yororis/take/take-picker-samuel-en-phone.mp4 · the organiser's console of moments https://krizaka-assets.b-cdn.net/pr-assets/yororis/take/take-console-moments-desktop.mp4
 - The recorded take of a real moment: https://krizaka-assets.b-cdn.net/pr-assets/yororis/take/take-moment-fr-phone.mp4
 
 - **What I keep** runs the pack's `…-summary` Studio (installed once for the Yororis account, found by the suffix of its key) over the moment's words, with the person's own 1-to-5 numbers; the
