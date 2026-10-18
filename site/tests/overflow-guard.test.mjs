@@ -24,5 +24,5 @@ test("the crisis lines are tap targets on a phone, and the crane stands in a hal
   const css = readFileSync(join(root, "app/globals.css"), "utf8");
   assert.match(css, /\.yo-crisis-lines span \{[^}]*min-height: 56px/);
   assert.ok(css.includes(".yo-hero-crane::before"));
-  assert.ok(readFileSync(join(root, "components/PresencePreview.tsx"), "utf8").includes("yo-hero-crane"));
+  assert.ok(readFileSync(join(root, "components/MomentTake.tsx"), "utf8").includes("yo-hero-crane"));
 });
