@@ -197,7 +197,9 @@ test("ending a moment forgets it: nothing is kept", async () => {
   await post(turn, "/api/moment/turn", { momentId: json.moment.id, text: "something private" });
   const m = moments.findMoment(json.moment.id, ID(2));
   const res = await post(finish, "/api/moment/end", { momentId: json.moment.id });
-  assert.deepEqual(await res.json(), { success: true, kept: 0 });
+  const body = await res.json();
+  assert.equal(body.success, true);
+  assert.equal(body.canKeep, false, "ended without asking to keep: forgotten at once");
   assert.deepEqual(m.recent, []);
   assert.equal(moments.findMoment(json.moment.id, ID(2)), undefined);
 });

@@ -16,6 +16,7 @@ import { errorKey } from "@/lib/client";
 import { useSay } from "@/lib/i18n-client";
 import { type Presence,PRESENCES } from "@/lib/presences";
 
+import { EndSchema, MomentClosing, MoodPick, type Remaining } from "./MomentClosing";
 import { PresenceFace } from "./PresenceFace";
 import { useHoldToTalk, useSpeech } from "./voice";
 
@@ -93,6 +94,8 @@ export function MomentView({ available, minutes, stops, calmMotion }: MomentProp
   const [draft, setDraft] = useState("");
   const [crisis, setCrisis] = useState<Crisis | null>(null);
   const [ended, setEnded] = useState<"over" | "closed" | null>(null);
+  const [closing, setClosing] = useState<{ canKeep: boolean; remaining: Remaining } | null>(null);
+  const [moodBefore, setMoodBefore] = useState<number | null>(null);
   const [note, setNote] = useState<string | null>(null);
   const [nearly, setNearly] = useState(false);
   const end = useRef<HTMLDivElement>(null);
@@ -137,7 +140,10 @@ export function MomentView({ available, minutes, stops, calmMotion }: MomentProp
     },
     onError: (e) => {
       const key = errorKey(e);
-      if (key === "MOMENT_OVER" || key === "MOMENT_NOT_FOUND") setEnded("over");
+      if (key === "MOMENT_OVER" || key === "MOMENT_NOT_FOUND") {
+        setEnded("over");
+        close.mutate();
+      }
       else setNote(say(`errors.${key}`));
     },
   });
@@ -148,10 +154,11 @@ export function MomentView({ available, minutes, stops, calmMotion }: MomentProp
   });
   const talkNote = talk.problem === "denied" ? say("moment.micDenied") : talk.problem === "short" ? say("moment.tooShort") : talk.problem === "unsupported" ? say("moment.voiceUnsupported") : null;
   const close = useMutation({
-    mutationFn: () => krizakaFetch("/api/moment/end", { method: "POST", json: { momentId: moment?.id } }),
+    mutationFn: () => krizakaFetch("/api/moment/end", { schema: EndSchema, method: "POST", json: { momentId: moment?.id, keep: true } }),
+    onSuccess: (r) => setClosing(r),
     onSettled: () => {
       speech.silence();
-      setEnded("closed");
+      setEnded((e) => e ?? "closed");
       setLines([]);
     },
   });
@@ -206,17 +213,8 @@ export function MomentView({ available, minutes, stops, calmMotion }: MomentProp
   }
 
   if (ended) {
-    return frame(
-      <section className="flex flex-col gap-3">
-        <h2 className="font-display text-xl font-extrabold text-fg">{ended === "over" ? say("moment.over") : say("moment.endedTitle")}</h2>
-        <p className="text-fg-secondary">{say("moment.endedText")}</p>
-        <div>
-          <a className={buttonVariants({ variant: "secondary", size: "md", shape: "cut" })} href={`/${locale}`}>
-            {say("moment.again")}
-          </a>
-        </div>
-      </section>,
-    );
+    // The closing waits for the end call (the words are forgotten or kept for the person's choice): until then, a quiet line.
+    return frame(closing || !close.isPending ? <MomentClosing momentId={moment?.id ?? null} canKeep={closing?.canKeep ?? false} remaining={closing?.remaining ?? null} language={locale} moodBefore={moodBefore} over={ended === "over"} /> : <p className="text-fg-secondary">{say("moment.keepWorking")}</p>);
   }
 
   if (!moment || !chosen) {
@@ -250,6 +248,7 @@ export function MomentView({ available, minutes, stops, calmMotion }: MomentProp
               <Checkbox checked={agreed} onCheckedChange={(v) => setAgreed(v === true)}>
                 {say("moment.agree")}
               </Checkbox>
+              <MoodPick label={say("moment.moodBefore")} value={moodBefore} onChange={setMoodBefore} />
             </section>
             {note ? <Alert tone="danger">{note}</Alert> : null}
             <div>
