@@ -35,22 +35,14 @@
       "date": "No date"
     },
     "explore": "How a moment goes",
-    "preview": {
-      "label": "Preview, under construction",
-      "aria": "A preview of a presence: a stylised portrait, a voice and sample captions.",
-      "name": "Léa",
-      "role": "An AI presence",
-      "mark": "AI",
-      "speaking": "Speaking",
-      "note": "A sample, not a moment that exists yet: a stylised portrait and captions written for this preview.",
-      "captionsLabel": "Sample captions",
-      "captions": [
-        "I'm Léa, an AI presence.",
-        "How do you feel right now, 1 to 5? You say.",
-        "That's all for today. See you tomorrow from 9 am."
-      ]
-    },
-    "talk": "Talk to us about Yororis"
+    "talk": "Talk to us about Yororis",
+    "take": {
+      "label": "A moment, recorded locally",
+      "aria": "A recording of a moment: the presence introduces itself, the voice is on, the time left is on screen and the crisis lines stay in view.",
+      "note": "A {seconds}-second moment, recorded on the local version with a fictional cast. Under construction, not available.",
+      "play": "Play the recording",
+      "pause": "Pause the recording"
+    }
   },
   "crisis": {
     "label": "In a crisis",

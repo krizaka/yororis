@@ -35,22 +35,14 @@
       "date": "Pas de date"
     },
     "explore": "Comment se passe un moment",
-    "preview": {
-      "label": "Aperçu, en construction",
-      "aria": "Aperçu d'une présence : un portrait stylisé, une voix et des sous-titres d'exemple.",
-      "name": "Léa",
-      "role": "Une présence IA",
-      "mark": "IA",
-      "speaking": "Elle parle",
-      "note": "Un exemple, pas un moment qui existe déjà : un portrait stylisé et des sous-titres écrits pour l'aperçu.",
-      "captionsLabel": "Sous-titres d'exemple",
-      "captions": [
-        "Je suis Léa, une présence IA.",
-        "Comment te sens-tu, là, de 1 à 5 ? C'est toi qui le dis.",
-        "C'est tout pour aujourd'hui. On se retrouve demain à partir de 9 h."
-      ]
-    },
-    "talk": "Discuter de Yororis"
+    "talk": "Discuter de Yororis",
+    "take": {
+      "label": "Un moment, enregistré en local",
+      "aria": "Enregistrement d'un moment : la présence se présente, la voix est activée, le temps qui reste est à l'écran et les lignes de crise restent affichées.",
+      "note": "Un moment de {seconds} secondes, enregistré sur la version locale avec une distribution fictive. En construction, non disponible.",
+      "play": "Lire l'enregistrement",
+      "pause": "Mettre l'enregistrement en pause"
+    }
   },
   "crisis": {
     "label": "En cas de crise",

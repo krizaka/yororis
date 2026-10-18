@@ -18,7 +18,7 @@ import CHANGELOG from "@/lib/changelog.generated.json";
 
 import { AppTour } from "./AppTour";
 import { Crisis } from "./Crisis";
-import { PresencePreview } from "./PresencePreview";
+import { MomentTake } from "./MomentTake";
 import { GitHubMark } from "./GitHubMark";
 
 /* The one page of Yororis, on the LandingPage template of @krizaka/ui (language of krizaka.com): the idea, how it is built
@@ -52,8 +52,8 @@ export function Home({ locale }: { locale: Locale }) {
         }
         title={m.hero.title}
         lead={m.hero.lead}
-        visualLabel={m.hero.preview.label}
-        visual={<PresencePreview m={m.hero.preview} />}
+        visualLabel={m.hero.take.label}
+        visual={<MomentTake m={m.hero.take} />}
         actions={
           <div className="rd-stack yo-hero-stack">
             <div aria-label={m.crisis.aria} role="group">
