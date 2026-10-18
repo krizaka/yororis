@@ -206,3 +206,11 @@ test("a write from another origin is refused", async () => {
   const res = await start.POST(new Request(`http://${HOST}/api/moment/start`, { method: "POST", headers: { host: HOST, origin: "https://evil.example", cookie: as(2), "content-type": "application/json" }, body: "{}" }));
   assert.equal(res.status, 403);
 });
+
+test("the crisis panel shows the pack's reply as sent, in whichever languages it carries: no language is forced on it", () => {
+  const src = readFileSync(new URL("../components/console/MomentView.tsx", import.meta.url), "utf8");
+  const panel = src.slice(src.indexOf('data-testid="crisis-panel"'), src.indexOf("crisis.resource ?"));
+  assert.match(panel, /whitespace-pre-line/);
+  assert.ok(!/lang="fr"/.test(panel), "the pack's reply is bilingual: it must not be marked French");
+  assert.match(panel, /\{crisis\.text\}/);
+});

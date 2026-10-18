@@ -190,7 +190,7 @@ export function MomentView({ available, minutes, stops, calmMotion }: MomentProp
           {say("moment.crisisTitle")}
         </h2>
         <p className="text-sm text-fg-secondary">{say("moment.crisisStopped", { name })}</p>
-        <p lang="fr" className="whitespace-pre-line text-base text-fg">
+        <p className="whitespace-pre-line text-base text-fg">
           {crisis.text}
         </p>
         {crisis.resource ? (
