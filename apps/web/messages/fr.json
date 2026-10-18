@@ -322,7 +322,9 @@
       "laterTitle": "Revenir plus tard",
       "laterLeft": "Moments restants : {today} aujourd'hui, {week} cette semaine.",
       "laterNext": "Le prochain s'ouvre {time}.",
-      "laterOpen": "Tu peux en commencer un autre quand tu veux."
+      "laterOpen": "Tu peux en commencer un autre quand tu veux.",
+      "chooseCaption": "Chacune est une présence IA avec son visage et sa voix. Tu peux en choisir une autre la prochaine fois.",
+      "speaks": "Parle français et anglais"
     }
   }
 }

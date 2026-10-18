@@ -7,6 +7,7 @@ import { Avatar } from "@krizaka/ui/avatar";
 import { Button,buttonVariants } from "@krizaka/ui/button";
 import { MessageBubble, MessageComposer, TypingIndicator } from "@krizaka/ui/chat";
 import { Checkbox } from "@krizaka/ui/checkbox";
+import { ChoiceGrid } from "@krizaka/ui/choice-grid";
 import { Countdown } from "@krizaka/ui/countdown";
 import { Waveform } from "@krizaka/ui/waveform";
 import { useEffect, useRef, useState } from "react";
@@ -228,19 +229,23 @@ export function MomentView({ available, minutes, stops, calmMotion }: MomentProp
           <Alert tone="info">{say(stops.reason === "DAY" ? "moment.stopsDay" : "moment.stopsWeek", { time: fmt(stops.nextAt, locale) })}</Alert>
         ) : (
           <>
-            <fieldset className="flex flex-col gap-2">
-              <legend className="mb-1 font-medium text-fg">{say("moment.chooseTitle")}</legend>
-              {PRESENCES.map((p) => (
-                <label key={p.id} className="flex cursor-pointer items-center gap-3 rounded-lg border border-border-default bg-surface-1 p-3 has-[:checked]:border-accent">
-                  <input type="radio" name="presence" className="sr-only" checked={chosen?.id === p.id} onChange={() => setChosen(p)} />
-                  <Avatar size="md" src={p.face} fallback={p.name.slice(0, 1)} alt="" />
-                  <span className="flex flex-col">
-                    <span className="font-semibold text-fg">{p.name}</span>
-                    <span className="text-sm text-fg-secondary">{say(STYLE[p.id])}</span>
-                  </span>
-                </label>
-              ))}
-            </fieldset>
+            <ChoiceGrid
+              label={say("moment.chooseTitle")}
+              prompt={say("moment.chooseTitle")}
+              caption={say("moment.chooseCaption")}
+              columns={3}
+              animated={false}
+              value={chosen?.id}
+              onValueChange={(id) => setChosen(PRESENCES.find((p) => p.id === id) ?? null)}
+              items={PRESENCES.map((p) => ({
+                id: p.id,
+                name: p.name,
+                title: say(STYLE[p.id]),
+                badge: say("moment.aiMark"),
+                visual: <Avatar size="xl" src={p.face} fallback={p.name.slice(0, 1)} alt="" />,
+                meta: say("moment.speaks"),
+              }))}
+            />
             <section className="flex flex-col gap-2 rounded-lg border border-border-default bg-surface-1 p-3">
               <h3 className="font-semibold text-fg">{say("moment.keepTitle")}</h3>
               <p className="text-sm text-fg-secondary">{say("moment.keepText")}</p>
