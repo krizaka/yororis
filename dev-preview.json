@@ -6,15 +6,15 @@
   "criteria": {
     "site.healthy": {
       "evidence": "https://qa.yororis.com/api/healthz",
-      "checked": "2026-10-17"
+      "checked": "2026-10-18"
     },
     "site.signup-closed": {
       "evidence": "https://github.com/krizaka/yororis/blob/main/apps/web/tests/sign-up-closed.test.mjs",
-      "checked": "2026-10-17"
+      "checked": "2026-10-18"
     },
     "site.qa-signin": {
       "evidence": "https://github.com/krizaka/yororis/blob/main/apps/web/tests/e2e/crawl.mjs",
-      "checked": "2026-10-17"
+      "checked": "2026-10-18"
     },
     "journey.core": {
       "evidence": "https://krizaka-assets.b-cdn.net/pr-assets/yororis/take/take-moment-fr-phone.mp4",
@@ -31,11 +31,11 @@
     },
     "ui.themes-devices": {
       "evidence": "https://krizaka-assets.b-cdn.net/pr-assets/yororis/dev-preview/moment-phone-dark.png",
-      "checked": "2026-10-17"
+      "checked": "2026-10-18"
     },
     "ux.ia-review": {
       "evidence": "https://github.com/krizaka/yororis/blob/main/docs/UX_DECISIONS.md",
-      "checked": "2026-10-17"
+      "checked": "2026-10-18"
     },
     "mobile.build": {
       "na": "No mobile app in the QA Dev preview (AGENTS.md, decision of 2026-10-17): the web app is phone-first and checked at 360 px."
@@ -57,7 +57,7 @@
     },
     "docs.current": {
       "evidence": "https://github.com/krizaka/yororis/blob/main/docs/DEPLOYMENT.md",
-      "checked": "2026-10-17"
+      "checked": "2026-10-18"
     },
     "seo.family": {
       "evidence": "https://github.com/krizaka/yororis/actions?query=branch%3Amain",
@@ -69,25 +69,25 @@
       "issue": "https://github.com/krizaka/.github/issues/78"
     },
     "admin.gated": {
-      "na": "No Krizaka operator console exists yet: the organisation's own console (members: pause, restore) is part of the app and is not an operator task; the QA app is operated through the platform and the repository."
+      "na": "No Krizaka operator console exists yet. The organisation's own console is part of the app (members: pause, restore; moments: counts, durations, lines shown — no word, no name, Krizaka UI Stat grid and DataTable); the QA app is operated through the platform and the repository."
     },
     "admin.noindex": {
-      "na": "No Krizaka operator console exists yet: the organisation's own console (members: pause, restore) is part of the app and is not an operator task; the QA app is operated through the platform and the repository."
+      "na": "No Krizaka operator console exists yet. The organisation's own console is part of the app (members: pause, restore; moments: counts, durations, lines shown — no word, no name, Krizaka UI Stat grid and DataTable); the QA app is operated through the platform and the repository."
     },
     "admin.operator-tasks": {
-      "na": "No Krizaka operator console exists yet: the organisation's own console (members: pause, restore) is part of the app and is not an operator task; the QA app is operated through the platform and the repository."
+      "na": "No Krizaka operator console exists yet. The organisation's own console is part of the app (members: pause, restore; moments: counts, durations, lines shown — no word, no name, Krizaka UI Stat grid and DataTable); the QA app is operated through the platform and the repository."
     },
     "admin.audit-log": {
-      "na": "No Krizaka operator console exists yet: the organisation's own console (members: pause, restore) is part of the app and is not an operator task; the QA app is operated through the platform and the repository."
+      "na": "No Krizaka operator console exists yet. The organisation's own console is part of the app (members: pause, restore; moments: counts, durations, lines shown — no word, no name, Krizaka UI Stat grid and DataTable); the QA app is operated through the platform and the repository."
     },
     "admin.shell": {
-      "na": "No Krizaka operator console exists yet: the organisation's own console (members: pause, restore) is part of the app and is not an operator task; the QA app is operated through the platform and the repository."
+      "na": "No Krizaka operator console exists yet. The organisation's own console is part of the app (members: pause, restore; moments: counts, durations, lines shown — no word, no name, Krizaka UI Stat grid and DataTable); the QA app is operated through the platform and the repository."
     },
     "admin.ux-review": {
-      "na": "No Krizaka operator console exists yet: the organisation's own console (members: pause, restore) is part of the app and is not an operator task; the QA app is operated through the platform and the repository."
+      "na": "No Krizaka operator console exists yet. The organisation's own console is part of the app (members: pause, restore; moments: counts, durations, lines shown — no word, no name, Krizaka UI Stat grid and DataTable); the QA app is operated through the platform and the repository."
     },
     "admin.ci": {
-      "na": "No Krizaka operator console exists yet: the organisation's own console (members: pause, restore) is part of the app and is not an operator task; the QA app is operated through the platform and the repository."
+      "na": "No Krizaka operator console exists yet. The organisation's own console is part of the app (members: pause, restore; moments: counts, durations, lines shown — no word, no name, Krizaka UI Stat grid and DataTable); the QA app is operated through the platform and the repository."
     }
   }
 }
