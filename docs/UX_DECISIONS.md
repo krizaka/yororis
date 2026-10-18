@@ -38,4 +38,13 @@ One entry per notable choice: the decision, the problem, the principle (with its
 - **Cost.** Holding a button is less fluid than talking; a browser that cannot record in WebM or Ogg/Opus is told so and offered the keyboard.
 - **Signal that we are wrong.** QA notes that holding is tiring on a phone, or that the cut at 30 seconds interrupts a thought — then a tap-to-start, tap-to-stop mode with the same visible state is the alternative.
 
+## 5. Navigation: three places, and the lines to call are not one of them
+
+- **Decision.** The signed-in space has three destinations — **Home**, **A moment**, **Account** — and, for an organiser only, a fourth group (**Members**). Each is one job: see what is mine and begin; talk; look after my account (profile, display, consent, what I bring, deletion). The lines to call are not a destination: they are on the screen (§1). What I keep, the thread and my notebook are shown on Home as designed empty states until they exist; they are not menu items of their own.
+- **Problem.** A listening space with a menu of eight things asks a tired person to choose before they can speak.
+- **Principle.** Hick's law — decision time grows with the number of choices (Hick, 1952; Hyman, 1953); the navigation of at most about five top-level items of the dev-preview standard.
+- **Refused.** A destination per feature (« thread », « notebook », « keeps »); docs or platform entries next to the product's own; a mobile tab bar with more than three tabs.
+- **Cost.** What I keep will have to earn its own place the day it has content.
+- **Signal that we are wrong.** QA notes that someone cannot find their summaries, or an organiser looks for the members elsewhere.
+
 The text on this screen is **not yet reviewed by a lawyer** (krizaka/.github#40); the Moment is for the QA accounts only until it is.

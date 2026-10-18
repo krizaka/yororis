@@ -10,7 +10,7 @@
     "lint": "eslint . --max-warnings 0 && krizaka-i18n check messages && krizaka-i18n scan app components --allow Yororis,YORORIS,Krizaka,KRIZAKA --skip /app/api/",
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test tests/*.test.mjs",
-    "test:e2e": "node tests/e2e/moment.mjs"
+    "test:e2e": "node tests/e2e/moment.mjs && node tests/e2e/crawl.mjs"
   },
   "dependencies": {
     "@krizaka/fonts": "0.2.0",
