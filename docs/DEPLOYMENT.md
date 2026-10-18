@@ -54,6 +54,15 @@ doctl apps create --spec "$(mktemp)" --project-id d9441511-826e-4086-81b9-0a3bab
 Verify: `curl -fsS https://qa.yororis.com/api/healthz`, `curl -s -o /dev/null -w '%{http_code}' -X POST https://qa.yororis.com/api/auth/sign-up` (403),
 then sign in as a QA account and open a moment.
 
+## The AI on dev (set up on 2026-10-18)
+
+- A service account `svc_yororis` and its `oz_` key in Orazaka dev (identity database); the key is stored with the other Yororis secrets and is a SECRET of the app. The account holds the
+  four `studio.*` grants of the wellbeing pack, the pack installed once (consent 1.0, region CA-QC), a plan with speech, and QA credits (nothing is sold).
+- **Whisper and Piper on dev** are the Mac's LocalAI, reached through the dev relay: `ai_providers.localai` points at `http://gpu-relay:11434` while a chisel client on the Mac
+  exposes LocalAI there (`R:0.0.0.0:11434:127.0.0.1:8086`). It lasts as long as that Mac process; if it is down the voice is unavailable (the text answer still comes). The relay's other
+  ports (8086, 8188) are held by the GPU pods.
+- The recorded take of a real moment: https://krizaka-assets.b-cdn.net/pr-assets/yororis/take/take-moment-fr-phone.mp4
+
 ## Not done here, on purpose
 
 - No production, no store, no outside person, no sign-up, no invitation code, no payment: the lawyer review comes first.
