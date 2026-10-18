@@ -12,7 +12,7 @@ const { MEDIA_CDN, portrait } = await import("../lib/media.ts");
 
 const messages = { en: JSON.parse(readFileSync("messages/en.json", "utf8")), fr: JSON.parse(readFileSync("messages/fr.json", "utf8")) };
 // The voices of `wellbeing/listening/listening.json` (orazaka-packs): a presence names a catalogued voice, never a model.
-const CATALOGUED = { "fr": ["piper-fr-siwis-medium", "piper-fr-medium", "piper-fr-tom-medium"], "en": ["piper-en-low", "piper-en-medium-ryan"] };
+const CATALOGUED = { "fr": ["piper-fr-siwis-medium", "piper-fr-medium", "piper-fr-tom-medium"], "en": ["piper-en-low", "piper-en-medium-ryan", "piper-en-medium-lessac"] };
 // The fictitious people of the shared library (people/personas/ui): generated, they do not exist.
 const LIBRARY = ["ada", "camille", "noor", "tomas"];
 
@@ -26,6 +26,18 @@ test("three presences, each with its own face from the library of fictitious peo
     assert.ok(CATALOGUED.fr.includes(p.voices.fr) && CATALOGUED.en.includes(p.voices.en), `${p.id}: a voice is not catalogued`);
     assert.equal(presenceOf(p.id), p);
   }
+});
+
+test("each presence speaks with its own voice in each language, and with its own face", () => {
+  for (const lang of ["fr", "en"]) assert.equal(new Set(PRESENCES.map((p) => p.voices[lang])).size, PRESENCES.length - (lang === "en" ? 0 : 0), `two presences share a ${lang} voice`);
+  assert.equal(new Set(PRESENCES.map((p) => p.face)).size, PRESENCES.length);
+});
+
+test("the picker is Krizaka UI's ChoiceGrid: a radio group with arrow keys, each tile carrying the AI mark", () => {
+  const view = readFileSync("components/console/MomentView.tsx", "utf8");
+  assert.match(view, /from "@krizaka\/ui\/choice-grid"/);
+  assert.match(view, /badge: say\("moment\.aiMark"\)/);
+  assert.ok(!/type="radio"/.test(view), "no hand-made radio list");
 });
 
 test("no image or video is committed: the portraits are not in the repository", () => {
@@ -51,7 +63,7 @@ test("the face always wears the AI mark, in both languages, and names itself an 
 test("the moment screen draws the face, and the choice list shows each portrait", () => {
   const view = readFileSync("components/console/MomentView.tsx", "utf8");
   assert.match(view, /<PresenceFace presence=\{presence\} speaking=\{speech\.speaking\} energy=\{speech\.energy\} calm=\{calmMotion\}/);
-  assert.match(view, /<Avatar size="md" src=\{p\.face\}/);
+  assert.match(view, /<Avatar size="xl" src=\{p\.face\}/);
   const page = readFileSync("app/[locale]/(app)/(console)/moment/page.tsx", "utf8");
   assert.match(page, /calmMotion=\{member\?\.calmMotion \?\? false\}/);
 });

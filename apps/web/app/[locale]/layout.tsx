@@ -1,5 +1,6 @@
 import "../globals.css";
 import "@krizaka/ui/blocks.css";
+import "@krizaka/ui/story.css";
 
 import { cn } from "@krizaka/ui/cn";
 import { ThemeProvider, ThemeScript } from "@krizaka/ui/theme";

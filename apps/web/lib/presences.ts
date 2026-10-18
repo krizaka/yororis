@@ -22,7 +22,7 @@ export interface Presence {
 export const PRESENCES: readonly Presence[] = [
   { id: "lea", name: "Léa", voices: { fr: "piper-fr-siwis-medium", en: "piper-en-low" }, tags: { fr: "fr-CA", en: "en" }, face: portrait("camille") },
   { id: "samuel", name: "Samuel", voices: { fr: "piper-fr-tom-medium", en: "piper-en-medium-ryan" }, tags: { fr: "fr-CA", en: "en" }, face: portrait("tomas") },
-  { id: "noor", name: "Noor", voices: { fr: "piper-fr-medium", en: "piper-en-low" }, tags: { fr: "fr-CA", en: "en" }, face: portrait("noor") },
+  { id: "noor", name: "Noor", voices: { fr: "piper-fr-medium", en: "piper-en-medium-lessac" }, tags: { fr: "fr-CA", en: "en" }, face: portrait("noor") },
 ];
 
 export const presenceOf = (id: string): Presence | undefined => PRESENCES.find((p) => p.id === id);

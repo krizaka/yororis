@@ -322,7 +322,9 @@
       "laterTitle": "Come back later",
       "laterLeft": "Moments left: {today} today, {week} this week.",
       "laterNext": "The next one opens {time}.",
-      "laterOpen": "You can begin another whenever you are ready."
+      "laterOpen": "You can begin another whenever you are ready.",
+      "chooseCaption": "Each one is an AI presence with its own face and voice. You can choose another next time.",
+      "speaks": "Speaks English and French"
     }
   }
 }
