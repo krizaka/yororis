@@ -65,6 +65,10 @@ then sign in as a QA account and open a moment.
 - Recorded takes of real moments on dev (video only): French https://krizaka-assets.b-cdn.net/pr-assets/yororis/take/take-moment-fr-phone.mp4 · English https://krizaka-assets.b-cdn.net/pr-assets/yororis/take/take-moment-en-phone.mp4 · the English crisis reply https://krizaka-assets.b-cdn.net/pr-assets/yororis/take/take-crisis-en-phone.mp4
 - The recorded take of a real moment: https://krizaka-assets.b-cdn.net/pr-assets/yororis/take/take-moment-fr-phone.mp4
 
+- **What I keep** runs the pack's `…-summary` Studio (installed once for the Yororis account, found by the suffix of its key) over the moment's words, with the person's own 1-to-5 numbers; the
+  app appends a one-line language directive to the moment (« Write every value of the JSON in English. ») because the Studio's French instructions otherwise win over `locale` on the 7B model.
+  The result is shown to be read, edited, copied or downloaded; it is stored nowhere, and the moment's words are forgotten as soon as it is written (or after 15 minutes without a choice).
+
 ## Not done here, on purpose
 
 - No production, no store, no outside person, no sign-up, no invitation code, no payment: the lawyer review comes first.
