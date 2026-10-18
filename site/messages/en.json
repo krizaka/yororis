@@ -34,7 +34,23 @@
       "open": "Open source · Apache-2.0",
       "date": "No date"
     },
-    "explore": "How a moment goes"
+    "explore": "How a moment goes",
+    "preview": {
+      "label": "Preview, under construction",
+      "aria": "A preview of a presence: a stylised portrait, a voice and sample captions.",
+      "name": "Léa",
+      "role": "An AI presence",
+      "mark": "AI",
+      "speaking": "Speaking",
+      "note": "A sample, not a moment that exists yet: a stylised portrait and captions written for this preview.",
+      "captionsLabel": "Sample captions",
+      "captions": [
+        "I'm Léa, an AI presence.",
+        "How do you feel right now, 1 to 5? You say.",
+        "That's all for today. See you tomorrow from 9 am."
+      ]
+    },
+    "talk": "Talk to us about Yororis"
   },
   "crisis": {
     "label": "In a crisis",
@@ -286,5 +302,27 @@
     "feedDescription": "What shipped in Yororis, week by week.",
     "footerVersion": "v{version}",
     "langTag": "en"
+  },
+  "features": {
+    "eyebrow": "A face and a voice",
+    "title": "A presence that listens, and says so",
+    "items": [
+      {
+        "title": "A face",
+        "text": "An AI presence with a first name and an animated portrait, carrying a permanent “AI” mark."
+      },
+      {
+        "title": "A voice",
+        "text": "A voice and exact subtitles: you can listen, read, or both."
+      },
+      {
+        "title": "One question at a time",
+        "text": "It listens, reflects back and asks one question, then it stops. The time left is always on screen."
+      },
+      {
+        "title": "What I keep",
+        "text": "At the end of the moment the transcript is gone. A short summary remains, yours to read, edit or delete."
+      }
+    ]
   }
 }

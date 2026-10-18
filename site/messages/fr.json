@@ -34,7 +34,23 @@
       "open": "Open source · Apache-2.0",
       "date": "Pas de date"
     },
-    "explore": "Comment se passe un moment"
+    "explore": "Comment se passe un moment",
+    "preview": {
+      "label": "Aperçu, en construction",
+      "aria": "Aperçu d'une présence : un portrait stylisé, une voix et des sous-titres d'exemple.",
+      "name": "Léa",
+      "role": "Une présence IA",
+      "mark": "IA",
+      "speaking": "Elle parle",
+      "note": "Un exemple, pas un moment qui existe déjà : un portrait stylisé et des sous-titres écrits pour l'aperçu.",
+      "captionsLabel": "Sous-titres d'exemple",
+      "captions": [
+        "Je suis Léa, une présence IA.",
+        "Comment te sens-tu, là, de 1 à 5 ? C'est toi qui le dis.",
+        "C'est tout pour aujourd'hui. On se retrouve demain à partir de 9 h."
+      ]
+    },
+    "talk": "Discuter de Yororis"
   },
   "crisis": {
     "label": "En cas de crise",
@@ -286,5 +302,27 @@
     "feedDescription": "Ce que Yororis a livré, semaine par semaine.",
     "footerVersion": "v{version}",
     "langTag": "fr-CA"
+  },
+  "features": {
+    "eyebrow": "Un visage et une voix",
+    "title": "Une présence qui écoute, et qui le dit",
+    "items": [
+      {
+        "title": "Un visage",
+        "text": "Une présence IA avec un prénom et un portrait animé, qui porte en permanence la marque « IA »."
+      },
+      {
+        "title": "Une voix",
+        "text": "Une voix et des sous-titres exacts : on peut écouter, lire, ou les deux."
+      },
+      {
+        "title": "Une question à la fois",
+        "text": "Elle écoute, reformule et pose une question, puis elle s'arrête. Le temps qui reste est toujours à l'écran."
+      },
+      {
+        "title": "Ce que je garde",
+        "text": "À la fin du moment, la transcription disparaît. Un court résumé reste, à vous de le lire, de le modifier ou de le supprimer."
+      }
+    ]
   }
 }
