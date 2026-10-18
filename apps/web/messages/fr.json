@@ -41,7 +41,8 @@
       "theme": "Passer du thème clair au sombre",
       "banner": "En développement, pour les comptes de QA seulement. Une distribution fictive : personne de réel ici.",
       "moment": "Un moment",
-      "version": "Version {version}"
+      "version": "Version {version}",
+      "adminMoments": "Moments"
     },
     "signIn": {
       "title": "Bienvenue",
@@ -250,6 +251,33 @@
         "compact": "Page {page} sur {pages}",
         "pageSize": "Lignes par page",
         "retry": "Réessayer"
+      },
+      "moments": {
+        "title": "Moments",
+        "lead": "Des comptes et des durées seulement. Jamais ce que quelqu'un a dit, jamais qui.",
+        "caption": "Les moments, du plus récent au plus ancien",
+        "when": "Quand",
+        "presence": "Présence",
+        "duration": "Durée",
+        "turns": "Tours",
+        "ended": "Comment il s'est terminé",
+        "kept": "Lignes gardées",
+        "yes": "Oui",
+        "no": "Non",
+        "outcomes": {
+          "open": "Ouvert",
+          "closed": "Terminé par la personne",
+          "over": "Arrêté à l'heure",
+          "lines": "Les lignes à appeler ont été montrées"
+        },
+        "kpiMoments": "Moments",
+        "kpiLast24h": "{count} dans les dernières 24 heures",
+        "kpiAverage": "Durée moyenne",
+        "kpiAverageHint": "Des moments terminés",
+        "kpiLines": "Lignes à appeler montrées",
+        "kpiLinesHint": "La réponse fixe du pack, telle qu'envoyée",
+        "kpiKept": "Lignes gardées",
+        "kpiKeptHint": "Des moments terminés"
       }
     },
     "moment": {

@@ -1,4 +1,5 @@
 import { endsAt, type Limits } from "./moment-policy";
+import { openStat } from "./moment-stats";
 import type { PresenceId } from "./presences";
 
 /**
@@ -20,6 +21,8 @@ export interface Moment {
   log: { who: "person" | "presence"; text: string }[];
   busy: boolean;
   ended: boolean;
+  /** The line of this moment in the organisation's counts (lib/moment-stats.ts): no words, no name. */
+  statId: string;
   /** Set when the person closes the moment: the words wait here for the choice, then are forgotten. */
   endedAt: number | null;
 }
@@ -73,6 +76,7 @@ export function begin(input: { memberId: string; presence: PresenceId; language:
     busy: false,
     ended: false,
     endedAt: null,
+    statId: openStat({ presence: input.presence, language: input.language, startedAt: now, endsAt: endsAt(now, limits) }),
   };
   state().live.set(moment.id, moment);
   state().taken.set(input.memberId, [...(state().taken.get(input.memberId) ?? []).filter((t) => t > now - 7 * 24 * 3600 * 1000), now]);

@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { done, fail, isUuid, requireMember } from "@/lib/http";
+import { updateStat } from "@/lib/moment-stats";
 import { findMoment, finish, turnsOf } from "@/lib/moments";
 import { orazaka, OrazakaError, UPSTREAM_FAILED } from "@/lib/orazaka";
 
@@ -27,6 +28,7 @@ export async function POST(req: Request) {
   moment.busy = true;
   try {
     const kept = await client.keep({ turns: `${turnsOf(moment)}\n\n${DIRECTIVE[moment.language]}`, locale: moment.language === "fr" ? "fr-CA" : "en", moodBefore: body.data.moodBefore, moodAfter: body.data.moodAfter });
+    updateStat(moment.statId, { kept: true });
     finish(moment);
     return done({ kept });
   } catch (e) {

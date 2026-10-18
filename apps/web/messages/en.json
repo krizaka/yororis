@@ -41,7 +41,8 @@
       "theme": "Switch between light and dark",
       "banner": "In development, for the QA accounts only. A fictional cast: nobody real is here.",
       "moment": "A moment",
-      "version": "Version {version}"
+      "version": "Version {version}",
+      "adminMoments": "Moments"
     },
     "signIn": {
       "title": "Welcome",
@@ -250,6 +251,33 @@
         "compact": "Page {page} of {pages}",
         "pageSize": "Rows per page",
         "retry": "Try again"
+      },
+      "moments": {
+        "title": "Moments",
+        "lead": "Counts and durations only. Never what anyone said, never who.",
+        "caption": "The moments, newest first",
+        "when": "When",
+        "presence": "Presence",
+        "duration": "Length",
+        "turns": "Turns",
+        "ended": "How it ended",
+        "kept": "Lines kept",
+        "yes": "Yes",
+        "no": "No",
+        "outcomes": {
+          "open": "Open",
+          "closed": "Closed by the person",
+          "over": "Stopped on time",
+          "lines": "The lines to call were shown"
+        },
+        "kpiMoments": "Moments",
+        "kpiLast24h": "{count} in the last 24 hours",
+        "kpiAverage": "Average length",
+        "kpiAverageHint": "Of the moments that ended",
+        "kpiLines": "Lines to call shown",
+        "kpiLinesHint": "The pack's fixed reply, as sent",
+        "kpiKept": "Lines kept",
+        "kpiKeptHint": "Of the moments that ended"
       }
     },
     "moment": {

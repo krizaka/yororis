@@ -121,11 +121,11 @@ const step = async (name, fn) => {
 const CAST = ["marie-eve", "samir", "jordan", "camille", "noor", "etienne", "lina", "theo"].map((n) => `${n}@demo.yororis.test`);
 let signIns = 0;
 
-async function open(viewport, scheme, locale = "en") {
+async function open(viewport, scheme, locale = "en", email = null, path = "moment") {
   const context = await browser.newContext({ viewport, colorScheme: scheme, locale, permissions: ["microphone"] });
   context.setDefaultTimeout(process.env.E2E_DEV === "1" ? 40_000 : 15_000);
   if (process.env.E2E_REAL_PORTRAITS !== "1") await context.route("**/people/personas/**", (route) => route.fulfill({ contentType: "image/png", body: PNG }));
-  const login = await context.request.post(`${APP}/api/auth/password`, { data: { email: CAST[signIns++ % CAST.length], password: "e2e-demo-password" }, headers: { origin: APP } });
+  const login = await context.request.post(`${APP}/api/auth/password`, { data: { email: email ?? CAST[signIns++ % CAST.length], password: "e2e-demo-password" }, headers: { origin: APP } });
   assert.equal(login.status(), 200);
   // The cookie is Secure in production (tested in api.test.mjs); this run is plain http on 127.0.0.1, so it is set by hand.
   const value = /yororis_auth=([^;]+)/.exec(login.headers()["set-cookie"] ?? "")?.[1];
@@ -134,7 +134,7 @@ async function open(viewport, scheme, locale = "en") {
   await context.addCookies([{ name: "yororis_auth", value, url: APP, httpOnly: true, sameSite: "Lax" }]);
   const page = await context.newPage();
   current = page;
-  await page.goto(`${APP}/${locale}/moment`);
+  await page.goto(`${APP}/${locale}/${path}`);
   return { context, page };
 }
 
@@ -278,6 +278,28 @@ for (const [device, viewport] of Object.entries(VIEWPORTS)) {
     await closing.getByText(/Nothing was saved/).waitFor();
     assert.equal(await closing.getByLabel("To bring with you").count(), 0, "what was let go is gone from the screen");
     await context.close();
+  });
+}
+
+for (const [device, viewport] of Object.entries(VIEWPORTS)) {
+  await step(`${device}: the organiser's console of moments — figures and a table, counts only, never a word`, async () => {
+    const { context, page } = await open(viewport, "dark", "en", "demo-admin@demo.yororis.test", "admin/moments");
+    const root = page.getByTestId("moments-console");
+    await root.waitFor();
+    await root.getByText("Average length").waitFor();
+    await root.getByRole("table").waitFor();
+    await root.getByText("Closed by the person").first().waitFor();
+    const text = await root.innerText();
+    assert.ok(!/Work was heavy|I spoke out loud|Sometimes I want|And one more thing|What weighs/.test(text), "a word of a moment reached the console");
+    assert.ok(!/@demo\.yororis|Marie|Samir/.test(text), "a name reached the console");
+    assert.ok(await root.getByText("The lines to call were shown").count() > 0, "the lines shown are counted");
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    assert.ok(overflow <= 0, `the console scrolls sideways by ${overflow}px`);
+    if (shots) await page.screenshot({ path: `${shots}/console-moments-${device}.png` });
+    await context.close();
+    const member = await open(viewport, "dark", "en", "lina@demo.yororis.test", "admin/moments");
+    assert.ok((await member.page.locator("body").innerText()).includes("could not") || (await member.page.locator("body").innerText()).includes("not found") || (await member.page.locator("body").innerText()).includes("404"), "a member must not see the console");
+    await member.context.close();
   });
 }
 

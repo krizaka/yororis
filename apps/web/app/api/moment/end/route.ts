@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { done, fail, isUuid, requireMember } from "@/lib/http";
 import { remainingView } from "@/lib/moment-api";
+import { updateStat } from "@/lib/moment-stats";
 import { close, findMoment,finish } from "@/lib/moments";
 
 const Body = z.object({ momentId: z.string().refine(isUuid), keep: z.boolean().optional() }).strict();
@@ -17,6 +18,8 @@ export async function POST(req: Request) {
   if (!body.success) return fail(400, "INVALID_PAYLOAD");
   const moment = findMoment(body.data.momentId, r.member.id);
   if (!moment) return fail(404, "MOMENT_NOT_FOUND");
+  const now = Date.now();
+  updateStat(moment.statId, { outcome: now >= moment.endsAt ? "over" : "closed", endedAt: now });
   const canKeep = body.data.keep === true && moment.log.length >= 2;
   if (canKeep) close(moment);
   else finish(moment);
