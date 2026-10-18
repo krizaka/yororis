@@ -94,10 +94,11 @@ for (const l of ["en", "fr"]) {
     assert.ok(d.querySelector('meta[name="description"]'));
     assert.ok(d.querySelector("body").classList.contains("brand-yororis"));
     for (const id of ["what", "how", "not"]) assert.ok(d.getElementById(id), `section #${id}`);
-    // One story in five sections: the promise (with the crisis lines), what it is, how it is built, what it is not, the call.
-    const blocks = d.querySelector("main").childNodes.filter((n) => n.nodeType === 1);
-    assert.ok(blocks.length <= 5, `${blocks.length} sections on the page — five at most`);
-    const crisis = d.querySelector("main > header");
+    // One story on the LandingPage template: the promise (hero, with the crisis lines), the four things it is, the honest steps,
+    // what it is not, how it is built, the call — six blocks at most.
+    const blocks = d.querySelector("main > div").childNodes.filter((n) => n.nodeType === 1);
+    assert.ok(blocks.length <= 6, `${blocks.length} sections on the page — six at most`);
+    const crisis = d.querySelector("main header");
     assert.ok(crisis && /9-8-8/.test(crisis.text), "the crisis lines are in the first screen");
   });
 }
@@ -201,7 +202,7 @@ for (const l of ["en", "fr"]) {
 
   test(`the crane is the hero's bird, and the crisis lines come before any section (${l})`, () => {
     const d = dom(l);
-    const header = d.querySelector("main > header");
+    const header = d.querySelector("main header");
     assert.ok(header.querySelector("svg"), "the hero draws the crane");
     assert.ok(header.querySelector('a[href="tel:988"]') && header.querySelector('a[href="tel:811"]'));
     assert.ok(header.querySelector(".yo-crisis"), "the crisis note is in the hero");
