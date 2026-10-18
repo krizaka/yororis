@@ -17,14 +17,12 @@
       "checked": "2026-10-17"
     },
     "journey.core": {
-      "evidence": null,
-      "gap": "The Moment is built (text, voice, face, crisis reply, limits) and proven against a stand-in for Orazaka's edge; on dev it answers « not available right now » until the Yororis service key and the wellbeing pack grant exist in Orazaka. No real run, no video yet.",
-      "issue": "https://github.com/krizaka/yororis/issues/52"
+      "evidence": "https://krizaka-assets.b-cdn.net/pr-assets/yororis/take/take-moment-fr-phone.mp4",
+      "checked": "2026-10-18"
     },
     "journey.ai-via-orazaka": {
-      "evidence": null,
-      "gap": "Every answer goes through Orazaka's voice turn (tested: no other provider can be called), but no real run exists on dev yet: it needs the Yororis service key in Orazaka.",
-      "issue": "https://github.com/krizaka/yororis/issues/52"
+      "evidence": "https://krizaka-assets.b-cdn.net/pr-assets/yororis/take/take-moment-fr-phone.mp4",
+      "checked": "2026-10-18"
     },
     "ui.krizaka-ui": {
       "evidence": null,
