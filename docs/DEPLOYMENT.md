@@ -61,6 +61,8 @@ then sign in as a QA account and open a moment.
 - **Whisper and Piper on dev** are the Mac's LocalAI, reached through the dev relay: `ai_providers.localai` points at `http://gpu-relay:11434` while a chisel client on the Mac
   exposes LocalAI there (`R:0.0.0.0:11434:127.0.0.1:8086`). It lasts as long as that Mac process; if it is down the voice is unavailable (the text answer still comes). The relay's other
   ports (8086, 8188) are held by the GPU pods.
+- The pack's prompt and fixed crisis reply serve both languages (orazaka-packs#57): an English member gets English answers, and the reply is the reviewed French text followed by its English translation (not yet read by a person), then the region's verified line.
+- Recorded takes of real moments on dev (video only): French https://krizaka-assets.b-cdn.net/pr-assets/yororis/take/take-moment-fr-phone.mp4 · English https://krizaka-assets.b-cdn.net/pr-assets/yororis/take/take-moment-en-phone.mp4 · the English crisis reply https://krizaka-assets.b-cdn.net/pr-assets/yororis/take/take-crisis-en-phone.mp4
 - The recorded take of a real moment: https://krizaka-assets.b-cdn.net/pr-assets/yororis/take/take-moment-fr-phone.mp4
 
 ## Not done here, on purpose
