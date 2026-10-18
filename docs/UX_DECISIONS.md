@@ -47,4 +47,22 @@ One entry per notable choice: the decision, the problem, the principle (with its
 - **Cost.** What I keep will have to earn its own place the day it has content.
 - **Signal that we are wrong.** QA notes that someone cannot find their summaries, or an organiser looks for the members elsewhere.
 
+## 6. The end: keep three lines, or let it all go; and what is left
+
+- **Decision.** After a moment the person is asked once whether they want three lines kept — what came up, what helped, a small step, what to bring with them — described by the pack from their own words, and shown to read, edit, copy, download or let go. Their own two numbers (1 to 5, before and after) are optional and never computed. The screen then says how many moments are left today and this week and when the next one opens. Nothing is stored here: the words are forgotten as soon as the lines are written, or after 15 minutes without a choice.
+- **Problem.** A conversation that ends in a wall (« limit reached ») or in silence leaves the person with nothing to hold; a summary written for them and kept by someone else is a file.
+- **Principle.** The peak-end rule (Kahneman et al., 1993): the end is what is remembered, so it is calm and useful; user control and freedom (Nielsen, 1994): every generated line is editable and can be dropped; privacy by design (Cavoukian, 2009): nothing kept by default.
+- **Refused.** A history of moments in the app; an automatic summary; a score or a « progress » line; a streak.
+- **Cost.** Lines that are not copied or downloaded are lost; one extra question at the end.
+- **Signal that we are wrong.** QA notes that people always skip it (then it is noise) or that they look for their lines the next day (then a notebook, with consent, is the next step).
+
+## 7. The organisation sees counts, never words
+
+- **Decision.** The organiser's « Moments » view shows figures (moments, average length, how often the lines to call were shown, share of lines kept) and one line per moment — when to the hour, presence, language, length, turns, how it ended — with no word and no name. Krizaka UI's Stat grid and DataTable, sorted, filtered and paged on the server.
+- **Problem.** An organisation has to know whether the product is used and whether the safety path fires, without being given the means to read anyone.
+- **Principle.** Data minimisation (Loi 25, GDPR art. 5(1)(c)); aggregate statistics only (docs/FRAMEWORK.md).
+- **Refused.** Per-member rows, transcripts, any mood figure, an alert that names a person.
+- **Cost.** An organiser cannot follow up on a given person; that is the point.
+- **Signal that we are wrong.** The organisation asks for a duty-of-care escalation: that is a decision with the lawyer, not a column.
+
 The text on this screen is **not yet reviewed by a lawyer** (krizaka/.github#40); the Moment is for the QA accounts only until it is.

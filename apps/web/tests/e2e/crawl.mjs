@@ -52,7 +52,7 @@ const ORGANISER = "demo-admin@demo.yororis.test";
 const SCREENS = {
   signedOut: [["/en/sign-in", "sign-in"], ["/fr/sign-in", "sign-in-fr"]],
   member: [["/en", "home"], ["/fr", "home-fr"], ["/en/moment", "moment"], ["/en/account", "account"]],
-  organiser: [["/en/admin/members", "members"]],
+  organiser: [["/en/admin/members", "members"], ["/en/admin/moments", "moments-console"]],
 };
 
 async function signIn(context, email) {

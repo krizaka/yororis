@@ -3,6 +3,7 @@ import { z } from "zod";
 import { done, fail, isUuid, requireMember } from "@/lib/http";
 import { limits, MAX_AUDIO_BYTES } from "@/lib/moment-api";
 import { isNearlyOver, isOver } from "@/lib/moment-policy";
+import { updateStat } from "@/lib/moment-stats";
 import { contextOf, findMoment, finish, MAX_TURNS, remember } from "@/lib/moments";
 import { clipHref, orazaka, OrazakaError, type TurnInput, UPSTREAM_FAILED } from "@/lib/orazaka";
 import { presenceOf } from "@/lib/presences";
@@ -57,7 +58,11 @@ export async function POST(req: Request) {
     moment.turns += 1;
     const person = heard.typed ?? turn.transcript ?? "";
     // The pack's fixed reply ends the moment: the presence stops performing and nothing more is said to it. Its words are not remembered.
-    if (turn.crisis) finish(moment);
+    updateStat(moment.statId, { turns: moment.turns });
+    if (turn.crisis) {
+      updateStat(moment.statId, { outcome: "lines", lines: true, endedAt: Date.now() });
+      finish(moment);
+    }
     else if (person) remember(moment, person, turn.sentences.map((s) => s.text).join(" "));
     return done({
       turn: {

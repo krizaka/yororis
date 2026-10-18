@@ -1,6 +1,6 @@
 "use client";
 
-import { HomeIcon, LogoutIcon, MomentIcon, SettingsIcon, UsersIcon } from "@krizaka/icons";
+import { ClockIcon, HomeIcon, LogoutIcon, MomentIcon, SettingsIcon, UsersIcon } from "@krizaka/icons";
 import { krizakaFetch, useMutation } from "@krizaka/query";
 import { YororisLogo } from "@krizaka/ui";
 import { AppShell } from "@krizaka/ui/app-shell";
@@ -30,7 +30,7 @@ export function ConsoleShell({ locale, email, organiser, version, children }: { 
     },
   });
   const current = (to: string, exact = false) => (exact ? path === to : path === to || path.startsWith(`${to}/`));
-  const titleKey = path.startsWith(`${home}/admin/members`) ? "shell.members" : path.startsWith(`${home}/account`) ? "shell.account" : path.startsWith(`${home}/moment`) ? "shell.moment" : "shell.dashboard";
+  const titleKey = path.startsWith(`${home}/admin/moments`) ? "shell.adminMoments" : path.startsWith(`${home}/admin/members`) ? "shell.members" : path.startsWith(`${home}/account`) ? "shell.account" : path.startsWith(`${home}/moment`) ? "shell.moment" : "shell.dashboard";
   const item = (to: string, label: string, icon: React.ReactNode, exact = false) => (
     <AppShell.Item asChild label={label} icon={icon} current={current(to, exact)}>
       <Link href={to}>{label}</Link>
@@ -64,6 +64,7 @@ export function ConsoleShell({ locale, email, organiser, version, children }: { 
           <>
             <AppShell.Group>{say("shell.groupOrg")}</AppShell.Group>
             {item(`${home}/admin/members`, say("shell.members"), <UsersIcon />)}
+            {item(`${home}/admin/moments`, say("shell.adminMoments"), <ClockIcon />)}
           </>
         ) : null}
       </AppShell.Sidebar>
