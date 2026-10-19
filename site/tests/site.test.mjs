@@ -107,9 +107,11 @@ test("both languages have the same shape", () => {
   assert.deepEqual(shape(messages.en), shape(messages.fr));
 });
 
-test("the language switch points to the other page", () => {
-  assert.ok(links("en").some((x) => x.href === "/fr/"));
-  assert.ok(links("fr").some((x) => x.href === "/"));
+test("the language switch is the family's and points to the other page (its list opens on demand: the hrefs are in the bar's source)", () => {
+  assert.equal(messages.en.otherHref, "/fr/");
+  assert.equal(messages.fr.otherHref, "/");
+  assert.equal(messages.en.otherName, "Français");
+  assert.equal(messages.fr.otherName, "English");
 });
 
 test("the export is static: no server output", () => {
@@ -258,4 +260,11 @@ test("built pages: exactly one contentinfo, outside main, with the dev line insi
     assert.equal(root_.querySelectorAll("main footer").length, 0, `${l}: the footer is outside main`);
     assert.ok(footers[0].querySelector('[data-testid="dev-environment-notice"]') || !raw(l).includes("dev-environment-notice"), `${l}: the dev line is inside the footer`);
   }
+});
+
+test("the bar uses the family's language switch (a globe and the current code), never a pill naming the other language", () => {
+  const bar = readFileSync(new URL("../components/Bar.tsx", import.meta.url), "utf8");
+  assert.match(bar, /NavBar\.Language/);
+  assert.match(bar, /NavBar\.MobilePreferences/);
+  assert.doesNotMatch(bar, /hrefLang/);
 });

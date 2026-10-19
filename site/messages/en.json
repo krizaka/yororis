@@ -1,8 +1,6 @@
 {
   "lang": "en",
-  "other": "FR",
   "otherName": "Français",
-  "otherLabel": "Lire en français",
   "otherHref": "/fr/",
   "meta": {
     "title": "Yororis — a listening space with a face and a voice",
@@ -18,11 +16,12 @@
     "github": "Yororis on GitHub",
     "toLight": "Switch to the light theme",
     "toDark": "Switch to the dark theme",
-    "language": "Passer en français",
+    "language": "Language",
     "talk": "Talk to us about Yororis",
     "menu": "Open the menu",
     "close": "Close the menu",
-    "skip": "Skip to the content"
+    "skip": "Skip to the content",
+    "preferences": "Preferences"
   },
   "hero": {
     "eyebrow": "Under construction",
