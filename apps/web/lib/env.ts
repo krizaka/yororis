@@ -12,12 +12,42 @@ const Schema = z.object({
   AUTH_SESSION_SECRET: z.string().min(32, "must be at least 32 characters"),
   AUTH_DEMO_PASSWORD: z.string().min(12, "must be at least 12 characters"),
   APP_RELEASE_APPROVAL: z.string().min(1).optional(),
+  // Sign-up is closed, for good: there is no sign-up in this app (the cast is fixed and invited by construction), and the one door
+  // that exists (`/api/auth/sign-up`) answers 403. The flag exists so that no deployment can claim otherwise: only `false` starts.
+  AUTH_SIGNUP_ENABLED: z.string().default("false").refine((v) => v === "false", "sign-up is closed: AUTH_SIGNUP_ENABLED can only be false"),
+  // What runs, shown on the screen and answered by /api/healthz: `X.Y.Z+sha`, set by the image build.
+  APP_VERSION: z.string().min(1).optional(),
+  // The moment's AI is Orazaka's wellbeing pack, through its edge and a service key (a DO SECRET). Both absent: the moment is
+  // "not available right now", never a canned answer (fail closed).
+  AI_API_URL: z.string().url().optional(),
+  AI_API_KEY: z.string().min(8).optional(),
+  // The version of the pack's consent statement the QA cast agrees to (pack.yaml `consent.version`), and the region whose crisis line answers.
+  AI_WELLBEING_CONSENT: z.string().min(1).default("1.0"),
+  APP_REGION: z.string().regex(/^[A-Z]{2}(-[A-Z]{2})?$/).default("CA-QC"),
+  // The presence that stops (docs/FRAMEWORK.md): the longest moment and how many a day and a week. QA may widen them on dev.
+  APP_MOMENT_MINUTES: z.coerce.number().int().min(1).max(25).default(25),
+  APP_MOMENTS_PER_DAY: z.coerce.number().int().min(1).max(50).default(1),
+  APP_MOMENTS_PER_WEEK: z.coerce.number().int().min(1).max(350).default(3),
 });
 
 export class ConfigurationError extends Error {}
 
 export function readEnv(env: Env = process.env) {
-  const parsed = Schema.safeParse({ AUTH_SESSION_SECRET: env.AUTH_SESSION_SECRET, AUTH_DEMO_PASSWORD: env.AUTH_DEMO_PASSWORD, APP_RELEASE_APPROVAL: env.APP_RELEASE_APPROVAL?.trim() || undefined });
+  const blank = (v: string | undefined) => v?.trim() || undefined;
+  const parsed = Schema.safeParse({
+    AUTH_SESSION_SECRET: env.AUTH_SESSION_SECRET,
+    AUTH_DEMO_PASSWORD: env.AUTH_DEMO_PASSWORD,
+    APP_RELEASE_APPROVAL: blank(env.APP_RELEASE_APPROVAL),
+    AUTH_SIGNUP_ENABLED: blank(env.AUTH_SIGNUP_ENABLED),
+    APP_VERSION: blank(env.APP_VERSION),
+    AI_API_URL: blank(env.AI_API_URL),
+    AI_API_KEY: blank(env.AI_API_KEY),
+    AI_WELLBEING_CONSENT: blank(env.AI_WELLBEING_CONSENT),
+    APP_REGION: blank(env.APP_REGION),
+    APP_MOMENT_MINUTES: blank(env.APP_MOMENT_MINUTES),
+    APP_MOMENTS_PER_DAY: blank(env.APP_MOMENTS_PER_DAY),
+    APP_MOMENTS_PER_WEEK: blank(env.APP_MOMENTS_PER_WEEK),
+  });
   if (!parsed.success) throw new ConfigurationError(parsed.error.issues.map((i) => `${i.path.join(".")} ${i.message}`).join("; "));
   return parsed.data;
 }

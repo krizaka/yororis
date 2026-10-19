@@ -42,6 +42,9 @@ jobs:
           python3 -m http.server 3000 --directory out >/dev/null 2>&1 &
           sleep 2
           node scripts/check-seo-family.mjs --base http://localhost:3000 --host https://dev.yororis.com --types WebSite,SoftwareApplication
+          # Responsive guard: no horizontal overflow at 360–1440 px in both themes; the crisis lines in the first 360 px screen.
+          npx playwright-core install --with-deps chromium
+          npm run check:overflow -- --base http://localhost:3000
       - name: Closed build (APP_SEARCH_INDEXING=off, the dev deployment)
         run: |
           APP_SEARCH_INDEXING=off npm run build
@@ -65,3 +68,22 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+      - name: The Moment in a browser (360 px and desktop, dark and light, against a stand-in for Orazaka)
+        run: |
+          npx playwright install --with-deps chromium
+          npm run test:e2e
+  container:
+    name: Container image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # The QA image is built here to prove it builds and answers; it is never deployed from CI (the platform builds it from main).
+      - name: Build the image
+        run: docker build -f deploy/docker/Dockerfile --build-arg APP_COMMIT_SHA=${{ github.sha }} -t yororis-qa:ci .
+      - name: It starts, is healthy, shows its version and keeps sign-up closed
+        run: |
+          docker run -d --name qa -p 8080:8080 -e AUTH_SESSION_SECRET=ci-only-secret-0123456789abcdef0123456789 -e AUTH_DEMO_PASSWORD=ci-only-demo-password -e APP_RELEASE_APPROVAL=ci-only yororis-qa:ci
+          for i in $(seq 1 40); do curl -sf http://localhost:8080/api/healthz && break; sleep 1; done
+          curl -sf http://localhost:8080/api/healthz | grep -q '"version":"0\.0\.1+'
+          test "$(curl -s -o /dev/null -w '%{http_code}' -X POST http://localhost:8080/api/auth/sign-up)" = 403
+          docker logs qa

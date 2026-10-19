@@ -12,3 +12,20 @@
 html.light { color-scheme: light; }
 html { overflow-x: hidden; }
 body { margin: 0; min-height: 100vh; background: var(--kz-surface-0); color: var(--kz-text-primary); font-family: var(--kz-font-sans); -webkit-font-smoothing: antialiased; }
+
+/* The presence's face (components/console/PresenceFace.tsx): a generated, fictitious portrait that breathes and, while it speaks,
+   follows the energy of the real signal (--presence-energy, 0..1, written ten times a second only while a sentence plays).
+   Calm under prefers-reduced-motion and under the member's own « calm motion » choice: the portrait holds still, the ring does not move. */
+.presence-face { --presence-energy: 0; position: relative; display: inline-block; width: 6rem; height: 6rem; flex: none; }
+@media (min-width: 640px) { .presence-face { width: 10.5rem; height: 10.5rem; } }
+.presence-face__body { position: absolute; inset: 0; transform-origin: 50% 65%; animation: presence-breathe 6.5s ease-in-out infinite; }
+.presence-face__portrait { width: 100%; height: 100%; transform: scale(calc(1 + var(--presence-energy) * 0.03)); transition: transform 120ms linear; filter: saturate(0.92); }
+.presence-face__halo { position: absolute; inset: -0.45rem; border-radius: 9999px; border: 2px solid var(--kz-accent); pointer-events: none; opacity: calc(0.22 + var(--presence-energy) * 0.7); transform: scale(calc(1 + var(--presence-energy) * 0.1)); transition: opacity 120ms linear, transform 120ms linear; }
+.presence-face__mark { position: absolute; right: -0.1rem; bottom: 0.1rem; }
+@keyframes presence-breathe { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-1.5%) scale(1.012); } }
+@media (prefers-reduced-motion: reduce) {
+  .presence-face__body { animation: none; }
+  .presence-face__portrait, .presence-face__halo { transition: none; transform: none; }
+}
+.presence-face[data-calm="true"] .presence-face__body { animation: none; }
+.presence-face[data-calm="true"] .presence-face__portrait, .presence-face[data-calm="true"] .presence-face__halo { transition: none; transform: none; }

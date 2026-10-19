@@ -51,7 +51,7 @@ export function Shell({ locale, children }: { locale: Locale; children: ReactNod
       <body className="brand-yororis">
         <Providers>
           <SkipLink href="#main">{m.bar.skip}</SkipLink>
-          <Bar m={m.bar} locale={locale} home={homePath(locale)} otherHref={m.otherHref} otherLabel={m.otherLabel} other={m.other} />
+          <Bar m={m.bar} locale={locale} home={homePath(locale)} otherHref={m.otherHref} otherName={m.otherName} />
           {children}
           <Footer locale={locale} m={m.footer} crisis={m.crisis} version={version()} ui={uiVersion()} devNotice={indexable() ? undefined : m.footer.devNotice} />
         </Providers>

@@ -22,3 +22,14 @@ export const SHOTS = [
   { id: "account", desktop: { src: `${CDN}/account-desktop.af2fe3d5a1.webp`, width: 1440, height: 900 }, phone: { src: `${CDN}/account-phone.a0f15edb86.webp`, width: 780, height: 1688 } },
   { id: "members", desktop: { src: `${CDN}/members-desktop.b48e998ce4.webp`, width: 1440, height: 900 }, phone: { src: `${CDN}/members-phone.5e620d5caa.webp`, width: 780, height: 1688 } },
 ] as const;
+
+/* The real Moment take (the member space's text moment, recorded on the local version with a fictional cast): a phone, 29 s,
+   H.264, on Bunny under the product's own folder — hashed, never in the repository (recorded in krizaka-com lib/cdn-manifest.json). */
+const TAKE_CDN = "https://krizaka-assets.b-cdn.net/site/products/yororis/tour";
+export const TAKE = {
+  mp4: `${TAKE_CDN}/moment-fr-phone.f63fe27a62.mp4`,
+  poster: `${TAKE_CDN}/moment-fr-phone.2b2c262fed.jpg`,
+  width: 412,
+  height: 914,
+  seconds: 29,
+} as const;

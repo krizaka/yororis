@@ -1,8 +1,6 @@
 {
   "lang": "fr",
-  "other": "EN",
   "otherName": "English",
-  "otherLabel": "Read in English",
   "otherHref": "/",
   "meta": {
     "title": "Yororis — un espace d'écoute avec un visage et une voix",
@@ -18,11 +16,12 @@
     "github": "Yororis sur GitHub",
     "toLight": "Passer au thème clair",
     "toDark": "Passer au thème sombre",
-    "language": "Switch to English",
+    "language": "Langue",
     "talk": "Discuter de Yororis",
     "menu": "Ouvrir le menu",
     "close": "Fermer le menu",
-    "skip": "Aller au contenu"
+    "skip": "Aller au contenu",
+    "preferences": "Préférences"
   },
   "hero": {
     "eyebrow": "En construction",
@@ -34,7 +33,15 @@
       "open": "Open source · Apache-2.0",
       "date": "Pas de date"
     },
-    "explore": "Comment se passe un moment"
+    "explore": "Comment se passe un moment",
+    "talk": "Discuter de Yororis",
+    "take": {
+      "label": "Un moment, enregistré en local",
+      "aria": "Enregistrement d'un moment : la présence se présente, la voix est activée, le temps qui reste est à l'écran et les lignes de crise restent affichées.",
+      "note": "Un moment de {seconds} secondes, enregistré sur la version locale avec une distribution fictive. En construction, non disponible.",
+      "play": "Lire l'enregistrement",
+      "pause": "Mettre l'enregistrement en pause"
+    }
   },
   "crisis": {
     "label": "En cas de crise",
@@ -286,5 +293,27 @@
     "feedDescription": "Ce que Yororis a livré, semaine par semaine.",
     "footerVersion": "v{version}",
     "langTag": "fr-CA"
+  },
+  "features": {
+    "eyebrow": "Un visage et une voix",
+    "title": "Une présence qui écoute, et qui le dit",
+    "items": [
+      {
+        "title": "Un visage",
+        "text": "Une présence IA avec un prénom et un portrait animé, qui porte en permanence la marque « IA »."
+      },
+      {
+        "title": "Une voix",
+        "text": "Une voix et des sous-titres exacts : on peut écouter, lire, ou les deux."
+      },
+      {
+        "title": "Une question à la fois",
+        "text": "Elle écoute, reformule et pose une question, puis elle s'arrête. Le temps qui reste est toujours à l'écran."
+      },
+      {
+        "title": "Ce que je garde",
+        "text": "À la fin du moment, la transcription disparaît. Un court résumé reste, à vous de le lire, de le modifier ou de le supprimer."
+      }
+    ]
   }
 }

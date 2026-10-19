@@ -7,17 +7,23 @@
 //      may exist and must declare a single static site built from `site/` — no service, worker, job, database or
 //      function — and `site/` is a Next.js static export (`output: "export"`): no server code, route handler, middleware, server action or form (its own tests check the built page).
 //   4. No environment variable is named after the product or a vendor (krizaka/.github#46): `<CONTEXT>_<THING>`.
-//   5. The ONE other exception (AGENTS.md, "The member space"): `apps/web`, the member space and the organisation's console,
-//      runs LOCALLY and in CI only, on 127.0.0.1, with a fictional cast. It is never deployed: no Dockerfile, no deployment
-//      spec or platform file anywhere under apps/, no `output: "standalone"` (deployment packaging), its scripts bind
-//      127.0.0.1, it is private, and its env module refuses a production start without APP_RELEASE_APPROVAL.
-// Lifting construction mode is a written decision first, then a pull request that changes this file on purpose.
+//   5. The ONE other exception (AGENTS.md, "The member space", decision of 2026-10-17, krizaka/yororis#23): `apps/web`, the
+//      member space and the organisation's console, runs locally, in CI and as ONE QA-only deployment on dev: sign-up closed
+//      server-side, only the QA accounts and a fictional cast, no real person until the lawyer review. Shape kept by this file:
+//      no Dockerfile, deployment spec or platform file under apps/ (the image is built from deploy/docker/Dockerfile and the
+//      app from deploy/digitalocean/qa.app.yaml, the only two files allowed in deploy/); no workflow deploys; `output:
+//      "standalone"` only when APP_STANDALONE is set (the image build); the scripts of apps/web bind 127.0.0.1; it is private;
+//      its env module refuses a production start without APP_RELEASE_APPROVAL and refuses AUTH_SIGNUP_ENABLED other than false;
+//      the spec declares one service, a closed sign-up, the release reference, secrets typed SECRET, no database, the smallest size.
+// Lifting the QA-only mode, or opening anyone else in, is a written decision first, then a pull request that changes this file on purpose.
 import { execSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 export const BANNER =
-  "Under construction — not deployed, not offered to anyone. We are studying the legal, ethical and clinical framework in parallel. No date.";
+  "Under construction — QA only, not offered to anyone. We are studying the legal, ethical and clinical framework in parallel. No date.";
+// The one thing a workflow may say about deploy/: it BUILDS the image (job "Container image"), never ships it.
+const BUILD_ONLY = /deploy\/docker\/Dockerfile/g;
 const FORBIDDEN = [/deploy\//i, /digitalocean/i, /\bdoctl\b/i, /vercel/i, /eas\s+submit/i, /eas\s+build/i, /upload-artifact/i, /action-gh-release/i, /gh\s+release/i, /npm\s+publish/i];
 
 const root = process.cwd();
@@ -30,7 +36,7 @@ if (!existsSync(join(root, "docs/FRAMEWORK.md"))) failures.push("docs/FRAMEWORK.
 
 const workflows = join(root, ".github/workflows");
 for (const file of existsSync(workflows) ? readdirSync(workflows) : []) {
-  const text = readFileSync(join(workflows, file), "utf8");
+  const text = readFileSync(join(workflows, file), "utf8").replace(BUILD_ONLY, "");
   for (const pattern of FORBIDDEN) if (pattern.test(text)) failures.push(`.github/workflows/${file} matches ${pattern}: no workflow deploys or publishes in construction mode.`);
 }
 
@@ -78,7 +84,7 @@ if (existsSync(sitePkg)) {
 // The member space: a non-deployed app. Anything that would ship it is refused; the shape that keeps it local is required.
 const appFiles = execSync("git ls-files --cached --others --exclude-standard apps", { cwd: root, encoding: "utf8" }).split("\n").filter(Boolean);
 const SHIPPING = /(^|\/)(Dockerfile[^/]*|\.dockerignore|app\.ya?ml|[^/]*\.app\.ya?ml|docker-compose[^/]*|vercel\.json|netlify\.toml|fly\.toml|render\.ya?ml|railway[^/]*|Procfile|serverless\.ya?ml|\.do|deploy)(\/|$)/i;
-for (const f of appFiles) if (SHIPPING.test(f)) failures.push(`${f}: a deployment file under apps/ — the member space is never deployed in construction mode.`);
+for (const f of appFiles) if (SHIPPING.test(f)) failures.push(`${f}: a deployment file under apps/ — deployment files live in deploy/ only (two files, QA-only mode).`);
 if (appFiles.length) {
   const pkgPath = join(root, "apps/web/package.json");
   if (!existsSync(pkgPath)) failures.push("apps/ may hold only apps/web (the member space).");
@@ -86,13 +92,51 @@ if (appFiles.length) {
     const p = JSON.parse(readFileSync(pkgPath, "utf8"));
     if (p.private !== true) failures.push("apps/web/package.json must be private.");
     for (const name of ["dev", "start"]) if (!/(^|\s)-H 127\.0\.0\.1(\s|$)/.test(p.scripts?.[name] ?? "")) failures.push(`apps/web/package.json: the "${name}" script must listen on 127.0.0.1 only (-H 127.0.0.1).`);
-    for (const name of Object.keys(p.scripts ?? {})) if (/deploy|publish|release|docker|doctl|vercel/i.test(`${name} ${p.scripts[name]}`)) failures.push(`apps/web/package.json: script "${name}" ships something — the member space is local.`);
+    for (const name of Object.keys(p.scripts ?? {})) if (/deploy|publish|release|docker|doctl|vercel/i.test(`${name} ${p.scripts[name]}`)) failures.push(`apps/web/package.json: script "${name}" ships something — the app is deployed from deploy/, never by a script.`);
     const cfg = join(root, "apps/web/next.config.mjs");
-    if (existsSync(cfg) && /output:\s*["']standalone["']/.test(readFileSync(cfg, "utf8"))) failures.push('apps/web/next.config.mjs: `output: "standalone"` is deployment packaging.');
+    if (existsSync(cfg)) {
+      const text = readFileSync(cfg, "utf8");
+      // Standalone packaging is for the image build only: it must be conditional on APP_STANDALONE, never the default.
+      if (/output:\s*["']standalone["']/.test(text) && !/APP_STANDALONE/.test(text)) failures.push('apps/web/next.config.mjs: `output: "standalone"` must depend on APP_STANDALONE (the image build), never be the default.');
+    }
     const env = join(root, "apps/web/lib/env.ts");
-    if (!existsSync(env) || !/APP_RELEASE_APPROVAL/.test(readFileSync(env, "utf8"))) failures.push("apps/web/lib/env.ts must refuse a production start without APP_RELEASE_APPROVAL.");
+    const envText = existsSync(env) ? readFileSync(env, "utf8") : "";
+    if (!/APP_RELEASE_APPROVAL/.test(envText)) failures.push("apps/web/lib/env.ts must refuse a production start without APP_RELEASE_APPROVAL.");
+    if (existsSync(env) && /AUTH_SIGNUP_ENABLED/.test(envText) === false) failures.push("apps/web/lib/env.ts must refuse AUTH_SIGNUP_ENABLED other than false (sign-up is closed).");
   }
-  if (existsSync(spec) && /apps\//.test(readFileSync(spec, "utf8"))) failures.push(".do/app.yaml must not reference apps/: only site/ is deployed.");
+  if (existsSync(spec) && /apps\//.test(readFileSync(spec, "utf8"))) failures.push(".do/app.yaml must not reference apps/: only site/ is deployed there.");
+}
+
+// deploy/: the ONE QA deployment of the member space. Two files, nothing else; the spec is checked line by line.
+const deployFiles = execSync("git ls-files --cached --others --exclude-standard deploy", { cwd: root, encoding: "utf8" }).split("\n").filter(Boolean);
+const QA_SPEC = "deploy/digitalocean/qa.app.yaml";
+const QA_DOCKERFILE = "deploy/docker/Dockerfile";
+for (const f of deployFiles) if (f !== QA_SPEC && f !== QA_DOCKERFILE) failures.push(`${f}: deploy/ holds only ${QA_DOCKERFILE} and ${QA_SPEC} (the one QA deployment).`);
+if (deployFiles.length && !appFiles.length) failures.push("deploy/ deploys apps/web, which is missing.");
+if (existsSync(join(root, QA_SPEC))) {
+  const yml = readFileSync(join(root, QA_SPEC), "utf8");
+  for (const kind of ["static_sites", "workers", "jobs", "databases", "functions"]) if (new RegExp(`^${kind}:`, "m").test(yml)) failures.push(`${QA_SPEC} declares \`${kind}:\` — the QA app is one service, with no database.`);
+  if (((yml.match(/^\s{2}- name:/gm) ?? []).length) !== 1 || !/^services:/m.test(yml)) failures.push(`${QA_SPEC} must declare exactly one service.`);
+  if (!/^\s+dockerfile_path: deploy\/docker\/Dockerfile$/m.test(yml)) failures.push(`${QA_SPEC}: the image is built from ${QA_DOCKERFILE}.`);
+  if (!/^\s+instance_size_slug: apps-s-1vcpu-0\.5gb$/m.test(yml)) failures.push(`${QA_SPEC}: the smallest instance only (apps-s-1vcpu-0.5gb).`);
+  if (!/^\s+http_path: \/api\/healthz$/m.test(yml)) failures.push(`${QA_SPEC}: the health check is /api/healthz.`);
+  for (const [, domain] of yml.matchAll(/^\s+-?\s*domain:\s*(\S+)/gm)) if (/^(dev\.)?yororis\.com$|^www\.yororis\.com$/.test(domain)) failures.push(`${QA_SPEC}: ${domain} belongs to the public static site (.do/app.yaml); the QA app has its own host.`);
+  const envs = [...yml.matchAll(/^\s+- \{\s*key:\s*(\S+?),([^}]*)\}/gm)].map((m) => ({ key: m[1], rest: m[2] }));
+  const byKey = Object.fromEntries(envs.map((e) => [e.key, e.rest]));
+  if (!/value:\s*"false"/.test(byKey.AUTH_SIGNUP_ENABLED ?? "")) failures.push(`${QA_SPEC}: AUTH_SIGNUP_ENABLED must be "false" — sign-up is closed.`);
+  if (!/value:\s*"[^"_][^"]*"/.test(byKey.APP_RELEASE_APPROVAL ?? "")) failures.push(`${QA_SPEC}: APP_RELEASE_APPROVAL must carry the reference of the written decision.`);
+  for (const e of envs) {
+    if (/^DATABASE_/.test(e.key)) failures.push(`${QA_SPEC}: ${e.key} — the QA app has no database.`);
+    if (/SECRET|PASSWORD|_KEY$|TOKEN/.test(e.key) && !(/type:\s*SECRET/.test(e.rest) && /value:\s*"__[A-Z0-9_]+__"/.test(e.rest))) failures.push(`${QA_SPEC}: ${e.key} must be a SECRET filled at apply time (\`__NAME__\`), never a value in the repository.`);
+  }
+}
+if (existsSync(join(root, QA_DOCKERFILE))) {
+  const docker = readFileSync(join(root, QA_DOCKERFILE), "utf8");
+  for (const [, line] of docker.matchAll(/^\s*ENV\s+(.+)$/gm)) {
+    for (const [, key, value] of line.matchAll(/\b([A-Z][A-Z0-9_]*)=(\S*)/g)) {
+      if (/SECRET|PASSWORD|_KEY$|TOKEN/.test(key) && !/^build-only/.test(value)) failures.push(`${QA_DOCKERFILE}: ENV ${key} carries a value — only build-only placeholders may be baked into an image.`);
+    }
+  }
 }
 
 // An env-like name (FOO_BAR) starting with the product or a vendor, anywhere in the tracked text.
@@ -107,4 +151,4 @@ if (failures.length) {
   console.error(`Construction mode check failed:\n- ${failures.join("\n- ")}`);
   process.exit(1);
 }
-console.log("Construction mode: banner in place, FRAMEWORK.md present, no deployment or publishing workflow (but the one static site), the member space local only, env names by context.");
+console.log("Construction mode (QA-only): banner in place, FRAMEWORK.md present, no deployment or publishing workflow, the static site, the one QA deployment of the member space in deploy/ with sign-up closed, env names by context.");

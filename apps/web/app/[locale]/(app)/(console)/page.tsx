@@ -3,6 +3,7 @@ import { buttonVariants } from "@krizaka/ui/button";
 import { DashboardLayout, Widget } from "@krizaka/ui/dashboard-layout";
 import { EmptyState } from "@krizaka/ui/empty-state";
 
+import { ButtonLink } from "@/components/console/ButtonLink";
 import { pageMember } from "@/lib/auth";
 import { asLocale, getDictionary } from "@/lib/i18n";
 
@@ -20,8 +21,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const first = member?.name.split(" ")[0] ?? "";
   return (
     <DashboardLayout headingAs="h2" title={d.greeting.replace("{name}", first)} description={d.lead}>
-      <Widget level={3} title={d.unavailableTitle} description={d.unavailable} span="full">
-        <p className="sr-only">{d.unavailable}</p>
+      <Widget level={3} title={d.beginTitle} description={d.begin} span="full">
+        <ButtonLink href={`/${locale}/moment`} variant="primary" size="md" shape="cut">
+          {d.beginAction}
+        </ButtonLink>
       </Widget>
       <Widget level={3} title={d.stopsTitle} description={d.stopsDescription} span={2}>
         <dl className="grid grid-cols-3 gap-3 text-sm">

@@ -1,17 +1,15 @@
-import { ShieldIcon, ThreadIcon } from "@krizaka/icons";
+import { ForwardIcon, KeepIcon, MessageIcon, ShieldIcon, SoundIcon, ThreadIcon, UserIcon } from "@krizaka/icons";
 import { YororisLogo } from "@krizaka/ui";
 import { ActionBar } from "@krizaka/ui/action-bar";
 import { Badge } from "@krizaka/ui/badge";
 import { Button } from "@krizaka/ui/button";
 import { CardGrid } from "@krizaka/ui/card-grid";
-import { CtaPanel } from "@krizaka/ui/cta-panel";
 import { DecisionList } from "@krizaka/ui/decision-list";
 import { LinkCard } from "@krizaka/ui/link-card";
-import { Mascot } from "@krizaka/ui/mascots";
 import { MascotQuote } from "@krizaka/ui/mascot-quote";
 import { MetaRow } from "@krizaka/ui/meta-row";
 import { Facts, Section, Ticks } from "@krizaka/ui/page";
-import { PageHero } from "@krizaka/ui/page-hero";
+import { LandingPage } from "@krizaka/ui/landing-page";
 import { Stepper } from "@krizaka/ui/stepper";
 import { getMessages, type Locale } from "@/lib/messages";
 import { reveal } from "@/lib/motion";
@@ -20,9 +18,10 @@ import CHANGELOG from "@/lib/changelog.generated.json";
 
 import { AppTour } from "./AppTour";
 import { Crisis } from "./Crisis";
+import { MomentTake } from "./MomentTake";
 import { GitHubMark } from "./GitHubMark";
 
-/* The one page of Yororis, built from the page blocks of @krizaka/ui (language of krizaka.com): the idea, how it is built
+/* The one page of Yororis, on the LandingPage template of @krizaka/ui (language of krizaka.com): the idea, how it is built
    in the open, what it is not, the crisis lines, and one call to action. Construction mode (docs/FRAMEWORK.md §5): no demo,
    no download, no form, no date, no promise of availability — the one action is "Talk to us about Yororis".
    The hero and the crisis line are painted at once (no reveal: LCP); the sections arrive once as they enter the view. */
@@ -38,11 +37,14 @@ const DECISION_LABELS = {
   fr: { chose: "Choisi", refused: "Refusé", because: "Parce que", cost: "Ce que ça coûte" },
 } as const;
 
+const FEATURE_ICONS = [<UserIcon key="face" />, <SoundIcon key="voice" />, <MessageIcon key="question" />, <KeepIcon key="keep" />] as const;
+const FEATURE_SIZES = ["lg", "md", "sm", "sm"] as const;
+
 export function Home({ locale }: { locale: Locale }) {
   const m = getMessages(locale);
   return (
     <main id="main" className="yo-main">
-      <PageHero
+      <LandingPage
         eyebrow={
           <>
             <YororisLogo size={18} animated={false} /> {m.hero.eyebrow}
@@ -50,22 +52,39 @@ export function Home({ locale }: { locale: Locale }) {
         }
         title={m.hero.title}
         lead={m.hero.lead}
-        aside={<Mascot bird="crane" mood="welcome" size={176} className="yo-hero-mark" />}
-      >
-        <div className="rd-stack">
-          <div aria-label={m.crisis.aria} role="group">
-            <Crisis m={m.crisis} />
+        visualLabel={m.hero.take.label}
+        visual={<MomentTake m={m.hero.take} />}
+        actions={
+          <div className="rd-stack yo-hero-stack">
+            <div aria-label={m.crisis.aria} role="group">
+              <Crisis m={m.crisis} />
+            </div>
+            <div className="rd-links">
+              <Button asChild variant="primary" size="lg" shape="cut" shimmer>
+                <a href={CONTACT}>
+                  {m.hero.talk} <ForwardIcon size={16} strokeWidth={2.25} />
+                </a>
+              </Button>
+              <Button asChild variant="secondary" size="lg" shape="cut">
+                <a href="#what">{m.hero.explore}</a>
+              </Button>
+            </div>
+            <Facts aria-label={m.hero.factsLabel} items={[{ label: m.hero.facts.status, tone: "wip" }, { label: m.hero.facts.open }, { label: m.hero.facts.date }]} />
+            <p className="rd-prose yo-status">{m.reviewed.construction}</p>
           </div>
-          <Facts aria-label={m.hero.factsLabel} items={[{ label: m.hero.facts.status, tone: "wip" }, { label: m.hero.facts.open }, { label: m.hero.facts.date }]} />
-          <p className="rd-prose yo-status">{m.reviewed.construction}</p>
-          <div className="rd-links">
-            <Button asChild variant="secondary" size="lg" shape="cut">
-              <a href="#what">{m.hero.explore}</a>
+        }
+        featuresHeading={{ eyebrow: m.features.eyebrow, title: m.features.title }}
+        features={m.features.items.map((f, i) => ({ id: `f${i}`, size: FEATURE_SIZES[i], icon: FEATURE_ICONS[i], title: f.title, text: f.text }))}
+        closing={{
+          title: m.cta.title,
+          body: m.cta.body,
+          actions: (
+            <Button asChild variant="primary" size="lg" shape="cut">
+              <a href={CONTACT}>{m.cta.title}</a>
             </Button>
-          </div>
-        </div>
-      </PageHero>
-
+          ),
+        }}
+      >
       <Section id="what" eyebrow={m.what.eyebrow} title={m.what.title} lead={m.what.lead} headingSize="sm" spacing="sm">
         <div className="rd-stack">
           <p className="yo-shot-status" role="note" {...reveal()}>
@@ -204,13 +223,7 @@ export function Home({ locale }: { locale: Locale }) {
         </div>
       </Section>
 
-      <Section spacing="sm" aria-labelledby="talk-title">
-        <CtaPanel id="talk-title" title={m.cta.title} body={m.cta.body} reveal>
-          <Button asChild variant="primary" size="lg" shape="cut">
-            <a href={CONTACT}>{m.cta.title}</a>
-          </Button>
-        </CtaPanel>
-      </Section>
+      </LandingPage>
     </main>
   );
 }

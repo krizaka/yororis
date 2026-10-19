@@ -94,10 +94,11 @@ for (const l of ["en", "fr"]) {
     assert.ok(d.querySelector('meta[name="description"]'));
     assert.ok(d.querySelector("body").classList.contains("brand-yororis"));
     for (const id of ["what", "how", "not"]) assert.ok(d.getElementById(id), `section #${id}`);
-    // One story in five sections: the promise (with the crisis lines), what it is, how it is built, what it is not, the call.
-    const blocks = d.querySelector("main").childNodes.filter((n) => n.nodeType === 1);
-    assert.ok(blocks.length <= 5, `${blocks.length} sections on the page — five at most`);
-    const crisis = d.querySelector("main > header");
+    // One story on the LandingPage template: the promise (hero, with the crisis lines), the four things it is, the honest steps,
+    // what it is not, how it is built, the call — six blocks at most.
+    const blocks = d.querySelector("main > div").childNodes.filter((n) => n.nodeType === 1);
+    assert.ok(blocks.length <= 6, `${blocks.length} sections on the page — six at most`);
+    const crisis = d.querySelector("main header");
     assert.ok(crisis && /9-8-8/.test(crisis.text), "the crisis lines are in the first screen");
   });
 }
@@ -106,9 +107,11 @@ test("both languages have the same shape", () => {
   assert.deepEqual(shape(messages.en), shape(messages.fr));
 });
 
-test("the language switch points to the other page", () => {
-  assert.ok(links("en").some((x) => x.href === "/fr/"));
-  assert.ok(links("fr").some((x) => x.href === "/"));
+test("the language switch is the family's and points to the other page (its list opens on demand: the hrefs are in the bar's source)", () => {
+  assert.equal(messages.en.otherHref, "/fr/");
+  assert.equal(messages.fr.otherHref, "/");
+  assert.equal(messages.en.otherName, "Français");
+  assert.equal(messages.fr.otherName, "English");
 });
 
 test("the export is static: no server output", () => {
@@ -158,7 +161,7 @@ test("the bar and the footer are those of an independent product: no version chi
   assert.ok(!bar.includes("NavBar.Badge"), "no version chip in the bar");
   assert.match(bar, /<NavBar\.Repo /);
   assert.match(readFileSync(join(root, "components/Footer.tsx"), "utf8"), /<SiteFooter\s+current="yororis"\s+family=\{false\}[^>]*env="dev"/);
-  for (const l of ["en", "fr"]) assert.match(textOf(l), /dev · v\d+\.\d+\.\d+/, `${l}: the dev badge and the version are on the page`);
+  for (const l of ["en", "fr"]) assert.match(textOf(l), /\bdev\b[^.]{0,40}v\d+\.\d+\.\d+/, `${l}: the dev badge and the version are on the page`);
 });
 
 // The member space is shown ONLY as pictures — hashed files on the CDN, never in the repository — each labelled "in
@@ -201,7 +204,7 @@ for (const l of ["en", "fr"]) {
 
   test(`the crane is the hero's bird, and the crisis lines come before any section (${l})`, () => {
     const d = dom(l);
-    const header = d.querySelector("main > header");
+    const header = d.querySelector("main header");
     assert.ok(header.querySelector("svg"), "the hero draws the crane");
     assert.ok(header.querySelector('a[href="tel:988"]') && header.querySelector('a[href="tel:811"]'));
     assert.ok(header.querySelector(".yo-crisis"), "the crisis note is in the hero");
@@ -233,7 +236,7 @@ test("one footer: the shell renders it once after the children; no <footer> and 
   assert.ok(shell.indexOf("{children}") < shell.indexOf("<Footer "));
   const footer = readFileSync(join(root, "components/Footer.tsx"), "utf8");
   assert.doesNotMatch(footer, /<footer\b/);
-  assert.match(footer, /legal=\{devNotice \?/);
+  assert.match(footer, /\{devNotice \? <span data-testid="dev-environment-notice">/);
   assert.doesNotMatch(footer, /<\/SiteFooter>\s*\{devNotice/);
   const offenders = [];
   const walk = (dir) => {
@@ -257,4 +260,11 @@ test("built pages: exactly one contentinfo, outside main, with the dev line insi
     assert.equal(root_.querySelectorAll("main footer").length, 0, `${l}: the footer is outside main`);
     assert.ok(footers[0].querySelector('[data-testid="dev-environment-notice"]') || !raw(l).includes("dev-environment-notice"), `${l}: the dev line is inside the footer`);
   }
+});
+
+test("the bar uses the family's language switch (a globe and the current code), never a pill naming the other language", () => {
+  const bar = readFileSync(new URL("../components/Bar.tsx", import.meta.url), "utf8");
+  assert.match(bar, /NavBar\.Language/);
+  assert.match(bar, /NavBar\.MobilePreferences/);
+  assert.doesNotMatch(bar, /hrefLang/);
 });

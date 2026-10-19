@@ -1,6 +1,6 @@
 "use client";
 
-import { HomeIcon, LogoutIcon, SettingsIcon, UsersIcon } from "@krizaka/icons";
+import { ClockIcon, HomeIcon, LogoutIcon, MomentIcon, SettingsIcon, UsersIcon } from "@krizaka/icons";
 import { krizakaFetch, useMutation } from "@krizaka/query";
 import { YororisLogo } from "@krizaka/ui";
 import { AppShell } from "@krizaka/ui/app-shell";
@@ -15,7 +15,7 @@ import { useSay } from "@/lib/i18n-client";
  * The frame of the signed-in space: AppShell (sidebar that folds, drawer on a phone), the member's destinations and, for an
  * organiser, the organisation's. A permanent strip says what this is: in development, not available.
  */
-export function ConsoleShell({ locale, email, organiser, children }: { locale: "en" | "fr"; email: string; organiser: boolean; children: React.ReactNode }) {
+export function ConsoleShell({ locale, email, organiser, version, children }: { locale: "en" | "fr"; email: string; organiser: boolean; version: string; children: React.ReactNode }) {
   const { say } = useSay();
   const router = useRouter();
   const path = usePathname() ?? "";
@@ -30,7 +30,7 @@ export function ConsoleShell({ locale, email, organiser, children }: { locale: "
     },
   });
   const current = (to: string, exact = false) => (exact ? path === to : path === to || path.startsWith(`${to}/`));
-  const titleKey = path.startsWith(`${home}/admin/members`) ? "shell.members" : path.startsWith(`${home}/account`) ? "shell.account" : "shell.dashboard";
+  const titleKey = path.startsWith(`${home}/admin/moments`) ? "shell.adminMoments" : path.startsWith(`${home}/admin/members`) ? "shell.members" : path.startsWith(`${home}/account`) ? "shell.account" : path.startsWith(`${home}/moment`) ? "shell.moment" : "shell.dashboard";
   const item = (to: string, label: string, icon: React.ReactNode, exact = false) => (
     <AppShell.Item asChild label={label} icon={icon} current={current(to, exact)}>
       <Link href={to}>{label}</Link>
@@ -52,16 +52,19 @@ export function ConsoleShell({ locale, email, organiser, children }: { locale: "
             <span className="truncate" title={email}>
               {say("shell.signedInAs", { email })}
             </span>
+            <span data-testid="app-version">{say("shell.version", { version })}</span>
           </div>
         }
       >
         <AppShell.Group>{say("shell.groupYou")}</AppShell.Group>
         {item(home, say("shell.dashboard"), <HomeIcon />, true)}
+        {item(`${home}/moment`, say("shell.moment"), <MomentIcon />)}
         {item(`${home}/account`, say("shell.account"), <SettingsIcon />)}
         {organiser ? (
           <>
             <AppShell.Group>{say("shell.groupOrg")}</AppShell.Group>
             {item(`${home}/admin/members`, say("shell.members"), <UsersIcon />)}
+            {item(`${home}/admin/moments`, say("shell.adminMoments"), <ClockIcon />)}
           </>
         ) : null}
       </AppShell.Sidebar>

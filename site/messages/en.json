@@ -1,8 +1,6 @@
 {
   "lang": "en",
-  "other": "FR",
   "otherName": "Français",
-  "otherLabel": "Lire en français",
   "otherHref": "/fr/",
   "meta": {
     "title": "Yororis — a listening space with a face and a voice",
@@ -18,11 +16,12 @@
     "github": "Yororis on GitHub",
     "toLight": "Switch to the light theme",
     "toDark": "Switch to the dark theme",
-    "language": "Passer en français",
+    "language": "Language",
     "talk": "Talk to us about Yororis",
     "menu": "Open the menu",
     "close": "Close the menu",
-    "skip": "Skip to the content"
+    "skip": "Skip to the content",
+    "preferences": "Preferences"
   },
   "hero": {
     "eyebrow": "Under construction",
@@ -34,7 +33,15 @@
       "open": "Open source · Apache-2.0",
       "date": "No date"
     },
-    "explore": "How a moment goes"
+    "explore": "How a moment goes",
+    "talk": "Talk to us about Yororis",
+    "take": {
+      "label": "A moment, recorded locally",
+      "aria": "A recording of a moment: the presence introduces itself, the voice is on, the time left is on screen and the crisis lines stay in view.",
+      "note": "A {seconds}-second moment, recorded on the local version with a fictional cast. Under construction, not available.",
+      "play": "Play the recording",
+      "pause": "Pause the recording"
+    }
   },
   "crisis": {
     "label": "In a crisis",
@@ -286,5 +293,27 @@
     "feedDescription": "What shipped in Yororis, week by week.",
     "footerVersion": "v{version}",
     "langTag": "en"
+  },
+  "features": {
+    "eyebrow": "A face and a voice",
+    "title": "A presence that listens, and says so",
+    "items": [
+      {
+        "title": "A face",
+        "text": "An AI presence with a first name and an animated portrait, carrying a permanent “AI” mark."
+      },
+      {
+        "title": "A voice",
+        "text": "A voice and exact subtitles: you can listen, read, or both."
+      },
+      {
+        "title": "One question at a time",
+        "text": "It listens, reflects back and asks one question, then it stops. The time left is always on screen."
+      },
+      {
+        "title": "What I keep",
+        "text": "At the end of the moment the transcript is gone. A short summary remains, yours to read, edit or delete."
+      }
+    ]
   }
 }
