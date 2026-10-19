@@ -2,14 +2,15 @@
   "name": "@yororis/web",
   "version": "0.0.1",
   "private": true,
-  "description": "The Yororis member space and organisation console — runs on 127.0.0.1 with a fictional cast, never deployed (construction mode).",
+  "description": "The Yororis member space and organisation console \u2014 runs on 127.0.0.1 with a fictional cast, never deployed (construction mode).",
   "scripts": {
     "dev": "next dev -H 127.0.0.1 -p 3400",
     "build": "next build",
     "start": "next start -H 127.0.0.1 -p 3400",
     "lint": "eslint . --max-warnings 0 && krizaka-i18n check messages && krizaka-i18n scan app components --allow Yororis,YORORIS,Krizaka,KRIZAKA --skip /app/api/",
     "typecheck": "tsc --noEmit",
-    "test": "node --import tsx --test tests/*.test.mjs"
+    "test": "node --import tsx --test tests/*.test.mjs",
+    "test:e2e": "node tests/e2e/moment.mjs && node tests/e2e/crawl.mjs"
   },
   "dependencies": {
     "@krizaka/fonts": "0.2.0",
@@ -32,6 +33,7 @@
     "@types/react-dom": "^19.2.0",
     "eslint": "^9.39.0",
     "eslint-config-next": "^16.4.0",
+    "playwright": "^1.64.1",
     "postcss": "^8.4.41",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.19.0",
