@@ -90,7 +90,7 @@ export function AccountView({ account }: { account: AccountDto }) {
           />
           {note("profile")}
           <div>
-            <profile.Submit size="sm" shape="cut">
+            <profile.Submit size="sm">
               {say("account.profile.save")}
             </profile.Submit>
           </div>
@@ -129,7 +129,7 @@ export function AccountView({ account }: { account: AccountDto }) {
       <SettingsSection id="notebook" title={say("account.notebook.title")} description={say("account.notebook.description")}>
         <p className="text-sm text-fg-secondary">{say("account.notebook.hint")}</p>
         <div>
-          <Button size="sm" variant="secondary" shape="cut" disabled>
+          <Button size="sm" variant="secondary" disabled>
             {say("account.notebook.action")}
           </Button>
         </div>
@@ -142,7 +142,7 @@ export function AccountView({ account }: { account: AccountDto }) {
         </ul>
         {note("delete")}
         <div>
-          <ConfirmButton size="sm" variant="danger" shape="cut" confirmLabel={say("account.delete.confirm")} loading={remove.isPending} onConfirm={() => remove.mutate()}>
+          <ConfirmButton size="sm" variant="danger" confirmLabel={say("account.delete.confirm")} loading={remove.isPending} onConfirm={() => remove.mutate()}>
             {say("account.delete.action")}
           </ConfirmButton>
         </div>

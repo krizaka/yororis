@@ -60,12 +60,12 @@ export function Home({ locale }: { locale: Locale }) {
               <Crisis m={m.crisis} />
             </div>
             <div className="rd-links">
-              <Button asChild variant="primary" size="lg" shape="cut" shimmer>
+              <Button asChild variant="primary" size="lg">
                 <a href={CONTACT}>
                   {m.hero.talk} <ForwardIcon size={16} strokeWidth={2.25} />
                 </a>
               </Button>
-              <Button asChild variant="secondary" size="lg" shape="cut">
+              <Button asChild variant="secondary" size="lg">
                 <a href="#what">{m.hero.explore}</a>
               </Button>
             </div>
@@ -79,7 +79,7 @@ export function Home({ locale }: { locale: Locale }) {
           title: m.cta.title,
           body: m.cta.body,
           actions: (
-            <Button asChild variant="primary" size="lg" shape="cut">
+            <Button asChild variant="primary" size="lg">
               <a href={CONTACT}>{m.cta.title}</a>
             </Button>
           ),

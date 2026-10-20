@@ -89,10 +89,10 @@ body { margin: 0; min-height: 100vh; background: var(--kz-surface-0); color: var
     border: 1px solid var(--kz-border-default); background: var(--kz-surface-0); line-height: 1.25; }
   .yo-crisis a { font-size: 1.2em; }
 }
-/* A calm lift on the cards that keep or link (never under reduced motion). */
+/* The cards that keep or link answer the pointer with a stronger hairline — nothing moves (krizaka-ui#393). */
 @media (prefers-reduced-motion: no-preference) {
-  .yo-keep { transition: transform .25s var(--kz-ease, ease), box-shadow .25s var(--kz-ease, ease); }
-  .yo-keep:hover { transform: translateY(-2px); box-shadow: inset 4px 0 0 var(--kz-accent), 0 10px 28px color-mix(in srgb, var(--kz-accent) 14%, transparent); }
+  .yo-keep { transition: border-color 150ms var(--kz-ease, ease); }
+  .yo-keep:hover { border-color: var(--kz-border-strong); }
 }
 
 /* « Un visage et une voix » — the real Moment take in a phone frame, the crane perched on it in its halo. */

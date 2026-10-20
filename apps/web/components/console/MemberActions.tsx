@@ -23,7 +23,7 @@ export function MemberActions({ id, status, role }: { id: string; status: "ACTIV
   const paused = status === "PAUSED";
   return (
     <div className="flex flex-col items-end gap-2">
-      <ConfirmButton variant={paused ? "secondary" : "danger"} shape="cut" size="sm" confirmLabel={paused ? say("admin.member.restoreConfirm") : say("admin.member.pauseConfirm")} loading={act.isPending} onConfirm={() => act.mutate(paused ? "restore" : "pause")}>
+      <ConfirmButton variant={paused ? "secondary" : "danger"} size="sm" confirmLabel={paused ? say("admin.member.restoreConfirm") : say("admin.member.pauseConfirm")} loading={act.isPending} onConfirm={() => act.mutate(paused ? "restore" : "pause")}>
         {paused ? say("admin.member.restore") : say("admin.member.pause")}
       </ConfirmButton>
       {problem ? <Alert tone="danger">{problem}</Alert> : null}
