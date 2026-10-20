@@ -353,6 +353,12 @@
       "laterOpen": "You can begin another whenever you are ready.",
       "chooseCaption": "Each one is an AI presence with its own face and voice. You can choose another next time.",
       "speaks": "Speaks English and French"
+    },
+    "notFound": {
+      "code": "404",
+      "title": "This page is not here",
+      "text": "This address is not part of the member space, or it is not open to you.",
+      "home": "Back to home"
     }
   }
 }

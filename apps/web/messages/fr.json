@@ -353,6 +353,12 @@
       "laterOpen": "Tu peux en commencer un autre quand tu veux.",
       "chooseCaption": "Chacune est une présence IA avec son visage et sa voix. Tu peux en choisir une autre la prochaine fois.",
       "speaks": "Parle français et anglais"
+    },
+    "notFound": {
+      "code": "404",
+      "title": "Cette page n’est pas ici",
+      "text": "Cette adresse ne fait pas partie de l’espace membre, ou elle ne t’est pas ouverte.",
+      "home": "Retour à l’accueil"
     }
   }
 }
