@@ -1,0 +1,54 @@
+# Dependabot — the Krizaka model (monthly, quiet; DEPS 2026-10-13, krizaka/.github).
+# Once a month (the 1st, 06:00 Paris), ONE grouped pull request per ecosystem and at most one open per
+# ecosystem. Security fixes stay on and arrive grouped apart, as soon as an advisory is published.
+# Besides the version updates it keeps the supply-chain pins fresh: GitHub Actions by commit SHA, Docker images by
+# digest (OpenSSF Scorecard, Pinned-Dependencies — krizaka/.github docs/standards/supply-chain.md).
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+      time: "06:00"
+      timezone: Europe/Paris
+    groups:
+      all:
+        patterns: ["*"]
+    commit-message:
+      prefix: "ci(deps)"
+    labels: ["area:deps"]
+    open-pull-requests-limit: 1
+
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: monthly
+      time: "06:00"
+      timezone: Europe/Paris
+    groups:
+      all:
+        patterns: ["*"]
+      security:
+        applies-to: security-updates
+        patterns: ["*"]
+    commit-message:
+      prefix: "chore(deps)"
+    labels: ["area:deps"]
+    open-pull-requests-limit: 1
+
+  - package-ecosystem: docker
+    directory: "/deploy/docker"
+    schedule:
+      interval: monthly
+      time: "06:00"
+      timezone: Europe/Paris
+    groups:
+      all:
+        patterns: ["*"]
+      security:
+        applies-to: security-updates
+        patterns: ["*"]
+    commit-message:
+      prefix: "chore(deps)"
+    labels: ["area:deps"]
+    open-pull-requests-limit: 1

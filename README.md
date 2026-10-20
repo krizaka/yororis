@@ -12,6 +12,7 @@
 **A listening space with a face and a voice — and a presence that stops.**
 
 [![CI](https://github.com/krizaka/yororis/actions/workflows/ci.yml/badge.svg)](https://github.com/krizaka/yororis/actions/workflows/ci.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/krizaka/yororis/badge)](https://scorecard.dev/viewer/?uri=github.com/krizaka/yororis)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 [![Status](https://img.shields.io/badge/status-under%20construction-5d894d)](docs/FRAMEWORK.md)
 [![krizaka.com](https://img.shields.io/badge/krizaka.com-Yororis-5d894d)](https://www.krizaka.com/products/yororis)
