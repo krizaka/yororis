@@ -298,7 +298,12 @@ for (const [device, viewport] of Object.entries(VIEWPORTS)) {
     if (shots) await page.screenshot({ path: `${shots}/console-moments-${device}.png` });
     await context.close();
     const member = await open(viewport, "dark", "en", "lina@demo.yororis.test", "admin/moments");
-    assert.ok((await member.page.locator("body").innerText()).includes("could not") || (await member.page.locator("body").innerText()).includes("not found") || (await member.page.locator("body").innerText()).includes("404"), "a member must not see the console");
+    // The 404 is in the HTML the server sends, not painted by scripts after the load event (that raced a slow runner: an empty body).
+    const raw = await member.context.request.get(`${APP}/en/admin/moments`);
+    assert.equal(raw.status(), 404, "a member gets a 404 on the console");
+    assert.ok((await raw.text()).includes("This page is not here"), "the 404 says so in the HTML itself");
+    await member.page.getByRole("heading", { name: "This page is not here" }).waitFor();
+    assert.equal(await member.page.getByTestId("moments-console").count(), 0, "a member must not see the console");
     await member.context.close();
   });
 }
