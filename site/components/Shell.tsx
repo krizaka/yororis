@@ -35,7 +35,8 @@ export function metadataFor(locale: Locale): Metadata {
       images: [{ url: `${ORIGIN}/og.png`, width: 1200, height: 630, alt: m.meta.ogAlt }],
     },
     twitter: { card: "summary_large_image", title: m.meta.title, description: m.meta.description, images: [`${ORIGIN}/og.png`] },
-    icons: { icon: [{ url: "/favicon.svg", type: "image/svg+xml" }] },
+    icons: { icon: [{ url: "/favicon.svg", type: "image/svg+xml" }, { url: "/favicon-32.png", sizes: "32x32", type: "image/png" }], apple: "/apple-touch-icon.png" },
+    manifest: "/manifest.webmanifest",
   };
 }
 
