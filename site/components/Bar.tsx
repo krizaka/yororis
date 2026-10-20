@@ -65,7 +65,7 @@ export function Bar({ m, locale, home, otherHref, otherName }: { m: Messages["ba
           <span className="hidden md:inline-flex">
             <NavBar.Language label={m.language} current={locale} languages={languages} />
           </span>
-          <Button asChild variant="primary" size="sm" shape="cut" className="ml-1 hidden font-bold md:inline-flex">
+          <Button asChild variant="primary" size="sm" className="ml-1 hidden font-bold md:inline-flex">
             <a href={CONTACT}>{m.talk}</a>
           </Button>
 
@@ -81,7 +81,7 @@ export function Bar({ m, locale, home, otherHref, otherName }: { m: Messages["ba
               </Button>
               <NavBar.Language label={m.language} current={locale} languages={languages} />
             </NavBar.MobilePreferences>
-            <Button asChild variant="primary" size="md" shape="cut" className="mt-2 font-bold">
+            <Button asChild variant="primary" size="md" className="mt-2 font-bold">
               <a href={CONTACT}>{m.talk}</a>
             </Button>
               </NavBar.Mobile>

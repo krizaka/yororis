@@ -22,7 +22,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   return (
     <DashboardLayout headingAs="h2" title={d.greeting.replace("{name}", first)} description={d.lead}>
       <Widget level={3} title={d.beginTitle} description={d.begin} span="full">
-        <ButtonLink href={`/${locale}/moment`} variant="primary" size="md" shape="cut">
+        <ButtonLink href={`/${locale}/moment`} variant="primary" size="md">
           {d.beginAction}
         </ButtonLink>
       </Widget>
@@ -44,13 +44,13 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       </Widget>
       <Widget level={3} title={d.crisisTitle} description={d.crisisText} span={2}>
         <div className="flex flex-wrap gap-2">
-          <a className={buttonVariants({ variant: "primary", size: "sm", shape: "cut" })} href="tel:988">
+          <a className={buttonVariants({ variant: "primary", size: "sm" })} href="tel:988">
             {d.call}
           </a>
-          <a className={buttonVariants({ variant: "secondary", size: "sm", shape: "cut" })} href="sms:988">
+          <a className={buttonVariants({ variant: "secondary", size: "sm" })} href="sms:988">
             {d.text}
           </a>
-          <a className={buttonVariants({ variant: "secondary", size: "sm", shape: "cut" })} href="tel:811">
+          <a className={buttonVariants({ variant: "secondary", size: "sm" })} href="tel:811">
             {d.infoSocial}
           </a>
         </div>

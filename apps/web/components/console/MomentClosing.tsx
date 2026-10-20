@@ -23,7 +23,7 @@ export function MoodPick({ label, value, onChange }: { label: string; value: num
       <span className="text-sm text-fg-secondary">{label}</span>
       <div className="flex gap-2">
         {[1, 2, 3, 4, 5].map((n) => (
-          <Button key={n} type="button" size="sm" shape="cut" variant={value === n ? "primary" : "secondary"} aria-pressed={value === n} onClick={() => onChange(value === n ? null : n)}>
+          <Button key={n} type="button" size="sm" variant={value === n ? "primary" : "secondary"} aria-pressed={value === n} onClick={() => onChange(value === n ? null : n)}>
             {n}
           </Button>
         ))}
@@ -110,7 +110,7 @@ export function MomentClosing({ momentId, canKeep, remaining, language, moodBefo
           <MoodPick label={say("moment.moodAfter")} value={moodAfter} onChange={setMoodAfter} />
           {note ? <Alert tone="danger">{note}</Alert> : null}
           <div className="flex flex-wrap gap-2">
-            <Button size="md" shape="cut" variant="primary" loading={keep.isPending} onClick={() => keep.mutate()}>
+            <Button size="md" variant="primary" loading={keep.isPending} onClick={() => keep.mutate()}>
               {say("moment.keepYes")}
             </Button>
             <Button size="md" variant="ghost" disabled={keep.isPending} onClick={() => forget.mutate()}>
@@ -135,10 +135,10 @@ export function MomentClosing({ momentId, canKeep, remaining, language, moodBefo
           {field("takeAlong", say("moment.fieldAlong"))}
           {note ? <Alert tone="danger">{note}</Alert> : null}
           <div className="flex flex-wrap gap-2">
-            <Button size="md" shape="cut" variant="secondary" onClick={copy}>
+            <Button size="md" variant="secondary" onClick={copy}>
               {copied ? say("moment.copied") : say("moment.copy")}
             </Button>
-            <Button size="md" shape="cut" variant="secondary" onClick={download}>
+            <Button size="md" variant="secondary" onClick={download}>
               {say("moment.download")}
             </Button>
             <Button size="md" variant="ghost" onClick={() => { setDraft(null); setPhase("let-go"); }}>
@@ -159,7 +159,7 @@ export function MomentClosing({ momentId, canKeep, remaining, language, moodBefo
       ) : null}
 
       <div>
-        <a className={buttonVariants({ variant: "secondary", size: "md", shape: "cut" })} href={`/${locale}`}>
+        <a className={buttonVariants({ variant: "secondary", size: "md" })} href={`/${locale}`}>
           {say("moment.again")}
         </a>
       </div>

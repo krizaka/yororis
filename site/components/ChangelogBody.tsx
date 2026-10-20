@@ -78,7 +78,7 @@ export function ChangelogBody({
           </>
         }
         actions={
-          <Button asChild variant="secondary" size="md" shape="cut">
+          <Button asChild variant="secondary" size="md">
             <a href={feedHref}>{c.feed}</a>
           </Button>
         }

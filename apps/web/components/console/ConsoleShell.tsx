@@ -79,7 +79,7 @@ export function ConsoleShell({ locale, email, organiser, version, children }: { 
                 {say("shell.otherLanguage")}
               </Link>
               <ThemeToggle label={say("shell.theme")} variant="ghost" />
-              <Button size="sm" variant="secondary" shape="cut" loading={signOut.isPending} onClick={() => signOut.mutate()}>
+              <Button size="sm" variant="secondary" loading={signOut.isPending} onClick={() => signOut.mutate()}>
                 <LogoutIcon size={16} /> {say("shell.signOut")}
               </Button>
             </>

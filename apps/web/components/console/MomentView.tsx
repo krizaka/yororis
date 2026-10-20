@@ -67,13 +67,13 @@ export function HelpNow() {
         <strong className="font-semibold text-fg">{say("moment.helpQuestion")}</strong> <span className="text-fg-secondary">{say("moment.helpText")}</span>
       </p>
       <div className="flex flex-wrap gap-2">
-        <a className={buttonVariants({ variant: "primary", size: "sm", shape: "cut" })} href="tel:988">
+        <a className={buttonVariants({ variant: "primary", size: "sm" })} href="tel:988">
           {say("moment.call")}
         </a>
-        <a className={buttonVariants({ variant: "secondary", size: "sm", shape: "cut" })} href="sms:988">
+        <a className={buttonVariants({ variant: "secondary", size: "sm" })} href="sms:988">
           {say("moment.text")}
         </a>
-        <a className={buttonVariants({ variant: "secondary", size: "sm", shape: "cut" })} href="tel:811">
+        <a className={buttonVariants({ variant: "secondary", size: "sm" })} href="tel:811">
           {say("moment.infoSocial")}
         </a>
       </div>
@@ -257,7 +257,7 @@ export function MomentView({ available, minutes, stops, calmMotion }: MomentProp
             </section>
             {note ? <Alert tone="danger">{note}</Alert> : null}
             <div>
-              <Button size="lg" shape="cut" variant="primary" disabled={!chosen || !agreed} loading={start.isPending} onClick={() => chosen && start.mutate(chosen)}>
+              <Button size="lg" variant="primary" disabled={!chosen || !agreed} loading={start.isPending} onClick={() => chosen && start.mutate(chosen)}>
                 {chosen ? say("moment.begin", { name: chosen.name }) : say("moment.chooseTitle")}
               </Button>
               {!agreed ? <p className="mt-2 text-xs text-fg-muted">{say("moment.agreeFirst")}</p> : null}
@@ -316,7 +316,6 @@ export function MomentView({ available, minutes, stops, calmMotion }: MomentProp
             <Button
               type="button"
               size="sm"
-              shape="cut"
               variant={talk.state === "recording" ? "primary" : "secondary"}
               aria-pressed={talk.state === "recording"}
               disabled={turn.isPending}
