@@ -51,7 +51,7 @@ export function hydrateTaken(memberId: string, starts: number[]): void {
   state().taken.set(memberId, [...starts].sort((a, b) => a - b));
 }
 export const takenBy = (memberId: string) => (state().taken.get(memberId) ?? []).map((startedAt) => ({ startedAt }));
-export const liveOf = (memberId: string) => [...state().live.values()].find((m) => m.memberId === memberId && !m.ended);
+export const liveOf = (memberId: string) => [...state().live.values()].find((m) => m.memberId === memberId && !m.ended && m.endsAt > Date.now());
 export const findMoment = (id: string, memberId: string) => {
   sweep();
   const m = state().live.get(id);
