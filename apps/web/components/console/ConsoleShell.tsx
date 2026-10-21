@@ -4,6 +4,7 @@ import { ClockIcon, HomeIcon, LogoutIcon, MomentIcon, SettingsIcon, UsersIcon } 
 import { krizakaFetch, useMutation } from "@krizaka/query";
 import { YororisLogo } from "@krizaka/ui";
 import { AppShell } from "@krizaka/ui/app-shell";
+import { Avatar } from "@krizaka/ui/avatar";
 import { Button } from "@krizaka/ui/button";
 import { SiteFooter } from "@krizaka/ui/site-footer";
 import { familyLabels } from "@krizaka/ui/sites";
@@ -11,13 +12,14 @@ import { ThemeToggle } from "@krizaka/ui/theme";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
+import { avatarOf } from "@/lib/avatars";
 import { useSay } from "@/lib/i18n-client";
 
 /**
  * The frame of the signed-in space: AppShell (sidebar that folds, drawer on a phone), the member's destinations and, for an
  * organiser, the organisation's. A permanent strip says what this is: in development, not available.
  */
-export function ConsoleShell({ locale, email, organiser, version, children }: { locale: "en" | "fr"; email: string; organiser: boolean; version: string; children: React.ReactNode }) {
+export function ConsoleShell({ locale, email, id, name, avatar, organiser, version, children }: { locale: "en" | "fr"; email: string; id: string; name: string; avatar: string | null; organiser: boolean; version: string; children: React.ReactNode }) {
   const { say } = useSay();
   const router = useRouter();
   const path = usePathname() ?? "";
@@ -51,8 +53,11 @@ export function ConsoleShell({ locale, email, organiser, version, children }: { 
         collapseLabels={[say("shell.collapse"), say("shell.expand")]}
         footer={
           <div className="flex flex-col gap-1 px-3 pb-2 text-xs text-fg-muted">
-            <span className="truncate" title={email}>
-              {say("shell.signedInAs", { email })}
+            <span className="flex items-center gap-2">
+              <Avatar size="sm" alt={name} defaultAvatar={avatarOf({ id, avatar })} />
+              <span className="truncate" title={email}>
+                {say("shell.signedInAs", { email })}
+              </span>
             </span>
             <span data-testid="app-version">{say("shell.version", { version })}</span>
           </div>

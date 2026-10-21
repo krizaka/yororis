@@ -136,7 +136,8 @@
         "consent": "Consentement",
         "notebook": "À apporter",
         "delete": "Supprimer",
-        "password": "Mot de passe"
+        "password": "Mot de passe",
+        "avatar": "Image"
       },
       "profile": {
         "title": "Profil",
@@ -191,6 +192,14 @@
         "next": "Nouveau mot de passe (12 caractères ou plus)",
         "submit": "Changer le mot de passe",
         "saved": "Mot de passe changé."
+      },
+      "avatar": {
+        "title": "Image",
+        "description": "Choisis l’image affichée à côté de ton nom. Elle reste dans cet espace.",
+        "option": "Image {n}",
+        "current": "Choisie",
+        "default": "Utiliser celle créée à partir de mon nom",
+        "saved": "Enregistré."
       }
     },
     "admin": {

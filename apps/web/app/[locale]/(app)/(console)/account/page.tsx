@@ -8,5 +8,5 @@ import { dbConfigured } from "@/lib/db";
 export default async function AccountPage() {
   const m = await pageMember();
   if (!m) notFound();
-  return <AccountView account={{ email: m.email, organisation: m.organisation, locale: m.locale, name: m.name, subtitles: m.subtitles, calmMotion: m.calmMotion }} passwordEnabled={dbConfigured()} />;
+  return <AccountView account={{ id: m.id, avatar: m.avatar ?? null, email: m.email, organisation: m.organisation, locale: m.locale, name: m.name, subtitles: m.subtitles, calmMotion: m.calmMotion }} passwordEnabled={dbConfigured()} />;
 }

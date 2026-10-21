@@ -136,7 +136,8 @@
         "consent": "Consent",
         "notebook": "To bring with you",
         "delete": "Delete",
-        "password": "Password"
+        "password": "Password",
+        "avatar": "Picture"
       },
       "profile": {
         "title": "Profile",
@@ -191,6 +192,14 @@
         "next": "New password (12 characters or more)",
         "submit": "Change the password",
         "saved": "Password changed."
+      },
+      "avatar": {
+        "title": "Picture",
+        "description": "Pick the picture shown next to your name. It stays in this space.",
+        "option": "Picture {n}",
+        "current": "Chosen",
+        "default": "Use the one made from my name",
+        "saved": "Saved."
       }
     },
     "admin": {
