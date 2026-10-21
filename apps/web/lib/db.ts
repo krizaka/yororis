@@ -9,7 +9,7 @@ export const dbConfigured = (env: Record<string, string | undefined> = process.e
 export function poolConfig(env: Record<string, string | undefined> = process.env): pg.PoolConfig {
   const url = env.DATABASE_URL?.trim();
   if (!url) throw new Error("DATABASE_URL is not set");
-  const ca = env.DATABASE_CA_CERT?.trim();
+  const ca = env.DATABASE_CA_CERT?.trim().replace(/\\n/g, "\n");
   const local = /@(127\.0\.0\.1|localhost)[:/]/.test(url);
   return { connectionString: url.replace(/[?&]sslmode=[^&]*/, ""), max: 5, ssl: local ? false : ca ? { ca, rejectUnauthorized: true } : { rejectUnauthorized: true } };
 }

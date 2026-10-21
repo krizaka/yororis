@@ -27,7 +27,7 @@ test("no other route or page can create an account", () => {
   const paths = tracked().filter((f) => /sign-?up|regist|enrol|invit|join|create-account|new-account/i.test(f));
   assert.deepEqual(paths, ["app/api/auth/sign-up/route.ts"]);
   const api = tracked().filter((f) => f.startsWith("app/api/auth/"));
-  assert.deepEqual(api.sort(), ["app/api/auth/password/route.ts", "app/api/auth/sign-out/route.ts", "app/api/auth/sign-up/route.ts"]);
+  assert.deepEqual(api.sort(), ["app/api/auth/change/route.ts", "app/api/auth/forgot/route.ts", "app/api/auth/password/route.ts", "app/api/auth/reset/route.ts", "app/api/auth/sign-out/route.ts", "app/api/auth/sign-up/route.ts"]);
 });
 
 test("the store has no way to add a member: the cast is fixed", () => {

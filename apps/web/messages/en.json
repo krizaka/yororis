@@ -51,10 +51,11 @@
       "email": "E-mail",
       "password": "Password",
       "submit": "Sign in",
-      "noticeTitle": "In development, for the QA accounts only",
-      "notice": "This space is open to the team’s QA accounts and a fictional cast. Nobody outside the team can use it, and nothing is offered.",
+      "noticeTitle": "In development, for invited testers only",
+      "notice": "This space is open to people the team invited. Nothing is offered to anyone else, and there is no way to ask for an account here.",
       "contact": "Talk to us about Yororis",
-      "asideFooter": "© Krizaka · Montréal"
+      "asideFooter": "© Krizaka · Montréal",
+      "forgot": "Forgot your password?"
     },
     "errors": {
       "INVALID_CREDENTIALS": "Wrong e-mail or password.",
@@ -82,7 +83,12 @@
       "STOPS_DAY": "That is all for today.",
       "STOPS_WEEK": "That is all for this week.",
       "AUDIO_TOO_LONG": "That recording is too long. Hold the button for up to 30 seconds.",
-      "AUDIO_TYPE": "This browser recorded sound in a format that cannot be used. Type instead."
+      "AUDIO_TYPE": "This browser recorded sound in a format that cannot be used. Type instead.",
+      "WRONG_PASSWORD": "The current password is not right.",
+      "PASSWORD_TOO_SHORT": "Use at least 12 characters.",
+      "PASSWORD_TOO_LONG": "That password is too long.",
+      "INVALID_TOKEN": "This link is not valid any more.",
+      "NOT_AVAILABLE": "This is not available here."
     },
     "dashboard": {
       "greeting": "Hello, {name}",
@@ -129,7 +135,8 @@
         "display": "Display",
         "consent": "Consent",
         "notebook": "To bring with you",
-        "delete": "Delete"
+        "delete": "Delete",
+        "password": "Password"
       },
       "profile": {
         "title": "Profile",
@@ -176,6 +183,14 @@
         "remains": "What remains: nothing that identifies you.",
         "action": "Delete my account",
         "confirm": "Sure? Delete it for good"
+      },
+      "password": {
+        "title": "Password",
+        "description": "Change it here. Your other sign-ins end.",
+        "current": "Current password",
+        "next": "New password (12 characters or more)",
+        "submit": "Change the password",
+        "saved": "Password changed."
       }
     },
     "admin": {
@@ -359,6 +374,30 @@
       "title": "This page is not here",
       "text": "This address is not part of the member space, or it is not open to you.",
       "home": "Back to home"
+    },
+    "forgot": {
+      "title": "Forgot your password?",
+      "description": "Type your e-mail. If it has an account, we send a link to choose a new password.",
+      "email": "E-mail",
+      "submit": "Send the link",
+      "sent": "If this address has an account, a link is on its way. It works once, for 30 minutes.",
+      "back": "Back to sign in"
+    },
+    "reset": {
+      "title": "Choose a new password",
+      "description": "At least 12 characters. This link works once.",
+      "password": "New password",
+      "confirm": "Type it again",
+      "submit": "Save the new password",
+      "mismatch": "The two passwords are not the same.",
+      "done": "Your password is changed. You can sign in.",
+      "invalid": "This link is not valid any more. Ask for a new one.",
+      "toSignIn": "Sign in",
+      "askAgain": "Ask for a new link"
     }
+  },
+  "mail": {
+    "resetSubject": "Choose a new Yororis password",
+    "resetBody": "Hello,\n\nSomeone asked to choose a new password for your Yororis account. Open this link within 30 minutes (it works once):\n\n{url}\n\nIf it was not you, ignore this e-mail: nothing changes.\n\nYororis"
   }
 }
