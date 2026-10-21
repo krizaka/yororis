@@ -24,6 +24,7 @@ test("ingress, in this order: the apex and qa redirect; dev keeps its API, /.wel
   assert.match(rules[2], /exact: dev\.yororis\.com[\s\S]*prefix: \/api[\s\S]*name: web/);
   assert.match(rules[3], /exact: dev\.yororis\.com[\s\S]*prefix: \/\.well-known[\s\S]*name: web/);
   assert.match(rules[4], /exact: dev\.yororis\.com[\s\S]*prefix: \/robots\.txt[\s\S]*name: web/);
+  for (const i of [2, 3, 4]) assert.match(rules[i], /preserve_path_prefix: true/, `rule ${i}: the platform strips the matched prefix unless it is preserved`);
   assert.match(rules[5], /exact: dev\.yororis\.com[\s\S]*redirect:[\s\S]*authority: www\.yororis\.com[\s\S]*redirect_code: 308/);
   assert.doesNotMatch(rules[5], /prefix/);
   assert.match(rules[6], /prefix: \/[\s\S]*name: web/);
