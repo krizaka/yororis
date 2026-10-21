@@ -11,7 +11,9 @@ const spec = readFileSync(join(dirname(fileURLToPath(import.meta.url)), "../../d
 
 test("www is the primary domain; the apex, dev and qa are aliases", () => {
   assert.match(spec, /- domain: www\.yororis\.com\n\s+type: PRIMARY/);
-  for (const host of ["yororis.com", "dev.yororis.com", "qa.yororis.com"]) assert.match(spec, new RegExp(`- domain: ${host.replace(/\./g, "\\.")}\\n\\s+type: ALIAS`));
+  assert.match(spec, /- domain: yororis\.com\n\s+type: ALIAS/);
+  assert.match(spec, /- domain: dev\.yororis\.com\n\s+type: ALIAS/);
+  assert.match(spec, /- domain: qa\.yororis\.com\n\s+type: ALIAS/);
 });
 
 test("ingress, in this order: the apex and qa redirect; dev keeps its API, /.well-known and robots.txt then redirects everything else; www serves the app", () => {
@@ -19,7 +21,9 @@ test("ingress, in this order: the apex and qa redirect; dev keeps its API, /.wel
   assert.equal(rules.length, 7);
   assert.match(rules[0], /exact: yororis\.com[\s\S]*redirect:[\s\S]*authority: www\.yororis\.com[\s\S]*redirect_code: 308/);
   assert.match(rules[1], /exact: qa\.yororis\.com[\s\S]*redirect:[\s\S]*authority: www\.yororis\.com[\s\S]*redirect_code: 308/);
-  for (const [i, prefix] of [[2, "/api"], [3, "/.well-known"], [4, "/robots.txt"]]) assert.match(rules[i], new RegExp(`exact: dev\\.yororis\\.com[\\s\\S]*prefix: ${prefix.replace(/[./]/g, "\\$&")}[\\s\\S]*name: web`));
+  assert.match(rules[2], /exact: dev\.yororis\.com[\s\S]*prefix: \/api[\s\S]*name: web/);
+  assert.match(rules[3], /exact: dev\.yororis\.com[\s\S]*prefix: \/\.well-known[\s\S]*name: web/);
+  assert.match(rules[4], /exact: dev\.yororis\.com[\s\S]*prefix: \/robots\.txt[\s\S]*name: web/);
   assert.match(rules[5], /exact: dev\.yororis\.com[\s\S]*redirect:[\s\S]*authority: www\.yororis\.com[\s\S]*redirect_code: 308/);
   assert.doesNotMatch(rules[5], /prefix/);
   assert.match(rules[6], /prefix: \/[\s\S]*name: web/);
