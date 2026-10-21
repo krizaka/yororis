@@ -8,9 +8,9 @@
 
 /* The faces are @krizaka/fonts (lib/fonts.ts), in the token roles. */
 :root {
-  --kz-font-sans: var(--font-kz-text), Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --kz-font-display: var(--font-kz-display), "Plus Jakarta Sans", var(--font-kz-text), system-ui, sans-serif;
-  --kz-font-mono: var(--font-kz-mono), "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --kz-font-sans: var(--font-kz-text), "Atkinson Hyperlegible Next", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --kz-font-display: var(--font-kz-display), "Young Serif", Georgia, serif;
+  --kz-font-mono: var(--font-kz-mono), "Courier Prime", "Courier New", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   color-scheme: dark;
 }
 html.light { color-scheme: light; }
@@ -44,7 +44,7 @@ body { margin: 0; min-height: 100vh; background: var(--kz-surface-0); color: var
   background: radial-gradient(closest-side, color-mix(in srgb, var(--kz-accent) 22%, transparent), transparent 72%); }
 
 /* The crisis lines: a plain note, never hidden, on the accent's rail. */
-.yo-crisis { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 6px 14px; padding: 14px 18px; border-radius: 14px;
+.yo-crisis { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 6px 14px; padding: 14px 18px; border-radius: 0;
   border: 1px solid var(--kz-border-default); background: var(--kz-surface-1); box-shadow: inset 4px 0 0 var(--kz-accent); }
 .yo-crisis-icon { color: var(--kz-accent-text); }
 .yo-crisis p { margin: 0; }
@@ -63,7 +63,7 @@ body { margin: 0; min-height: 100vh; background: var(--kz-surface-0); color: var
 .yo-404 a { color: var(--kz-accent-text); }
 
 /* The captures of the member space (in development, not available): a card per screen, the phone beside the computer. */
-.yo-shot-status { display: inline-block; margin: 0; padding: 0.25rem 0.75rem; border: 1px solid var(--kz-border-default); border-radius: 999px; background: var(--kz-surface-1); color: var(--kz-text-secondary); font-size: 0.8125rem; font-weight: 600; }
+.yo-shot-status { display: inline-block; margin: 0; padding: 0.25rem 0.75rem; border: 1px solid var(--kz-border-default); border-radius: var(--kz-radius-sm); background: var(--kz-surface-1); color: var(--kz-text-secondary); font-size: 0.8125rem; font-weight: 600; }
 
 /* What moved this week (the construction page): the titles of merged changes, dated, read at build. */
 .yo-changelog { display: grid; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
@@ -73,8 +73,8 @@ body { margin: 0; min-height: 100vh; background: var(--kz-surface-0); color: var
 @media (max-width: 40rem) { .yo-changelog li { grid-template-columns: minmax(0, 1fr); gap: 0.125rem; } }
 
 /* What is kept: three short answers, each on the accent's rail. */
-.yo-keep { list-style: none; display: grid; gap: 6px; align-content: start; margin: 0; padding: 16px 18px; border-radius: 14px; border: 1px solid var(--kz-border-default); background: var(--kz-surface-1); box-shadow: inset 4px 0 0 var(--kz-accent); }
-.yo-keep-q { margin: 0; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--kz-accent-text); }
+.yo-keep { list-style: none; display: grid; gap: 6px; align-content: start; margin: 0; padding: 16px 18px; border-radius: 0; border: 1px solid var(--kz-border-default); background: var(--kz-surface-1); box-shadow: inset 4px 0 0 var(--kz-accent); }
+.yo-keep-q { margin: 0; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0; text-transform: none; color: var(--kz-accent-text); }
 .yo-keep .rd-prose { color: var(--kz-text-primary); }
 
 /* Phone first: the crane is small and the crisis lines sit right under the lead, inside the first screen. */
@@ -85,7 +85,7 @@ body { margin: 0; min-height: 100vh; background: var(--kz-surface-0); color: var
   .yo-crisis-icon { display: none; }
   .yo-crisis-lead { font-size: 13px; line-height: 1.35; }
   .yo-crisis-lines { grid-column: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; font-size: 14px; }
-  .yo-crisis-lines span { display: flex; flex-direction: column; justify-content: center; min-height: 56px; padding: 8px 10px; border-radius: 10px;
+  .yo-crisis-lines span { display: flex; flex-direction: column; justify-content: center; min-height: 56px; padding: 8px 10px; border-radius: 0;
     border: 1px solid var(--kz-border-default); background: var(--kz-surface-0); line-height: 1.25; }
   .yo-crisis a { font-size: 1.2em; }
 }
@@ -101,7 +101,7 @@ body { margin: 0; min-height: 100vh; background: var(--kz-surface-0); color: var
 .yo-take-phone { width: 100%; }
 .yo-take-video { display: block; width: 100%; height: auto; aspect-ratio: 412 / 914; background: var(--kz-surface-0); }
 .yo-take-crane { position: absolute; left: -64px; bottom: -4px; width: 84px; height: 84px; z-index: 2; }
-.yo-take-toggle { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--kz-border-default); background: var(--kz-surface-0); color: var(--kz-text-primary); font-family: inherit; font-size: 0.8125rem; font-weight: 600; cursor: pointer; }
+.yo-take-toggle { min-height: 44px; padding: 0 16px; border-radius: var(--kz-radius-sm); border: 1px solid var(--kz-border-default); background: var(--kz-surface-0); color: var(--kz-text-primary); font-family: inherit; font-size: 0.8125rem; font-weight: 600; cursor: pointer; }
 .yo-take-toggle:focus-visible { outline: 2px solid var(--kz-ring); outline-offset: 3px; }
 .yo-take-note { max-width: 32ch; margin: 0; text-align: center; color: var(--kz-text-muted); font-size: .75rem; line-height: 1.4; }
 @media (max-width: 40rem) { .yo-take-crane { left: -38px; bottom: -4px; width: 64px; height: 64px; } .yo-take-crane svg { width: 64px; height: 64px; } }
