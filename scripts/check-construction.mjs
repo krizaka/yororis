@@ -44,7 +44,9 @@ for (const file of existsSync(workflows) ? readdirSync(workflows) : []) {
 const spec = join(root, ".do/app.yaml");
 if (existsSync(spec)) {
   const yml = readFileSync(spec, "utf8");
-  for (const kind of ["services", "workers", "jobs", "databases", "functions", "ingress", "envs"]) if (new RegExp(`^${kind}:`, "m").test(yml)) failures.push(`.do/app.yaml declares \`${kind}:\` — construction mode allows one static site only.`);
+  for (const kind of ["services", "workers", "jobs", "databases", "functions", "envs"]) if (new RegExp(`^${kind}:`, "m").test(yml)) failures.push(`.do/app.yaml declares \`${kind}:\` — construction mode allows one static site only.`);
+  // `ingress:` is allowed for redirects (dev and the apex lead to www) and for serving the one static site — no other component.
+  if (/^ingress:/m.test(yml)) for (const m of yml.matchAll(/component:\s*\{?\s*name:\s*([\w-]+)/g)) if (m[1] !== "site") failures.push(`.do/app.yaml: \`ingress:\` may only serve the static site \`site\`, not \`${m[1]}\`.`);
   const sites = yml.match(/^\s{2}- name:/gm) ?? [];
   if (!/^static_sites:/m.test(yml) || sites.length !== 1) failures.push(".do/app.yaml must declare exactly one static site.");
   if (!/^\s+source_dir: site$/m.test(yml)) failures.push(".do/app.yaml: the static site is built from site/.");

@@ -136,3 +136,22 @@ test("the static site may carry exactly one build-time variable: APP_SEARCH_INDE
   const two = run(repo({ ".do/app.yaml": SITE_SPEC('    envs:\n      - key: APP_SEARCH_INDEXING\n        value: "off"\n      - key: API_KEY\n        value: "y"\n') }));
   assert.equal(two.status, 1);
 });
+
+test("the static site's ingress may only redirect (308) or serve the site: dev keeps /.well-known, every other page goes to www", () => {
+  const ingress = `ingress:
+  rules:
+    - match: { authority: { exact: yororis.com } }
+      redirect: { authority: www.yororis.com, redirect_code: 308 }
+    - match: { authority: { exact: dev.yororis.com }, path: { prefix: /.well-known } }
+      component: { name: site }
+    - match: { authority: { exact: dev.yororis.com } }
+      redirect: { authority: www.yororis.com, redirect_code: 308 }
+    - match: { path: { prefix: / } }
+      component: { name: site }
+`;
+  const ok = run(repo({ ".do/app.yaml": SITE_SPEC("") + ingress }));
+  assert.equal(ok.status, 0, ok.stderr);
+  const other = run(repo({ ".do/app.yaml": SITE_SPEC("") + ingress.replace("component: { name: site }", "component: { name: api }") }));
+  assert.equal(other.status, 1);
+  assert.match(other.stderr, /ingress/);
+});

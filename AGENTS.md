@@ -11,7 +11,7 @@ product, §4 architecture) is the source of truth. Its rules already apply:
 2. **Construction mode.** No deployment workflow, no production app or variable, no public build, no store submission,
    no outside person. `node scripts/check-construction.mjs` (CI) must stay green.
    **The static-site exception (Oussama, 2026-10-14).** Exactly one deployment is allowed: `site/`, the static site at
-   https://dev.yororis.com — a Next.js **static export** (`output: "export"`, no server), built from the published
+   https://www.yororis.com — a Next.js **static export** (`output: "export"`, no server), built from the published
    `@krizaka/ui` blocks (bar, hero, sections, cards, footer; the animated mark), `@krizaka/tokens` (`.brand-yororis`) and
    `@krizaka/fonts`, dark and light (system, with a toggle), English at `/` and French at `/fr/`. Shipped as a free
    DigitalOcean App Platform static site (`.do/app.yaml`, app `yororis-dev`, project `yororis`, `output_dir: out`). It carries
@@ -36,7 +36,7 @@ product, §4 architecture) is the source of truth. Its rules already apply:
    `yororis`, one `apps-s-1vcpu-0.5gb` service, no database: the cast lives in memory): sign-up is closed server-side
    (`AUTH_SIGNUP_ENABLED` can only be `false`; `/api/auth/sign-up` answers 403 to everything; `tests/sign-up-closed.test.mjs`), only the QA
    accounts and the fictional cast can sign in, the lexicon is enforced, and **no real person uses it until the lawyer review** (krizaka/.github#40).
-   The public static site (dev.yororis.com) stays « under construction » for real people and never links the app. The guard
+   The public static site (www.yororis.com) stays « under construction » for real people and never links the app. The guard
    (`scripts/check-construction.mjs`, tested by `scripts/check-construction.test.mjs`) now allows exactly: `deploy/docker/Dockerfile` and
    `deploy/digitalocean/qa.app.yaml` (one service, a closed sign-up, the release reference, secrets typed SECRET, no database, the smallest
    size, never the static site's host), `output: "standalone"` only when `APP_STANDALONE` is set (the image build), and still refuses any
@@ -44,7 +44,7 @@ product, §4 architecture) is the source of truth. Its rules already apply:
    bind 127.0.0.1, a package that is not private, and an env module that would start in production without `APP_RELEASE_APPROVAL`.
    `.do/app.yaml` still declares the one static site and must not reference `apps/`. No sign-up exists (the cast is invited by construction).
    The lexicon applies to every word and identifier of the app (`apps/web/tests/lexicon.test.mjs`: the messages, the paths and the
-   code; "session" only in the sign-in code). dev.yororis.com shows it only as **screenshots** in "How we're building it in the
+   code; "session" only in the sign-in code). www.yororis.com shows it only as **screenshots** in "How we're building it in the
    open", labelled "in development, not available".
 3. **All AI goes through Orazaka** (the wellbeing pack); no other provider. The crisis response comes from Orazaka and is
    never generated or rephrased.
@@ -80,4 +80,4 @@ product, §4 architecture) is the source of truth. Its rules already apply:
 The contract is defined once, in krizaka-com `AGENTS.md` §2.4, and checked here by `scripts/check-seo-family.mjs` (a copy of
 the same dependency-free file in every site's repository — keep the copies identical; its unit test sits beside it).
 
-dev.yororis.com is **indexed**. Construction mode keeps it static: `llms.txt` is a file in `site/public/` (a route handler is forbidden), the JSON-LD (WebSite + SoftwareApplication, publisher = the Krizaka Organization) offers nothing — no `offers`, no download — and the lexicon applies to `llms.txt` too (`site/tests/site.test.mjs`).
+www.yororis.com is **indexed** (the apex answers 308 with www; `dev.yororis.com` keeps only `/.well-known` and sends every other page to www with a 308 — ingress in `.do/app.yaml`, tested by `site/tests/dev-redirect.test.mjs`; epic krizaka/.github#119). Construction mode keeps it static: `llms.txt` is a file in `site/public/` (a route handler is forbidden), the JSON-LD (WebSite + SoftwareApplication, publisher = the Krizaka Organization) offers nothing — no `offers`, no download — and the lexicon applies to `llms.txt` too (`site/tests/site.test.mjs`).

@@ -124,14 +124,14 @@ test("the export is static: no server output", () => {
 test("sitemap lists both languages", () => {
   const s = readFileSync(join(out, "sitemap.xml"), "utf8");
   const locs = parse(s).querySelectorAll("loc").map((e) => new URL(e.text.trim()));
-  assert.ok(locs.length >= 2 && locs.every((u) => u.host === "dev.yororis.com"));
+  assert.ok(locs.length >= 2 && locs.every((u) => u.host === "www.yororis.com"));
   const paths = locs.map((u) => u.pathname);
   assert.ok(paths.includes("/") && paths.includes("/fr/"));
 });
 
 // ── Search engines and AI assistants (the Krizaka family contract, scripts/check-seo-family.mjs) ──────────────────────────
 import { auditHtml, auditLlms, auditRobots, auditSitemap } from "../scripts/check-seo-family.mjs";
-const HOST = "https://dev.yororis.com";
+const HOST = "https://www.yororis.com";
 
 test("robots.txt welcomes the AI crawlers and names the sitemap", () => {
   assert.deepEqual(auditRobots(readFileSync(join(out, "robots.txt"), "utf8"), { host: HOST }), []);

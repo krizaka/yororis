@@ -1,5 +1,5 @@
 /* Structure of the site: links and ids. Every word is a message (messages/en.json, messages/fr.json). */
-export const ORIGIN = "https://dev.yororis.com";
+export const ORIGIN = "https://www.yororis.com";
 export const CONTACT = "https://www.krizaka.com/contact?topic=yororis";
 export const KRIZAKA = "https://www.krizaka.com";
 export const REPO = "https://github.com/krizaka/yororis";

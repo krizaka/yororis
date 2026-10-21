@@ -1,7 +1,7 @@
 # Yororis QA app — DigitalOcean App Platform, project `yororis`, region tor. QA-only (docs/FRAMEWORK.md §5, krizaka/yororis#23):
 # sign-up closed, only the QA and fictional-cast accounts, the lexicon enforced, no real person until the lawyer review.
 # The smallest service ($5/month). Secrets are filled at apply time (`__NAME__`, never committed) and stored as SECRET.
-# The public static site (dev.yororis.com, .do/app.yaml) is a different app and stays « under construction ».
+# The public static site (www.yororis.com, .do/app.yaml) is a different app and stays « under construction ».
 name: yororis-qa
 region: tor
 alerts:
