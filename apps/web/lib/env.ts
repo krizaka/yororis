@@ -34,7 +34,7 @@ const Schema = z.object({
   AI_API_URL: z.string().url().optional(),
   AI_API_KEY: z.string().min(8).optional(),
   // The version of the pack's consent statement the QA cast agrees to (pack.yaml `consent.version`), and the region whose crisis line answers.
-  AI_WELLBEING_CONSENT: z.string().min(1).default("1.0"),
+  AI_WELLBEING_CONSENT: z.string().min(1).default("2.1"),
   APP_REGION: z.string().regex(/^[A-Z]{2}(-[A-Z]{2})?$/).default("CA-QC"),
   // The presence that stops (docs/FRAMEWORK.md): the longest moment and how many a day and a week. QA may widen them on dev.
   APP_MOMENT_MINUTES: z.coerce.number().int().min(1).max(25).default(8),
