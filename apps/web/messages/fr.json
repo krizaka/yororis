@@ -39,7 +39,7 @@
       "language": "Langue",
       "otherLanguage": "English",
       "theme": "Passer du thème clair au sombre",
-      "banner": "En développement, pour les comptes de QA seulement. Une distribution fictive : personne de réel ici.",
+      "banner": "En développement, pour les testeurs invités seulement. Le contenu est fictif : personne de réel n’est ici.",
       "moment": "Un moment",
       "version": "Version {version}",
       "adminMoments": "Moments"
