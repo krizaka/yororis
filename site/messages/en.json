@@ -3,7 +3,7 @@
   "otherName": "Français",
   "otherHref": "/fr/",
   "meta": {
-    "title": "Yororis — a listening space with a face and a voice",
+    "title": "Yororis: a listening space with a face and a voice",
     "description": "Yororis is a listening space with a face and a voice. Under construction: built in the open, its framework studied before anything is offered. Nothing is live, and there is no date.",
     "ogAlt": "The Yororis mark"
   },
@@ -26,7 +26,7 @@
   "hero": {
     "eyebrow": "Under construction",
     "title": "A listening space with a face and a voice.",
-    "lead": "Some evenings you need to put words on what you carry. Yororis gives you a presence — an AI that says it is one — that listens, asks one question, and stops.",
+    "lead": "Some evenings you need to put words on what you carry. Yororis gives you a presence, an AI that says it is one, that listens, asks one question, and stops.",
     "factsLabel": "Where Yororis stands",
     "facts": {
       "status": "Under construction",
@@ -89,7 +89,7 @@
         "text": "At the end of the moment the transcript is gone. A short summary remains, yours to read, edit or delete."
       }
     ],
-    "lead": "A person opens a moment with a presence: an AI with a first name, an animated portrait carrying a permanent “AI” mark, a voice and exact subtitles. It is meant for organisations first — a wellbeing programme, a professional order, an employer — which set the limits for their members."
+    "lead": "A person opens a moment with a presence: an AI with a first name, an animated portrait carrying a permanent “AI” mark, a voice and exact subtitles. It is meant for organisations first, a wellbeing programme, a professional order, an employer, which set the limits for their members."
   },
   "how": {
     "eyebrow": "In the open",
@@ -100,7 +100,7 @@
       "lead": "Yororis has no AI provider of its own: every AI call goes through the wellbeing pack of its engine, Orazaka. The guards live in the engine, not in a prompt.",
       "items": [
         "Consent to a versioned statement, blocking: no consent, no moment (`451`)",
-        "A crisis guard that runs first and cannot be switched off: a fixed, reviewed answer and a sourced regional line — never generated",
+        "A crisis guard that runs first and cannot be switched off: a fixed, reviewed answer and a sourced regional line, never generated",
         "A scope guard: what is outside a listening space is declined, word for word",
         "An age attestation, recorded; not available to minors",
         "Short retention (30 days, shorter on request), encryption and an append-only audit",
@@ -112,7 +112,7 @@
       "items": [
         "Limits applied by the server, not by the screen",
         "The transcript destroyed when the summary is made",
-        "A mood you give yourself, 1 to 5 — nothing inferred, no score",
+        "A mood you give yourself, 1 to 5, nothing inferred, no score",
         "Export and deletion by the person; aggregate statistics only",
         "Construction mode, checked by CI: no deployment, no sign-up, no production variable"
       ]
@@ -130,20 +130,20 @@
           "line": "What it is, what it is not, the controls, the questions being studied"
         },
         "adr": {
-          "name": "ADR-055 — the wellbeing pack",
+          "name": "ADR-055: the wellbeing pack",
           "line": "Why the name is the first control, and how the guards work"
         },
         "sensitive": {
-          "name": "ADR-051 — sensitive controls",
+          "name": "ADR-051: sensitive controls",
           "line": "Consent, retention, audit: the engine's side"
         }
       }
     },
     "study": {
       "title": "What we are studying",
-      "lead": "Questions, not conclusions — answered with a lawyer before anything is offered to anyone.",
+      "lead": "Questions, not conclusions, answered with a lawyer before anything is offered to anyone.",
       "items": [
-        "Québec: the reserved title and act, and Law 25 — privacy impact, consent, retention, hosting",
+        "Québec: the reserved title and act, and Law 25, privacy impact, consent, retention, hosting",
         "Canada: Health Canada's rules for software, federal privacy law, and what may be said to organisations",
         "France and the European Union: the AI Act (telling people they talk to an AI, reading emotions), GDPR article 9",
         "Belgium: the same European questions, and the crisis lines of both language communities",
@@ -160,7 +160,7 @@
       "shots": {
         "home": {
           "label": "Home",
-          "alt": "The member space’s home: a presence that stops, your moments, what I keep, the thread, my notebook — each empty, and the lines to call.",
+          "alt": "The member space’s home: a presence that stops, your moments, what I keep, the thread, my notebook, each empty, and the lines to call.",
           "line": "A calm home: the presence that stops, your moments, what you keep."
         },
         "account": {
@@ -188,29 +188,29 @@
     "title": "What Yororis is not",
     "lead": "Said once, plainly, so that nobody has to guess.",
     "falcon": "The falcon keeps watch",
-    "powered": "Its AI will run on Orazaka's wellbeing pack.",
+    "powered": "Powered by Orazaka.",
     "stops": {
       "eyebrow": "Signature",
       "title": "A presence that stops",
       "lead": "The limits are not a technical constraint: they are the product. Set by the organisation that offers Yororis, applied by the server, shown on screen.",
       "decisions": [
         {
-          "chose": "Up to 25 minutes, one moment a day, three a week — defaults an organisation can lower",
+          "chose": "Up to 25 minutes, one moment a day, three a week, defaults an organisation can lower",
           "refused": "A presence available around the clock",
           "because": "Endless availability is what makes these apps hard to put down, and the evening still ends. A moment with an end sends you back to your life and your people.",
-          "cost": "Some evenings you will want more and won't get it. “That's all for today — see you tomorrow from 9 am.”"
+          "cost": "Some evenings you will want more and won't get it. “That's all for today, see you tomorrow from 9 am.”"
         },
         {
           "chose": "A presence that says it is an AI, every moment, with a permanent “AI” mark on a clearly synthetic portrait",
           "refused": "A face that could pass for a person",
-          "because": "Presence comes from timing, voice and attention — not from fooling anyone. Europe's AI Act asks for it; honesty asks for it everywhere.",
+          "because": "Presence comes from timing, voice and attention, not from fooling anyone. Europe's AI Act asks for it; honesty asks for it everywhere.",
           "cost": "Less of an illusion. That is the point."
         },
         {
           "chose": "A mood you give yourself, 1 to 5, before and after",
           "refused": "Reading feelings from your voice or your words",
           "because": "No model decides how you feel, and nothing is computed about you. It is more honest, and it keeps Yororis clear of reading emotions.",
-          "cost": "No automatic chart of your evenings — only what you said."
+          "cost": "No automatic chart of your evenings, only what you said."
         },
         {
           "chose": "No nudge to return, no daily counter, no extra moment for sale",
@@ -246,7 +246,7 @@
   },
   "footer": {
     "nav": "Site footer",
-    "devNotice": "Development environment — access by invitation"
+    "devNotice": "Development environment: access by invitation"
   },
   "notFound": {
     "title": "Page not found",
@@ -265,7 +265,7 @@
     "metaDescription": "What changed in Yororis, week by week: new, fixed, security and breaking, with the pull request behind each line.",
     "eyebrow": "Changelog",
     "title": "What shipped",
-    "lead": "What changed in Yororis, newest week first — read from the merged pull requests, not written for the page.",
+    "lead": "What changed in Yororis, newest week first, read from the merged pull requests, not written for the page.",
     "runs": "This site runs v{version} on Krizaka UI {ui}.",
     "runsNoUi": "This site runs v{version}.",
     "feed": "Subscribe (RSS)",
@@ -289,7 +289,7 @@
     },
     "pull": "Pull request #{number}",
     "week": "Week of {date}",
-    "feedTitle": "Yororis — changelog",
+    "feedTitle": "Yororis: changelog",
     "feedDescription": "What shipped in Yororis, week by week.",
     "footerVersion": "v{version}",
     "langTag": "en"

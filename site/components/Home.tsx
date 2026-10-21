@@ -1,13 +1,10 @@
 import { ForwardIcon, KeepIcon, MessageIcon, ShieldIcon, SoundIcon, ThreadIcon, UserIcon } from "@krizaka/icons";
 import { YororisLogo } from "@krizaka/ui";
 import { ActionBar } from "@krizaka/ui/action-bar";
-import { Badge } from "@krizaka/ui/badge";
 import { Button } from "@krizaka/ui/button";
 import { CardGrid } from "@krizaka/ui/card-grid";
 import { DecisionList } from "@krizaka/ui/decision-list";
 import { LinkCard } from "@krizaka/ui/link-card";
-import { MascotQuote } from "@krizaka/ui/mascot-quote";
-import { MetaRow } from "@krizaka/ui/meta-row";
 import { Facts, Section, Ticks } from "@krizaka/ui/page";
 import { LandingPage } from "@krizaka/ui/landing-page";
 import { Stepper } from "@krizaka/ui/stepper";
@@ -112,9 +109,7 @@ export function Home({ locale }: { locale: Locale }) {
               </ul>
             </div>
             <div className="rd-stack" {...reveal(1)}>
-              <MascotQuote variant="callout" bird="falcon" mood="thinking" label={m.not.falcon}>
-                {m.reviewed.isNotRule}
-              </MascotQuote>
+              <p className="rd-prose yo-rule">{m.reviewed.isNotRule}</p>
               <Crisis m={m.crisis} />
             </div>
           </div>
@@ -176,11 +171,7 @@ export function Home({ locale }: { locale: Locale }) {
               </ul>
             </div>
           </div>
-          <div {...reveal()}>
-            <MascotQuote bird="crane" mood="thinking" label={m.how.crane}>
-              {m.how.rule}
-            </MascotQuote>
-          </div>
+          <p className="rd-prose yo-rule" {...reveal()}>{m.how.rule}</p>
           <div className="rd-stack" {...reveal()}>
             <h3 className="rd-h3">{m.how.app.title}</h3>
             <p className="rd-prose is-small">{m.how.app.lead}</p>
@@ -219,7 +210,7 @@ export function Home({ locale }: { locale: Locale }) {
               <LinkCard key={id} href={href} icon={icon} title={m.how.open.links[id].name} titleAs="span" description={m.how.open.links[id].line} target="_blank" rel="noopener noreferrer" />
             ))}
           </CardGrid>
-          <MetaRow className="mt-2" size="md" items={[m.not.powered, m.hero.facts.open]} chips={[<Badge key="status" tone="warning">{m.hero.facts.status}</Badge>]} />
+          <p className="rd-prose is-small yo-powered">{m.not.powered}</p>
         </div>
       </Section>
 

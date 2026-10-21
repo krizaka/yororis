@@ -3,7 +3,7 @@
   "otherName": "English",
   "otherHref": "/",
   "meta": {
-    "title": "Yororis — un espace d'écoute avec un visage et une voix",
+    "title": "Yororis: un espace d'écoute avec un visage et une voix",
     "description": "Yororis est un espace d'écoute avec un visage et une voix. En construction : construit en public, son cadre étudié avant toute mise à disposition. Rien n'est en ligne, et il n'y a pas de date.",
     "ogAlt": "La marque Yororis"
   },
@@ -26,7 +26,7 @@
   "hero": {
     "eyebrow": "En construction",
     "title": "Un espace d'écoute avec un visage et une voix.",
-    "lead": "Certains soirs, on a besoin de mettre des mots sur ce qu'on porte. Yororis vous donne une présence — une IA qui le dit — qui écoute, pose une question, et s'arrête.",
+    "lead": "Certains soirs, on a besoin de mettre des mots sur ce qu'on porte. Yororis vous donne une présence, une IA qui le dit, qui écoute, pose une question, et s'arrête.",
     "factsLabel": "Où en est Yororis",
     "facts": {
       "status": "En construction",
@@ -89,7 +89,7 @@
         "text": "À la fin du moment, la transcription disparaît. Il reste un court résumé, à vous de le lire, le modifier ou le supprimer."
       }
     ],
-    "lead": "Une personne ouvre un moment avec une présence : une IA qui a un prénom, un portrait animé portant une marque « IA » permanente, une voix et des sous-titres exacts. Elle est pensée d'abord pour les organisations — un programme de mieux-être, un ordre professionnel, un employeur — qui fixent les limites pour leurs membres."
+    "lead": "Une personne ouvre un moment avec une présence : une IA qui a un prénom, un portrait animé portant une marque « IA » permanente, une voix et des sous-titres exacts. Elle est pensée d'abord pour les organisations, un programme de mieux-être, un ordre professionnel, un employeur, qui fixent les limites pour leurs membres."
   },
   "how": {
     "eyebrow": "En public",
@@ -100,7 +100,7 @@
       "lead": "Yororis n'a aucun fournisseur d'IA à lui : tout appel d'IA passe par le pack bien-être de son moteur, Orazaka. Les gardes vivent dans le moteur, pas dans un prompt.",
       "items": [
         "Consentement à un énoncé versionné, bloquant : pas de consentement, pas de moment (`451`)",
-        "Une garde de crise qui passe en premier et ne se débranche pas : une réponse fixe, relue, et une ressource régionale sourcée — jamais générée",
+        "Une garde de crise qui passe en premier et ne se débranche pas : une réponse fixe, relue, et une ressource régionale sourcée, jamais générée",
         "Une garde de périmètre : ce qui sort d'un espace d'écoute est refusé, mot pour mot",
         "Une attestation d'âge, consignée ; non offert aux mineurs",
         "Une rétention courte (30 jours, moins sur demande), le chiffrement et un audit en ajout seul",
@@ -112,7 +112,7 @@
       "items": [
         "Des limites appliquées par le serveur, pas par l'écran",
         "La transcription détruite quand le résumé est fait",
-        "Une humeur que vous donnez vous-même, de 1 à 5 — rien n'est déduit, aucun score",
+        "Une humeur que vous donnez vous-même, de 1 à 5, rien n'est déduit, aucun score",
         "Export et suppression par la personne ; statistiques agrégées seulement",
         "Le mode construction, vérifié par la CI : aucun déploiement, aucune inscription, aucune variable de production"
       ]
@@ -130,20 +130,20 @@
           "line": "Ce que c'est, ce que ce n'est pas, les contrôles, les questions à l'étude (en anglais)"
         },
         "adr": {
-          "name": "ADR-055 — le pack bien-être",
+          "name": "ADR-055: le pack bien-être",
           "line": "Pourquoi le nom est le premier contrôle, et comment fonctionnent les gardes (en anglais)"
         },
         "sensitive": {
-          "name": "ADR-051 — contrôles sensibles",
+          "name": "ADR-051: contrôles sensibles",
           "line": "Consentement, rétention, audit : le côté du moteur (en anglais)"
         }
       }
     },
     "study": {
       "title": "Ce que nous étudions",
-      "lead": "Des questions, pas des conclusions — avec un avocat, avant que quoi que ce soit soit offert à qui que ce soit.",
+      "lead": "Des questions, pas des conclusions, avec un avocat, avant que quoi que ce soit soit offert à qui que ce soit.",
       "items": [
-        "Québec : le titre et l'acte réservés, et la Loi 25 — étude d'impact sur la vie privée, consentement, conservation, hébergement",
+        "Québec : le titre et l'acte réservés, et la Loi 25, étude d'impact sur la vie privée, consentement, conservation, hébergement",
         "Canada : les règles de Santé Canada pour les logiciels, la loi fédérale sur la vie privée, et ce qui peut être dit aux organisations",
         "France et Union européenne : le règlement sur l'IA (dire qu'on parle à une IA, la lecture des émotions), l'article 9 du RGPD",
         "Belgique : les mêmes questions européennes, et les lignes d'écoute de crise des deux communautés linguistiques",
@@ -160,7 +160,7 @@
       "shots": {
         "home": {
           "label": "Accueil",
-          "alt": "L’accueil de l’espace membre : une présence qui s’arrête, vos moments, ce que je garde, le fil, mon carnet — chacun vide, et les lignes à appeler.",
+          "alt": "L’accueil de l’espace membre : une présence qui s’arrête, vos moments, ce que je garde, le fil, mon carnet, chacun vide, et les lignes à appeler.",
           "line": "Un accueil calme : la présence qui s’arrête, vos moments, ce que vous gardez."
         },
         "account": {
@@ -188,14 +188,14 @@
     "title": "Ce que Yororis n'est pas",
     "lead": "Dit une fois, clairement, pour que personne n'ait à deviner.",
     "falcon": "Le faucon veille",
-    "powered": "Son IA passera par le pack bien-être d'Orazaka.",
+    "powered": "Propulsé par Orazaka.",
     "stops": {
       "eyebrow": "Signature",
       "title": "Une présence qui s'arrête",
       "lead": "Les limites ne sont pas une contrainte technique : ce sont le produit. Fixées par l'organisation qui offre Yororis, appliquées par le serveur, affichées à l'écran.",
       "decisions": [
         {
-          "chose": "Jusqu'à 25 minutes, un moment par jour, trois par semaine — des valeurs par défaut qu'une organisation peut abaisser",
+          "chose": "Jusqu'à 25 minutes, un moment par jour, trois par semaine, des valeurs par défaut qu'une organisation peut abaisser",
           "refused": "Une présence disponible jour et nuit",
           "because": "La disponibilité sans fin est ce qui rend ces apps difficiles à lâcher, et la soirée finit quand même. Un moment qui a une fin vous renvoie à votre vie et à vos proches.",
           "cost": "Certains soirs, vous en voudrez plus et ne l'aurez pas. « C'est tout pour aujourd'hui. On se retrouve demain à partir de 9 h. »"
@@ -203,14 +203,14 @@
         {
           "chose": "Une présence qui dit qu'elle est une IA, à chaque moment, avec une marque « IA » permanente sur un portrait clairement synthétique",
           "refused": "Un visage qui pourrait passer pour une personne",
-          "because": "La présence vient du rythme, de la voix et de l'attention — pas d'une illusion. Le règlement européen sur l'IA l'exige ; l'honnêteté l'exige partout.",
+          "because": "La présence vient du rythme, de la voix et de l'attention, pas d'une illusion. Le règlement européen sur l'IA l'exige ; l'honnêteté l'exige partout.",
           "cost": "Moins d'illusion. C'est voulu."
         },
         {
           "chose": "Une humeur que vous indiquez vous-même, de 1 à 5, avant et après",
           "refused": "Lire vos sentiments dans votre voix ou vos mots",
           "because": "Aucun modèle ne décide de ce que vous ressentez, et rien n'est calculé sur vous. C'est plus honnête, et Yororis ne lit pas les émotions.",
-          "cost": "Aucun graphique automatique de vos soirées — seulement ce que vous avez dit."
+          "cost": "Aucun graphique automatique de vos soirées, seulement ce que vous avez dit."
         },
         {
           "chose": "Aucune incitation à revenir, aucun compteur de jours, aucun moment de plus à vendre",
@@ -246,7 +246,7 @@
   },
   "footer": {
     "nav": "Pied de page",
-    "devNotice": "Environnement de développement — accès sur invitation"
+    "devNotice": "Environnement de développement: accès sur invitation"
   },
   "notFound": {
     "title": "Page introuvable",
@@ -265,7 +265,7 @@
     "metaDescription": "Ce qui a changé dans Yororis, semaine par semaine : nouveautés, corrections, sécurité et ruptures, avec la pull request derrière chaque ligne.",
     "eyebrow": "Journal des changements",
     "title": "Ce qui a été livré",
-    "lead": "Ce qui a changé dans Yororis, la semaine la plus récente d'abord — lu dans les pull requests fusionnées, pas écrit pour la page.",
+    "lead": "Ce qui a changé dans Yororis, la semaine la plus récente d'abord, lu dans les pull requests fusionnées, pas écrit pour la page.",
     "runs": "Ce site tourne en v{version} sur Krizaka UI {ui}.",
     "runsNoUi": "Ce site tourne en v{version}.",
     "feed": "S'abonner (RSS)",
@@ -289,7 +289,7 @@
     },
     "pull": "Pull request n° {number}",
     "week": "Semaine du {date}",
-    "feedTitle": "Yororis — journal des changements",
+    "feedTitle": "Yororis: journal des changements",
     "feedDescription": "Ce que Yororis a livré, semaine par semaine.",
     "footerVersion": "v{version}",
     "langTag": "fr-CA"

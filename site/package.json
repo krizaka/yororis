@@ -8,7 +8,7 @@
     "dev": "next dev",
     "build": "next build",
     "prebuild": "node scripts/changelog.mjs",
-    "test": "node --test tests/site.test.mjs tests/check-seo-family.test.mjs tests/changelog.test.mjs tests/changelog-page.test.mjs tests/product-first.test.mjs tests/indexing-deploy.test.mjs tests/overflow-guard.test.mjs tests/brand-icons.test.mjs tests/cahier.test.mjs",
+    "test": "node --test tests/site.test.mjs tests/check-seo-family.test.mjs tests/changelog.test.mjs tests/changelog-page.test.mjs tests/product-first.test.mjs tests/indexing-deploy.test.mjs tests/overflow-guard.test.mjs tests/brand-icons.test.mjs tests/cahier.test.mjs tests/home-cahier.test.mjs",
     "test:closed": "node --test tests/closed.test.mjs",
     "check:overflow": "node scripts/check-overflow.mjs"
   },

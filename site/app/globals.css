@@ -37,11 +37,10 @@ body { margin: 0; min-height: 100vh; background: var(--kz-surface-0); color: var
 .rd-links { display: flex; flex-wrap: wrap; gap: 10px; }
 .kz-list.rd-no li::before { width: 9px; height: 2px; top: .78em; border-radius: 1px; background: var(--kz-text-secondary); }
 .yo-status { max-width: 56ch; font-size: 16px; color: var(--kz-text-primary); }
-.yo-hero-mark { filter: drop-shadow(0 12px 40px color-mix(in srgb, var(--kz-accent) 28%, transparent)); }
-/* The crane stands in a soft halo of the brand (sage): a still light, no motion of its own — the bird's idle loop is the package's. */
-.yo-hero-crane { position: relative; display: grid; place-items: center; isolation: isolate; }
-.yo-hero-crane::before { content: ""; position: absolute; inset: -18%; z-index: -1; border-radius: 50%;
-  background: radial-gradient(closest-side, color-mix(in srgb, var(--kz-accent) 22%, transparent), transparent 72%); }
+/* The crane stands plain: no halo, no glow (Cahier). */
+.yo-hero-crane { position: relative; display: grid; place-items: center; }
+.yo-rule { max-width: 60ch; color: var(--kz-text-primary); }
+.yo-powered { color: var(--kz-text-secondary); }
 
 /* The crisis lines: a plain note, never hidden, on the accent's rail. */
 .yo-crisis { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 6px 14px; padding: 14px 18px; border-radius: 0;
