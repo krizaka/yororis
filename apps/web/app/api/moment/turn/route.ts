@@ -38,7 +38,7 @@ async function said(req: Request): Promise<Said> {
  * before the moment's end, one turn at a time, a bounded number, a bounded recording.
  */
 export async function POST(req: Request) {
-  const r = requireMember(req);
+  const r = await requireMember(req);
   if ("refusal" in r) return r.refusal;
   const heard = await said(req);
   if ("refusal" in heard) return heard.refusal;

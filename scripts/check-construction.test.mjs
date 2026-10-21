@@ -105,7 +105,11 @@ test("the QA spec: one service, no database, the smallest instance, a closed sig
   assert.match(bad('value: "yororis-cadre-6-2026-10-17-qa-only-dev"', 'value: ""').stderr, /APP_RELEASE_APPROVAL/);
   assert.match(bad("type: SECRET, value: \"__AI_API_KEY__\"", 'value: "oz_realvalue"').stderr, /AI_API_KEY must be a SECRET/);
   assert.match(bad('value: "__AUTH_SESSION_SECRET__"', 'value: "a-real-secret"').stderr, /AUTH_SESSION_SECRET must be a SECRET/);
-  assert.match(bad("    envs:", "    envs:\n      - { key: DATABASE_URL, scope: RUN_TIME, value: \"x\" }").stderr, /no database/);
+  // Invited testers only (2026-10-21): the accounts database of the shared cluster, URL and CA as SECRETs; nothing else of the family.
+  const secretDb = '      - { key: DATABASE_URL, scope: RUN_TIME, type: SECRET, value: "__DATABASE_URL__" }\n      - { key: DATABASE_CA_CERT, scope: RUN_TIME, type: SECRET, value: "__DATABASE_CA_CERT__" }';
+  assert.equal(bad("    envs:", `    envs:\n${secretDb}`).status, 0);
+  assert.match(bad("    envs:", "    envs:\n      - { key: DATABASE_URL, scope: RUN_TIME, value: \"postgres://x\" }").stderr, /DATABASE_URL must be a SECRET/);
+  assert.match(bad("    envs:", "    envs:\n      - { key: DATABASE_HOST, scope: RUN_TIME, value: \"x\" }").stderr, /accounts one/);
   assert.match(bad("  - name: web", "  - name: web\n  - name: worker").stderr, /exactly one service/);
 });
 

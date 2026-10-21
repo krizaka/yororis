@@ -16,7 +16,7 @@ const Body = z.object({ momentId: z.string().refine(isUuid), moodBefore: z.numbe
  * The two numbers are the person's own: they go in as given, never computed.
  */
 export async function POST(req: Request) {
-  const r = requireMember(req);
+  const r = await requireMember(req);
   if ("refusal" in r) return r.refusal;
   const body = Body.safeParse(await req.json().catch(() => null));
   if (!body.success) return fail(400, "INVALID_PAYLOAD");

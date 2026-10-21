@@ -37,15 +37,15 @@ let cachedDemoKey: Buffer | null = null;
 
 export async function samePassword(given: string): Promise<boolean> {
   if (!cachedDemoKey) {
-    cachedDemoKey = (await scryptAsync(readEnv().AUTH_DEMO_PASSWORD, "member-space-demo", 32)) as Buffer;
+    cachedDemoKey = (await scryptAsync(readEnv().AUTH_DEMO_PASSWORD ?? "", "member-space-demo", 32)) as Buffer;
   }
   const givenKey = (await scryptAsync(given, "member-space-demo", 32)) as Buffer;
   return crypto.timingSafeEqual(givenKey, cachedDemoKey);
 }
 
-export const cookieHeader = (token: string | null) => {
+export const cookieHeader = (token: string | null, maxAge = TTL_SECONDS) => {
   const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
-  return `${COOKIE}=${token ?? ""}; Path=/; HttpOnly; SameSite=Lax${secure}; Max-Age=${token ? TTL_SECONDS : 0}`;
+  return `${COOKIE}=${token ?? ""}; Path=/; HttpOnly; SameSite=Lax${secure}; Max-Age=${token ? maxAge : 0}`;
 };
 
 

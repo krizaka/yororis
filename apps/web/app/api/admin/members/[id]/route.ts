@@ -3,7 +3,7 @@ import { auditFor, findById } from "@/lib/store";
 
 /** One member for an organiser: state, role, language and the lines about them. */
 export async function GET(req: Request, ctx: { params: Promise<{ id: string }> }) {
-  const r = requireOrganiser(req);
+  const r = await requireOrganiser(req);
   if ("refusal" in r) return r.refusal;
   const { id } = await ctx.params;
   const m = isUuid(id) ? findById(id) : undefined;

@@ -15,7 +15,7 @@ const Body = z.object({ presence: z.string(), language: z.enum(["en", "fr"]), ag
  * has stopped (STOPS_DAY / STOPS_WEEK, with the time it opens again).
  */
 export async function POST(req: Request) {
-  const r = requireMember(req);
+  const r = await requireMember(req);
   if ("refusal" in r) return r.refusal;
   const body = Body.safeParse(await req.json().catch(() => null));
   const presence = body.success ? presenceOf(body.data.presence) : undefined;

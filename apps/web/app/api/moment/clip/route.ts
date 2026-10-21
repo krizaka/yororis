@@ -6,7 +6,7 @@ import { isClipPath, orazaka,OrazakaError, UPSTREAM_FAILED } from "@/lib/orazaka
  * valid five minutes, checked against a strict pattern — never an address the browser chose), and never stored or cached.
  */
 export async function GET(req: Request) {
-  const r = requireMember(req);
+  const r = await requireMember(req);
   if ("refusal" in r) return r.refusal;
   const path = new URL(req.url).searchParams.get("p") ?? "";
   if (!isClipPath(path)) return fail(400, "INVALID_PAYLOAD");

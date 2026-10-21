@@ -16,7 +16,7 @@ const Query = z.object({
  * lines were kept. Never a word, never a name. Organisers only.
  */
 export async function GET(req: Request) {
-  const r = requireOrganiser(req);
+  const r = await requireOrganiser(req);
   if ("refusal" in r) return r.refusal;
   const q = Query.safeParse(Object.fromEntries(new URL(req.url).searchParams));
   if (!q.success) return fail(400, "INVALID_PAYLOAD");
