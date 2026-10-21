@@ -18,6 +18,8 @@ export interface Member {
   calmMotion: boolean;
   /** The chosen default avatar (a key of lib/avatars.ts), or null for the initials. */
   avatar?: string | null;
+  /** Whether the invited tester agreed (18 or older, the terms of the current version). The fictional cast always has. */
+  consented?: boolean;
   createdAt: string;
   lastSeenAt: string | null;
 }

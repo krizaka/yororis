@@ -88,7 +88,8 @@
       "PASSWORD_TOO_SHORT": "Utilise au moins 12 caractères.",
       "PASSWORD_TOO_LONG": "Ce mot de passe est trop long.",
       "INVALID_TOKEN": "Ce lien n’est plus valide.",
-      "NOT_AVAILABLE": "Ce n’est pas disponible ici."
+      "NOT_AVAILABLE": "Ce n’est pas disponible ici.",
+      "CONSENT_REQUIRED": "Accepte d’abord les conditions."
     },
     "dashboard": {
       "greeting": "Bonjour, {name}",
@@ -403,6 +404,27 @@
       "invalid": "Ce lien n’est plus valide. Demande-en un nouveau.",
       "toSignIn": "Se connecter",
       "askAgain": "Demander un nouveau lien"
+    },
+    "welcome": {
+      "title": "Avant d’entrer",
+      "description": "Une seule question, une seule fois.",
+      "adult": "J’ai 18 ans ou plus.",
+      "terms": "J’accepte les conditions d’utilisation.",
+      "termsLink": "Lire les conditions",
+      "submit": "Entrer",
+      "hint": "Les deux cases sont nécessaires. On ne garde que la date et la version des conditions."
+    },
+    "terms": {
+      "title": "Conditions d’utilisation",
+      "version": "Version {version}",
+      "items": [
+        "Yororis est une courte conversation avec un voisin qui est une IA. Ce n’est ni un service de santé, ni un service d’urgence, ni une personne. En cas de crise au Canada, appelle ou texte le 9-8-8; au Québec, appelle le 811 (Info-Social).",
+        "Cet espace est ouvert aux testeurs invités qui ont 18 ans ou plus. Personne ne peut s’y créer un compte.",
+        "Ce que tu dis n’est pas gardé : ni transcription, ni résumé.",
+        "On garde ton courriel, ton prénom, ta langue, ton image et la date de ton accord, seulement pour te laisser entrer.",
+        "Tu peux supprimer ton compte tout de suite depuis la page du compte : tout ce qui te concerne part avec lui."
+      ],
+      "back": "Retour"
     }
   },
   "mail": {

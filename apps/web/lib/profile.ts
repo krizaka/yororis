@@ -1,6 +1,7 @@
 import { accountById } from "./accounts";
 import { query } from "./db";
 import type { Member } from "./store";
+import { TERMS_VERSION } from "./terms";
 
 export interface ProfilePatch {
   name?: string;
@@ -24,4 +25,9 @@ export async function updateProfile(id: string, patch: ProfilePatch): Promise<Me
 /** Deletes the account at once: its sign-ins and reset links go with it (cascade). */
 export async function deleteAccount(id: string): Promise<boolean> {
   return (await query("DELETE FROM accounts WHERE id = $1 RETURNING id", [id])).length > 0;
+}
+
+/** Records the first sign-in's consent (18 or older, the terms): only the date and the version of the terms. */
+export async function recordConsent(id: string): Promise<void> {
+  await query("UPDATE accounts SET consented_at = now(), terms_version = $2 WHERE id = $1", [id, TERMS_VERSION]);
 }

@@ -83,3 +83,10 @@ Questions only, by jurisdiction — answers are recorded privately with their da
 | krizaka.com | The page says "under construction"; its only call to action is "Talk to us about Yororis". |
 | Pilot with outside people | Not while construction mode is active. |
 | Lifting the mode | A written decision (date, scope: internal · pilot · organisation · public, conditions), then a pull request "release: lift construction mode". Nothing lifts by accident. |
+
+## Data held about an invited tester (Law 25 minimisation, krizaka/yororis#96)
+
+`accounts`: e-mail, password hash (scrypt), first name, language, chosen default avatar, the two display choices, role, status,
+creation and last-seen dates, and the consent (`consented_at`, `terms_version`: 18 or older and the terms, asked on the first
+sign-in). `access_tokens`: the keyed hash of a sign-in cookie. `password_resets`: the hash of a one-use link (30 minutes).
+Nothing of what is said in a moment is stored. `DELETE /api/me` removes the account and, by cascade, its sign-ins and reset links, at once.
