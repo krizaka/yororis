@@ -4,7 +4,7 @@ Yororis has **two** deployments, and only these two (checked by `scripts/check-c
 
 | What | Where | Built from | For whom |
 | :--- | :--- | :--- | :--- |
-| The static site (« under construction ») | https://dev.yororis.com — DigitalOcean App Platform app `yororis-dev`, a static site (free tier) | `site/`, spec `.do/app.yaml` | everyone; no app, no backend, no sign-up |
+| The static site (« under construction ») | https://www.yororis.com (the apex and dev.yororis.com lead to it) — DigitalOcean App Platform app `yororis-dev`, a static site (free tier) | `site/`, spec `.do/app.yaml` | everyone; no app, no backend, no sign-up |
 | **The QA app** (the member space and the Moment) | https://qa.yororis.com — app `yororis-qa`, project `yororis`, region `tor`, one service `apps-s-1vcpu-0.5gb` | `apps/web` through `deploy/docker/Dockerfile`, spec `deploy/digitalocean/qa.app.yaml` | **the QA accounts and a fictional cast only** — no real person until the lawyer review (krizaka/.github#40) |
 
 Decision (Oussama, 2026-10-17, via the coordinator; krizaka/yororis#23): leave « construction » for a **QA-only Dev preview** — sign-up closed,

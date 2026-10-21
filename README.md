@@ -35,7 +35,7 @@ with no third-party AI provider. It is the fourth open-source product of [Krizak
 
 **Nothing is offered to anyone, and there is no date.** What runs today:
 
-- **https://dev.yororis.com** — the static page (« under construction »): the idea, how it is built in the open, what Yororis is not.
+- **https://www.yororis.com** — the static page (« under construction »): the idea, how it is built in the open, what Yororis is not.
 - **https://qa.yororis.com** — the **QA app**: the member space and the *Moment* (text, voice, a face), for the **QA accounts and a fictional cast only**.
   Sign-up is closed server-side, no real person uses it, and the AI is Orazaka's wellbeing pack — nothing else answers. How it is deployed, what it
   costs and its environment: **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)**; why the screens are built the way they are: **[docs/UX_DECISIONS.md](docs/UX_DECISIONS.md)**.

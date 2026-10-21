@@ -73,7 +73,7 @@ if (isMain) {
   fs.mkdirSync(path.join(root, "public", "changelog"), { recursive: true });
   fs.writeFileSync(
     path.join(root, "public", "changelog", "feed.xml"),
-    changelogRss({ releases, title: en.feedTitle, description: en.feedDescription, siteUrl: "https://dev.yororis.com/", pageUrl: "https://dev.yororis.com/changelog/", feedUrl: "https://dev.yororis.com/changelog/feed.xml", language: en.langTag, tagLabel: en.tags }),
+    changelogRss({ releases, title: en.feedTitle, description: en.feedDescription, siteUrl: "https://www.yororis.com/", pageUrl: "https://www.yororis.com/changelog/", feedUrl: "https://www.yororis.com/changelog/feed.xml", language: en.langTag, tagLabel: en.tags }),
   );
   console.log(`changelog: ${releases.length} weeks → lib/changelog-weeks.generated.json, public/changelog/feed.xml`);
 }

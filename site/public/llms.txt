@@ -6,8 +6,8 @@
 
 ## Key pages
 
-- [Yororis](https://dev.yororis.com/): what it is, how it is being built, and what it is not
-- [Yororis (français)](https://dev.yororis.com/fr/): the same page in French
+- [Yororis](https://www.yororis.com/): what it is, how it is being built, and what it is not
+- [Yororis (français)](https://www.yororis.com/fr/): the same page in French
 - [Talk to us about Yororis](https://www.krizaka.com/contact?topic=yororis): the one way to reach the team
 
 ## Source
@@ -19,4 +19,4 @@
 
 - [Krizaka](https://www.krizaka.com): the company that publishes Yororis, an open-source software studio in Montréal
 
-Sitemap: https://dev.yororis.com/sitemap.xml
+Sitemap: https://www.yororis.com/sitemap.xml

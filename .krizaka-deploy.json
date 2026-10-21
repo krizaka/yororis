@@ -1,0 +1,8 @@
+{
+  "app": "yororis-dev",
+  "url": "https://www.yororis.com",
+  "health": "/",
+  "indexing": "on",
+  "spec": ".do/app.yaml",
+  "product": "yororis"
+}

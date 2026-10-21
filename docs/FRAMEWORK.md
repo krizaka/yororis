@@ -75,7 +75,7 @@ Questions only, by jurisdiction — answers are recorded privately with their da
 | Where | Rule |
 | :--- | :--- |
 | Repositories | Public, opening with the banner; this document exists. Checked by CI. |
-| Deployment | No deployment workflow; nothing is published. Checked by CI. Two deployments exist: the static page `site/` at dev.yororis.com (no app, no backend, no sign-up) and, since the written decision of 2026-10-17, **one QA-only app** at qa.yororis.com (`deploy/`, krizaka/yororis#23): sign-up closed server-side, only the QA accounts and the fictional cast, the lexicon enforced, no real person until the lawyer review. CI builds its image but never deploys it. |
+| Deployment | No deployment workflow; nothing is published. Checked by CI. Two deployments exist: the static page `site/` at www.yororis.com (no app, no backend, no sign-up) and, since the written decision of 2026-10-17, **one QA-only app** at qa.yororis.com (`deploy/`, krizaka/yororis#23): sign-up closed server-side, only the QA accounts and the fictional cast, the lexicon enforced, no real person until the lawyer review. CI builds its image but never deploys it. |
 | Production start | `NODE_ENV=production` refuses to start without `APP_RELEASE_APPROVAL`, the reference of a written and signed decision. |
 | Accounts | No sign-up, anywhere (`AUTH_SIGNUP_ENABLED` can only be `false`; the sign-up door answers 403): the QA accounts and a fictional demo cast only. |
 | Mobile builds | Development and preview builds for the maintainers' devices only; no public build, no store submission. |

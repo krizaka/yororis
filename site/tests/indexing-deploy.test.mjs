@@ -1,4 +1,4 @@
-// dev.yororis.com is indexed (krizaka-com AGENTS §2.4): the deployed build must not close the site.
+// www.yororis.com is indexed (krizaka-com AGENTS §2.4): the deployed build must not close the site.
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
