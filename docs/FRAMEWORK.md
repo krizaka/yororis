@@ -10,7 +10,7 @@
 **A listening space with a face and a voice.** A person opens a *moment* with a *presence* — an AI presence with a first
 name, an animated portrait carrying a permanent "AI" mark, a voice and exact subtitles. The presence listens, reflects
 back, asks one question at a time and helps put words on what is being lived. The moment has a maximum length and a
-number of moments per day and per week, set by the organisation that offers it (defaults: 25 minutes, one a day, three
+number of moments per day and per week, set by the organisation that offers it (defaults: 8 minutes and 8 turns, two a day,
 ten a week). When it closes, what was said is gone: **100 % stateless** since 2026-10-21 (krizaka/yororis#97). No transcript, no
 summary, no thread, no notebook, no export, no mood score: nothing emotional or conversational is persisted anywhere.
 
