@@ -27,8 +27,7 @@ product, §4 architecture) is the source of truth. Its rules already apply:
    held in memory (no database, nothing written, nobody real; the demo password and the cookie secret come from the
    environment, never defaulted). Built only from our libraries (`@krizaka/ui` AuthLayout, AppShell, DashboardLayout,
    SettingsLayout, DetailLayout, DataTable in server mode, form; `@krizaka/query`; `@krizaka/i18n`; brand `yororis`). It carries
-   a calm personal home (the presence that stops — the organisation's defaults —, your moments, what I keep, the thread, my
-   notebook, the lines to call: each a designed empty state, because nothing is available), the account (profile, display
+   a calm personal home (the presence that stops — the organisation's defaults —, your moments, the lines to call: a designed empty state, because nothing is available; since 2026-10-21 nothing is kept: no mood scale, no summary, no thread, no notebook), the account (profile, display
    choices, consent and export placeholders, deletion) and, for an organiser, the members (search, filter, pause or restore access;
    never what anyone says or keeps). A permanent strip says "In development, for the QA accounts only".
    **QA-only on dev (Oussama, 2026-10-17, via the coordinator; krizaka/yororis#23; the private register line `yororis-cadre-6-2026-10-17-qa-only-dev`).**

@@ -7,11 +7,11 @@ import { ButtonLink } from "@/components/console/ButtonLink";
 import { pageMember } from "@/lib/auth";
 import { asLocale, getDictionary } from "@/lib/i18n";
 
-const placeholders = ["moments", "keep", "thread", "notebook"] as const;
+const placeholders = ["moments"] as const;
 
 /**
  * A calm personal home: the presence that stops (the organisation's limits, defaults), then what the person owns — their
- * moments, what I keep, the thread, my notebook — each a designed empty state, because nothing is available. And the
+ * moments — a designed empty state, because nothing is available (nothing is kept). And the
  * lines to call, always one press away.
  */
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
@@ -57,7 +57,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       </Widget>
       {placeholders.map((id) => (
         <Widget key={id} level={3} title={d[`${id}Title`]} description={d[`${id}Description` as keyof typeof d] as string} span={2}>
-          <EmptyState icon={<StoryIcon />} title={d[`${id}EmptyTitle` as keyof typeof d] as string} description={d[(id === "moments" ? "momentsEmpty" : `${id}Empty`) as keyof typeof d] as string} />
+          <EmptyState icon={<StoryIcon />} title={d[`${id}EmptyTitle` as keyof typeof d] as string} description={d[("momentsEmpty") as keyof typeof d] as string} />
         </Widget>
       ))}
     </DashboardLayout>

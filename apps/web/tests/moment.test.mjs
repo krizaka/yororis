@@ -199,7 +199,7 @@ test("ending a moment forgets it: nothing is kept", async () => {
   const res = await post(finish, "/api/moment/end", { momentId: json.moment.id });
   const body = await res.json();
   assert.equal(body.success, true);
-  assert.equal(body.canKeep, false, "ended without asking to keep: forgotten at once");
+  assert.ok(!("canKeep" in body), "nothing to keep, nothing to choose: forgotten at once");
   assert.deepEqual(m.recent, []);
   assert.equal(moments.findMoment(json.moment.id, ID(2)), undefined);
 });

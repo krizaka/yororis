@@ -3,8 +3,8 @@ import { openStat } from "./moment-stats";
 import type { PresenceId } from "./presences";
 
 /**
- * The moments in progress and taken, in memory (no database, nothing written). While a moment lasts, and for the few minutes the person
- * takes to choose what they keep (CLOSING_MS), its words are held here; `finish` (and the sweep) forgets them. Nothing is ever written down.
+ * The moments in progress and taken, in memory (no database, nothing written). While a moment lasts its last exchanges are held here as the
+ * context of the next turn; `finish` (and the sweep) forgets them. Nothing of what is said is ever written down.
  */
 export interface Moment {
   id: string;
@@ -17,32 +17,27 @@ export interface Moment {
   turns: number;
   /** The last exchanges, in memory while the moment lasts: they are the context of the next turn (Orazaka's voice turn keeps none). */
   recent: { who: "person" | "presence"; text: string }[];
-  /** The whole moment, in order, held only until the person has chosen what they keep (or forgotten it). */
-  log: { who: "person" | "presence"; text: string }[];
   busy: boolean;
   ended: boolean;
   /** The line of this moment in the organisation's counts (lib/moment-stats.ts): no words, no name. */
   statId: string;
-  /** Set when the person closes the moment: the words wait here for the choice, then are forgotten. */
-  endedAt: number | null;
 }
 
-/** How long the words wait for the person's choice after the moment ends. */
-export const CLOSING_MS = 15 * 60_000;
-
 export const MAX_TURNS = 60;
+
+/** An abandoned moment (nobody ended it) is forgotten this long after it should have ended. */
+const ABANDONED_MS = 15 * 60_000;
 
 type State = { live: Map<string, Moment>; taken: Map<string, number[]> };
 const holder = globalThis as unknown as { __yororisMoments?: State };
 const state = () => (holder.__yororisMoments ??= { live: new Map<string, Moment>(), taken: new Map<string, number[]>() });
 
-/** Forgets what nobody came back for: a closed moment past CLOSING_MS, an abandoned one long past its end. */
+/** Forgets what nobody came back for: a moment abandoned past its end. */
 export function sweep(now = Date.now()): number {
   let n = 0;
   for (const [id, m] of state().live) {
-    if ((m.endedAt !== null && now - m.endedAt > CLOSING_MS) || now - m.endsAt > CLOSING_MS) {
+    if (now - m.endsAt > ABANDONED_MS) {
       m.recent = [];
-      m.log = [];
       state().live.delete(id);
       n += 1;
     }
@@ -72,10 +67,8 @@ export function begin(input: { memberId: string; presence: PresenceId; language:
     endsAt: endsAt(now, limits),
     turns: 0,
     recent: [],
-    log: [],
     busy: false,
     ended: false,
-    endedAt: null,
     statId: openStat({ presence: input.presence, language: input.language, startedAt: now, endsAt: endsAt(now, limits) }),
   };
   state().live.set(moment.id, moment);
@@ -93,27 +86,10 @@ export function contextOf(moment: Moment, limit = 6000): string {
 export function remember(moment: Moment, person: string, presence: string): void {
   moment.recent.push({ who: "person", text: person }, { who: "presence", text: presence });
   moment.recent.splice(0, Math.max(0, moment.recent.length - 12));
-  moment.log.push({ who: "person", text: person }, { who: "presence", text: presence });
-  moment.log.splice(0, Math.max(0, moment.log.length - 2 * MAX_TURNS));
-}
-
-/** The moment as lines, for the Studio that describes what the person keeps (30 000 characters at most, the newest kept). */
-export function turnsOf(moment: Moment, limit = 30_000): string {
-  const lines = moment.log.map((r) => `${r.who === "person" ? "Person" : "Presence"}: ${r.text}`);
-  while (lines.length > 1 && lines.join("\n").length > limit) lines.shift();
-  return lines.join("\n").slice(-limit);
-}
-
-/** The person closes the moment: no more turns, the words wait for their choice. */
-export function close(moment: Moment, now = Date.now()): void {
-  moment.ended = true;
-  moment.endedAt = now;
-  moment.recent = [];
 }
 
 export function finish(moment: Moment): void {
   moment.recent = [];
-  moment.log = [];
   moment.ended = true;
   state().live.delete(moment.id);
 }
