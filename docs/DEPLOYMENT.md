@@ -4,8 +4,7 @@ Yororis has **two** deployments, and only these two (checked by `scripts/check-c
 
 | What | Where | Built from | For whom |
 | :--- | :--- | :--- | :--- |
-| The static site (« under construction ») | https://www.yororis.com (the apex and dev.yororis.com lead to it) — DigitalOcean App Platform app `yororis-dev`, a static site (free tier) | `site/`, spec `.do/app.yaml` | everyone; no app, no backend, no sign-up |
-| **The QA app** (the member space and the Moment) | https://qa.yororis.com — app `yororis-qa`, project `yororis`, region `tor`, one service `apps-s-1vcpu-0.5gb` | `apps/web` through `deploy/docker/Dockerfile`, spec `deploy/digitalocean/qa.app.yaml` | **the QA accounts and a fictional cast only** — no real person until the lawyer review (krizaka/.github#40) |
+| The home (« under construction ») and the member space | https://www.yororis.com (the apex, qa. and dev. lead to it; dev. keeps its API, /.well-known and robots.txt, noindex) — ONE DigitalOcean App Platform app `yororis-qa`, project `yororis`, region `tor`, one service `apps-s-1vcpu-0.5gb` ($5/month; the free static app `yororis-dev` is retired) | `site/` (static export, built into the image) and `apps/web` through `deploy/docker/Dockerfile`, spec `deploy/digitalocean/qa.app.yaml` | the home: everyone; the member space: **invited testers only** (accounts in `yororis_db` on the shared cluster, provisioned by `apps/web/scripts/provision-testers.mjs`; sign-up closed; e-mail through Mailgun) |
 
 Decision (Oussama, 2026-10-17, via the coordinator; krizaka/yororis#23): leave « construction » for a **QA-only Dev preview** — sign-up closed,
 only the QA and persona accounts, the lexicon enforced, nobody real. The public site is unchanged and never links the app. The decision is

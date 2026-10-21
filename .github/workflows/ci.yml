@@ -90,11 +90,20 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       # The QA image is built here to prove it builds and answers; it is never deployed from CI (the platform builds it from main).
       - name: Build the image
-        run: docker build -f deploy/docker/Dockerfile --build-arg APP_COMMIT_SHA=${{ github.sha }} -t yororis-qa:ci .
+        run: docker build -f deploy/docker/Dockerfile --build-arg APP_COMMIT_SHA=${{ github.sha }} -t yororis-app:ci .
       - name: It starts, is healthy, shows its version and keeps sign-up closed
         run: |
-          docker run -d --name qa -p 8080:8080 -e AUTH_SESSION_SECRET=ci-only-secret-0123456789abcdef0123456789 -e AUTH_DEMO_PASSWORD=ci-only-demo-password -e APP_RELEASE_APPROVAL=ci-only yororis-qa:ci
+          docker run -d --name qa -p 8080:8080 -e AUTH_SESSION_SECRET=ci-only-secret-0123456789abcdef0123456789 -e AUTH_DEMO_PASSWORD=ci-only-demo-password -e APP_RELEASE_APPROVAL=ci-only yororis-app:ci
           for i in $(seq 1 40); do curl -sf http://localhost:8080/api/healthz && break; sleep 1; done
           curl -sf http://localhost:8080/api/healthz | grep -q '"version":"0\.0\.1+'
           test "$(curl -s -o /dev/null -w '%{http_code}' -X POST http://localhost:8080/api/auth/sign-up)" = 403
+          # The public home is served by the same image: both languages, the changelog, robots and sitemap, with their hashed assets.
+          for path in / /fr /fr/ /changelog/ /robots.txt /sitemap.xml /llms.txt; do test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080$path)" = 200 || { echo "home path $path"; exit 1; }; done
+          curl -s http://localhost:8080/ | grep -q 'Powered by Orazaka'
+          asset=$(curl -s http://localhost:8080/ | grep -o '/_next/static/[^"]*\.js' | head -1)
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080$asset)" = 200
+          # The member space is noindex, the home is not; the development host's robots.txt shuts the door.
+          curl -sI http://localhost:8080/en/sign-in | grep -qi 'x-robots-tag: noindex'
+          ! curl -sI http://localhost:8080/ | grep -qi 'x-robots-tag'
+          curl -s -H 'Host: dev.yororis.com' http://localhost:8080/robots.txt | grep -q 'Disallow: /'
           docker logs qa

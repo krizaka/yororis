@@ -1,14 +1,38 @@
-# Yororis QA app — DigitalOcean App Platform, project `yororis`, region tor. QA-only (docs/FRAMEWORK.md §5, krizaka/yororis#23):
-# sign-up closed, only the QA and fictional-cast accounts, the lexicon enforced, no real person until the lawyer review.
-# The smallest service ($5/month). Secrets are filled at apply time (`__NAME__`, never committed) and stored as SECRET.
-# The public static site (www.yororis.com, .do/app.yaml) is a different app and stays « under construction ».
+# Yororis app — DigitalOcean App Platform, project `yororis`, region tor. One service serves www.yororis.com: the public home (the static
+# export of site/, inside the image) and the member space for invited testers only (docs/FRAMEWORK.md §5; AGENTS.md, « lawyers OK in
+# principle, 2026-10-21, invited testers only »): sign-up closed, the lexicon enforced. The smallest service ($5/month; the static site
+# app it replaces was free). Secrets are filled at apply time (`__NAME__`, never committed) and stored as SECRET.
 name: yororis-qa
 region: tor
 alerts:
   - rule: DEPLOYMENT_FAILED
 domains:
-  - domain: qa.yororis.com
+  - domain: www.yororis.com
     type: PRIMARY
+  - domain: yororis.com
+    type: ALIAS
+  - domain: dev.yororis.com
+    type: ALIAS
+  - domain: qa.yororis.com
+    type: ALIAS
+# The apex, qa and dev lead to www (308), the path kept. dev serves only its API, its /.well-known and its robots.txt (noindex); the rule
+# order matters: first match wins (the family's www rule, krizaka/.github#119).
+ingress:
+  rules:
+    - match: { authority: { exact: yororis.com } }
+      redirect: { authority: www.yororis.com, redirect_code: 308 }
+    - match: { authority: { exact: qa.yororis.com } }
+      redirect: { authority: www.yororis.com, redirect_code: 308 }
+    - match: { authority: { exact: dev.yororis.com }, path: { prefix: /api } }
+      component: { name: web }
+    - match: { authority: { exact: dev.yororis.com }, path: { prefix: /.well-known } }
+      component: { name: web }
+    - match: { authority: { exact: dev.yororis.com }, path: { prefix: /robots.txt } }
+      component: { name: web }
+    - match: { authority: { exact: dev.yororis.com } }
+      redirect: { authority: www.yororis.com, redirect_code: 308 }
+    - match: { path: { prefix: / } }
+      component: { name: web }
 services:
   - name: web
     dockerfile_path: deploy/docker/Dockerfile
@@ -35,7 +59,7 @@ services:
       - { key: DATABASE_URL, scope: RUN_TIME, type: SECRET, value: "__DATABASE_URL__" }
       - { key: DATABASE_CA_CERT, scope: RUN_TIME, type: SECRET, value: "__DATABASE_CA_CERT__" }
       # The address links are built on (the e-mailed reset link): never read from a request header.
-      - { key: APP_URL, scope: RUN_TIME, value: "https://qa.yororis.com" }
+      - { key: APP_URL, scope: RUN_TIME, value: "https://www.yororis.com" }
       # E-mail through the family's Mailgun (one account, a Yororis from-address on its verified domain).
       - { key: MAIL_PROVIDER, scope: RUN_TIME, value: "mailgun" }
       - { key: MAIL_API_KEY, scope: RUN_TIME, type: SECRET, value: "__MAIL_API_KEY__" }

@@ -113,8 +113,35 @@ test("the QA spec: one service, no database, the smallest instance, a closed sig
   assert.match(bad("  - name: web", "  - name: web\n  - name: worker").stderr, /exactly one service/);
 });
 
-test("the QA app never takes the public site's host", () => {
-  for (const domain of ["dev.yororis.com", "yororis.com", "www.yororis.com"]) assert.match(run(qa({ "deploy/digitalocean/qa.app.yaml": SPEC.replace("qa.yororis.com", domain) })).stderr, /public static site/, domain);
+const STATIC_APP = "name: yororis-dev\nregion: tor\nstatic_sites:\n  - name: site\n    source_dir: site\n    build_command: npm ci && npm run build\n    output_dir: out\n";
+
+test("while the static site's own app exists, the app never takes its hosts", () => {
+  for (const domain of ["dev.yororis.com", "yororis.com", "www.yororis.com"]) assert.match(run(qa({ ".do/app.yaml": STATIC_APP, "deploy/digitalocean/qa.app.yaml": SPEC.replace("qa.yororis.com", domain) })).stderr, /public static site/, domain);
+});
+
+test("once the static app is retired, the app serves www.yororis.com (and the apex, dev and qa as aliases), nothing else", () => {
+  const domains = "domains:\n  - domain: www.yororis.com\n    type: PRIMARY\n  - domain: yororis.com\n    type: ALIAS\n  - domain: dev.yororis.com\n    type: ALIAS\n  - domain: qa.yororis.com\n    type: ALIAS\n";
+  const www = SPEC.replace(/domains:\n  - domain: qa\.yororis\.com\n    type: PRIMARY\n/, domains);
+  assert.equal(run(qa({ "deploy/digitalocean/qa.app.yaml": www })).status, 0);
+  const foreign = run(qa({ "deploy/digitalocean/qa.app.yaml": www.replace("qa.yororis.com", "example.com") }));
+  assert.match(foreign.stderr, /not a Yororis host/);
+});
+
+test("the ingress may only serve the service web or redirect (308) to www: the family's www rule", () => {
+  const ingress = `ingress:
+  rules:
+    - match: { authority: { exact: yororis.com } }
+      redirect: { authority: www.yororis.com, redirect_code: 308 }
+    - match: { authority: { exact: dev.yororis.com }, path: { prefix: /api } }
+      component: { name: web }
+    - match: { path: { prefix: / } }
+      component: { name: web }
+`;
+  const withIngress = (text) => qa({ "deploy/digitalocean/qa.app.yaml": SPEC + text });
+  assert.equal(run(withIngress(ingress)).status, 0);
+  assert.match(run(withIngress(ingress.replace("name: web }\n    - match: { path", "name: other }\n    - match: { path"))).stderr, /only serve the service/);
+  assert.match(run(withIngress(ingress.replace("redirect_code: 308", "redirect_code: 301"))).stderr, /308/);
+  assert.match(run(withIngress(ingress.replace("authority: www.yororis.com", "authority: example.com"))).stderr, /www\.yororis\.com with a 308/);
 });
 
 test("an image never bakes a secret: only build-only placeholders", () => {

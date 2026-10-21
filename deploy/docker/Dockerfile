@@ -1,14 +1,32 @@
-# Yororis QA app (apps/web, Next.js standalone) — built by DigitalOcean App Platform from the repository root, and by CI (job
-# "Container image") to prove it builds. QA-only: docs/FRAMEWORK.md §5. Nothing in this image is a secret; they arrive at run time.
+# Yororis app (apps/web, Next.js standalone) — built by DigitalOcean App Platform from the repository root, and by CI (job
+# "Container image") to prove it builds. One image serves www.yororis.com: the member space (invited testers only, docs/FRAMEWORK.md §5)
+# and the public home, which is the static export of site/ copied into the app's public/_home. Nothing in this image is a secret; they
+# arrive at run time.
+FROM node:22-alpine@sha256:0a7108bf6c7bf5de370ffb1a3ed6be93d405b43ff159f681a8d18c0e2bc2e402 AS home
+WORKDIR /repo/site
+COPY site/package.json site/package-lock.json ./
+RUN npm ci --ignore-scripts
+COPY site ./
+ARG APP_COMMIT_SHA=""
+ENV NEXT_TELEMETRY_DISABLED=1 APP_VERSION_SHA=${APP_COMMIT_SHA}
+# The public build: indexed (krizaka-com AGENTS §2.4). The changelog is read from the public GitHub API; no answer means an empty week.
+RUN npm run build
+
 FROM node:22-alpine@sha256:0a7108bf6c7bf5de370ffb1a3ed6be93d405b43ff159f681a8d18c0e2bc2e402 AS build
 WORKDIR /repo/apps/web
 COPY apps/web/package.json apps/web/package-lock.json ./
 RUN npm ci --ignore-scripts
 COPY apps/web ./
+# The home's pages, rewritten by next.config.mjs; its hashed assets join the app's own (content-hashed names: no clash).
+COPY --from=home /repo/site/out ./public/_home
 ARG APP_COMMIT_SHA=""
 # Build-time placeholders only (the app reads its configuration when it starts, never from the image); they stay in this stage.
 ENV APP_STANDALONE=1 NEXT_TELEMETRY_DISABLED=1 AUTH_SESSION_SECRET=build-only-placeholder-not-a-secret-000000 AUTH_DEMO_PASSWORD=build-only-placeholder
 RUN npm run build \
+ && mkdir -p .next/standalone/public \
+ && cp -R public/. .next/standalone/public/ \
+ && cp -R public/_home/_next/static/. .next/static/ \
+ && rm -rf .next/standalone/public/_home/_next public/_home/_next \
  && node -e "const v=require('./package.json').version; const s=process.env.APP_COMMIT_SHA.slice(0,7); process.stdout.write(s ? v+'+'+s : v+'+unknown')" > .next/standalone/VERSION
 
 FROM node:22-alpine@sha256:0a7108bf6c7bf5de370ffb1a3ed6be93d405b43ff159f681a8d18c0e2bc2e402 AS run

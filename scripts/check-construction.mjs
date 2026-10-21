@@ -122,7 +122,18 @@ if (existsSync(join(root, QA_SPEC))) {
   if (!/^\s+dockerfile_path: deploy\/docker\/Dockerfile$/m.test(yml)) failures.push(`${QA_SPEC}: the image is built from ${QA_DOCKERFILE}.`);
   if (!/^\s+instance_size_slug: apps-s-1vcpu-0\.5gb$/m.test(yml)) failures.push(`${QA_SPEC}: the smallest instance only (apps-s-1vcpu-0.5gb).`);
   if (!/^\s+http_path: \/api\/healthz$/m.test(yml)) failures.push(`${QA_SPEC}: the health check is /api/healthz.`);
-  for (const [, domain] of yml.matchAll(/^\s+-?\s*domain:\s*(\S+)/gm)) if (/^(dev\.)?yororis\.com$|^www\.yororis\.com$/.test(domain)) failures.push(`${QA_SPEC}: ${domain} belongs to the public static site (.do/app.yaml); the QA app has its own host.`);
+  // www.yororis.com is served by THIS app once the static site's own app (.do/app.yaml) is retired (2026-10-21): the public home is the
+  // static export of site/ inside the image. While that app exists, its hosts stay its own.
+  const staticSiteApp = existsSync(join(root, ".do/app.yaml"));
+  for (const [, domain] of yml.matchAll(/^\s+-?\s*domain:\s*(\S+)/gm)) {
+    if (staticSiteApp && /^(dev\.)?yororis\.com$|^www\.yororis\.com$/.test(domain)) failures.push(`${QA_SPEC}: ${domain} belongs to the public static site (.do/app.yaml); the QA app has its own host.`);
+    if (!/^(www\.|dev\.|qa\.)?yororis\.com$/.test(domain)) failures.push(`${QA_SPEC}: ${domain} is not a Yororis host.`);
+  }
+  // `ingress:` may only serve the one service or redirect (308) to www — the family's www rule.
+  if (/^ingress:/m.test(yml)) {
+    for (const m of yml.matchAll(/component:\s*\{?\s*name:\s*([\w-]+)/g)) if (m[1] !== "web") failures.push(`${QA_SPEC}: \`ingress:\` may only serve the service \`web\` (found \`${m[1]}\`).`);
+    for (const m of yml.matchAll(/redirect:\s*\{([^}]*)\}/g)) if (!/authority:\s*www\.yororis\.com/.test(m[1]) || !/redirect_code:\s*308/.test(m[1])) failures.push(`${QA_SPEC}: an ingress redirect must go to www.yororis.com with a 308.`);
+  }
   const envs = [...yml.matchAll(/^\s+- \{\s*key:\s*(\S+?),([^}]*)\}/gm)].map((m) => ({ key: m[1], rest: m[2] }));
   const byKey = Object.fromEntries(envs.map((e) => [e.key, e.rest]));
   if (!/value:\s*"false"/.test(byKey.AUTH_SIGNUP_ENABLED ?? "")) failures.push(`${QA_SPEC}: AUTH_SIGNUP_ENABLED must be "false" — sign-up is closed.`);
