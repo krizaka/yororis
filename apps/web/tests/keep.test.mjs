@@ -198,10 +198,13 @@ test("the Studio client: finds the pack's -summary installation, runs it, waits 
   assert.throws(() => readKept(JSON.stringify({ themes: ["a", "b", "c", "d"], whatHelped: "", smallStep: "" })), "at most three themes");
 });
 
-test("nothing is written down: no file, no database, no storage in the app's code", () => {
+test("what a person says is not written down: no file, no storage, and the one database (the testers' accounts) is imported by lib/db.ts alone", () => {
   const files = execSync("git ls-files --cached --others --exclude-standard app lib components", { encoding: "utf8" }).split("\n").filter((f) => /\.(ts|tsx)$/.test(f));
   const offenders = files.filter((f) => /from "node:fs"|from "fs"|writeFile|localStorage|sessionStorage|indexedDB|from "pg"|from "postgres"|drizzle/.test(readFileSync(f, "utf8")));
-  assert.deepEqual(offenders, []);
+  assert.deepEqual(offenders, ["lib/db.ts"]);
+  // The accounts' tables hold identity and profile only: nothing of a moment (no words, no transcript, no mood) is a column.
+  const schema = readFileSync("lib/migrations.ts", "utf8");
+  assert.ok(!/transcript|message|utterance|mood|words?\b|audio|keep/i.test(schema));
 });
 
 test("the end screen says what is kept, in both languages, and the person's number is their own", () => {

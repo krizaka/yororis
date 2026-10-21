@@ -117,7 +117,7 @@ for (const f of deployFiles) if (f !== QA_SPEC && f !== QA_DOCKERFILE) failures.
 if (deployFiles.length && !appFiles.length) failures.push("deploy/ deploys apps/web, which is missing.");
 if (existsSync(join(root, QA_SPEC))) {
   const yml = readFileSync(join(root, QA_SPEC), "utf8");
-  for (const kind of ["static_sites", "workers", "jobs", "databases", "functions"]) if (new RegExp(`^${kind}:`, "m").test(yml)) failures.push(`${QA_SPEC} declares \`${kind}:\` — the QA app is one service, with no database.`);
+  for (const kind of ["static_sites", "workers", "jobs", "databases", "functions"]) if (new RegExp(`^${kind}:`, "m").test(yml)) failures.push(`${QA_SPEC} declares \`${kind}:\` — the app is one service, with no database component of its own.`);
   if (((yml.match(/^\s{2}- name:/gm) ?? []).length) !== 1 || !/^services:/m.test(yml)) failures.push(`${QA_SPEC} must declare exactly one service.`);
   if (!/^\s+dockerfile_path: deploy\/docker\/Dockerfile$/m.test(yml)) failures.push(`${QA_SPEC}: the image is built from ${QA_DOCKERFILE}.`);
   if (!/^\s+instance_size_slug: apps-s-1vcpu-0\.5gb$/m.test(yml)) failures.push(`${QA_SPEC}: the smallest instance only (apps-s-1vcpu-0.5gb).`);
@@ -128,8 +128,10 @@ if (existsSync(join(root, QA_SPEC))) {
   if (!/value:\s*"false"/.test(byKey.AUTH_SIGNUP_ENABLED ?? "")) failures.push(`${QA_SPEC}: AUTH_SIGNUP_ENABLED must be "false" — sign-up is closed.`);
   if (!/value:\s*"[^"_][^"]*"/.test(byKey.APP_RELEASE_APPROVAL ?? "")) failures.push(`${QA_SPEC}: APP_RELEASE_APPROVAL must carry the reference of the written decision.`);
   for (const e of envs) {
-    if (/^DATABASE_/.test(e.key)) failures.push(`${QA_SPEC}: ${e.key} — the QA app has no database.`);
-    if (/SECRET|PASSWORD|_KEY$|TOKEN/.test(e.key) && !(/type:\s*SECRET/.test(e.rest) && /value:\s*"__[A-Z0-9_]+__"/.test(e.rest))) failures.push(`${QA_SPEC}: ${e.key} must be a SECRET filled at apply time (\`__NAME__\`), never a value in the repository.`);
+    // Invited testers only (2026-10-21, « lawyers OK in principle »): the app may reach ONE database of the shared cluster — its URL and
+    // CA as secrets, never a `databases:` component of its own (no new paid resource).
+    if (/^DATABASE_/.test(e.key) && !["DATABASE_URL", "DATABASE_CA_CERT"].includes(e.key)) failures.push(`${QA_SPEC}: ${e.key} — the app has no database but the accounts one (DATABASE_URL, DATABASE_CA_CERT).`);
+    if ((/SECRET|PASSWORD|_KEY$|TOKEN/.test(e.key) || ["DATABASE_URL", "DATABASE_CA_CERT"].includes(e.key)) && !(/type:\s*SECRET/.test(e.rest) && /value:\s*"__[A-Z0-9_]+__"/.test(e.rest))) failures.push(`${QA_SPEC}: ${e.key} must be a SECRET filled at apply time (\`__NAME__\`), never a value in the repository.`);
   }
 }
 if (existsSync(join(root, QA_DOCKERFILE))) {

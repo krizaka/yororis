@@ -55,9 +55,20 @@ jobs:
     defaults:
       run:
         working-directory: apps/web
+    # A throw-away Postgres for the testers' accounts tests (tests/accounts.test.mjs): it lives and dies with the job.
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_PASSWORD: ci-only
+          POSTGRES_DB: yororis_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
     env:
       AUTH_SESSION_SECRET: ci-only-secret-0123456789abcdef0123456789
       AUTH_DEMO_PASSWORD: ci-only-demo-password
+      TEST_DATABASE_URL: postgres://postgres:ci-only@127.0.0.1:5432/yororis_test
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0

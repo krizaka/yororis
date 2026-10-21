@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+import { ACCESS_DAYS,issueToken } from "@/lib/access";
+import { checkPassword } from "@/lib/accounts";
+import { dbConfigured } from "@/lib/db";
 import { fail } from "@/lib/http";
 import { findByEmail, record, touch } from "@/lib/store";
 import { cookieHeader, issue, sameOrigin,samePassword } from "@/lib/token";
@@ -31,6 +34,13 @@ export async function POST(req: Request) {
   if (!parsed.success) return fail(400, "INVALID_PAYLOAD");
   const { email, password } = parsed.data;
   if (tooMany(email.toLowerCase())) return fail(429, "RATE_LIMITED");
+  if (dbConfigured()) {
+    const checked = await checkPassword(email, password);
+    if (!checked.ok) return checked.reason === "PAUSED" ? fail(403, "PAUSED") : fail(401, "INVALID_CREDENTIALS");
+    const res = NextResponse.json({ success: true, member: { id: checked.member.id, role: checked.member.role, locale: checked.member.locale } });
+    res.headers.append("Set-Cookie", cookieHeader(await issueToken(checked.member.id), ACCESS_DAYS * 86_400));
+    return res;
+  }
   const member = findByEmail(email);
   const right = await samePassword(password);
   if (!member || !right) {

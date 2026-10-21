@@ -4,6 +4,8 @@ export async function register() {
   const { assertStartable } = await import("./lib/env");
   try {
     assertStartable();
+    const { dbConfigured } = await import("./lib/db");
+    if (dbConfigured()) console.info(`[web] migrations applied: ${(await (await import("./lib/migrations")).migrate()).join(",") || "none"}`);
   } catch (error) {
     console.error(`[web] refusing to start: ${(error as Error).message}`);
     process.exit(1);

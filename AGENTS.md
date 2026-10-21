@@ -42,6 +42,16 @@ product, §4 architecture) is the source of truth. Its rules already apply:
    size, never the static site's host), `output: "standalone"` only when `APP_STANDALONE` is set (the image build), and still refuses any
    Dockerfile, spec or platform file under `apps/`, a workflow that deploys (CI only *builds* the image), a script of `apps/web` that does not
    bind 127.0.0.1, a package that is not private, and an env module that would start in production without `APP_RELEASE_APPROVAL`.
+   **Invited testers (Oussama, 2026-10-21, via the coordinator: « lawyers OK in principle, 2026-10-21, invited testers only »; the register line `yororis-cadre-7-2026-10-21-invited-testers`).**
+   The member space may keep **invited testers' accounts** in one database of the shared Postgres cluster (`yororis_db`, role `yororis_user`;
+   no `databases:` component, no new paid resource): e-mail, password hash (scrypt), profile, chosen default avatar, a stored sign-in token
+   (`access_tokens`, only its keyed hash), reset links (hash, 30 minutes, one use). Accounts are **provisioned by an operator**
+   (`scripts/provision-testers.mjs`), never by a door of the app: **sign-up stays closed** (`/api/auth/sign-up` answers 403; `tests/sign-up-closed.test.mjs`).
+   With `DATABASE_URL` set the app uses these accounts; without it (local run, CI) it keeps its fictional cast and demo password. Invited
+   testers may use the main features with their own data; the content of the product stays under the lawyer review: no public claim and
+   no new marketing text outside the reviewed-text process, the lexicon is law, product first (Orazaka as the engine). E-mail (the reset
+   link) goes through Mailgun like the other products (`MAIL_PROVIDER=mailgun`, a Yororis from-address). The guard allows exactly
+   `DATABASE_URL` and `DATABASE_CA_CERT` as SECRETs in the app's spec, nothing else of a database.
    `.do/app.yaml` still declares the one static site and must not reference `apps/`. No sign-up exists (the cast is invited by construction).
    The lexicon applies to every word and identifier of the app (`apps/web/tests/lexicon.test.mjs`: the messages, the paths and the
    code; "session" only in the sign-in code). www.yororis.com shows it only as **screenshots** in "How we're building it in the

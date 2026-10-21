@@ -16,6 +16,8 @@ export interface Member {
   locale: "en" | "fr";
   subtitles: boolean;
   calmMotion: boolean;
+  /** The chosen default avatar (a key of lib/avatars.ts), or null for the initials. */
+  avatar?: string | null;
   createdAt: string;
   lastSeenAt: string | null;
 }
