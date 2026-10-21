@@ -13,7 +13,7 @@ export default async function ConsoleLayout({ children, params }: { children: Re
   const member = await pageMember();
   if (!member) redirect(`/${locale}/sign-in`);
   return (
-    <ConsoleShell locale={locale} email={member.email} organiser={member.role === "ADMIN"} version={appVersion()}>
+    <ConsoleShell locale={locale} email={member.email} id={member.id} name={member.name} avatar={member.avatar ?? null} organiser={member.role === "ADMIN"} version={appVersion()}>
       {children}
     </ConsoleShell>
   );

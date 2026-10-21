@@ -34,6 +34,13 @@ services:
       # shared cluster (no component of its own), its URL and CA as secrets. The cast's demo password is for local runs only.
       - { key: DATABASE_URL, scope: RUN_TIME, type: SECRET, value: "__DATABASE_URL__" }
       - { key: DATABASE_CA_CERT, scope: RUN_TIME, type: SECRET, value: "__DATABASE_CA_CERT__" }
+      # The address links are built on (the e-mailed reset link): never read from a request header.
+      - { key: APP_URL, scope: RUN_TIME, value: "https://qa.yororis.com" }
+      # E-mail through the family's Mailgun (one account, a Yororis from-address on its verified domain).
+      - { key: MAIL_PROVIDER, scope: RUN_TIME, value: "mailgun" }
+      - { key: MAIL_API_KEY, scope: RUN_TIME, type: SECRET, value: "__MAIL_API_KEY__" }
+      - { key: MAIL_DOMAIN, scope: RUN_TIME, value: "mg.krizaka.com" }
+      - { key: MAIL_FROM, scope: RUN_TIME, value: "Yororis <no-reply@mg.krizaka.com>" }
       # The moment's AI is Orazaka's wellbeing pack, through its edge and the service key of the Yororis account.
       - { key: AI_API_URL, scope: RUN_TIME, value: "https://dev.orazaka.com/edge" }
       - { key: AI_API_KEY, scope: RUN_TIME, type: SECRET, value: "__AI_API_KEY__" }

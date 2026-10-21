@@ -16,9 +16,12 @@ import { z } from "zod";
 import { errorKey } from "@/lib/client";
 import { useSay } from "@/lib/i18n-client";
 
+import { AvatarPicker } from "./AvatarPicker";
 import { PasswordSection } from "./PasswordSection";
 
 export interface AccountDto {
+  id: string;
+  avatar: string | null;
   email: string;
   organisation: string;
   locale: "en" | "fr";
@@ -68,7 +71,7 @@ export function AccountView({ account, passwordEnabled = false }: { account: Acc
   const choose = (key: "subtitles" | "calmMotion", on: boolean) =>
     patch.mutate({ [key]: on }, { onSuccess: () => tell("display", "success", say("account.display.saved")), onError: (e) => fail("display", e) });
   const note = (section: string) => (notice?.section === section ? <Alert tone={notice.tone}>{notice.text}</Alert> : null);
-  const nav = (passwordEnabled ? (["profile", "password", "display", "consent", "notebook", "delete"] as const) : (["profile", "display", "consent", "notebook", "delete"] as const)).map((id) => ({ id, label: say(`account.nav.${id}`), href: `#${id}` }));
+  const nav = (passwordEnabled ? (["profile", "avatar", "password", "display", "consent", "notebook", "delete"] as const) : (["profile", "display", "consent", "notebook", "delete"] as const)).map((id) => ({ id, label: say(`account.nav.${id}`), href: `#${id}` }));
 
   return (
     <SettingsLayout className="w-full" title={say("account.title")} description={say("account.description")} nav={nav} navLabel={say("account.navLabel")} linkAs={Link}>
@@ -98,6 +101,8 @@ export function AccountView({ account, passwordEnabled = false }: { account: Acc
           </div>
         </profile.Form>
       </SettingsSection>
+
+      {passwordEnabled ? <AvatarPicker id={account.id} name={account.name} avatar={account.avatar} /> : null}
 
       {passwordEnabled ? <PasswordSection /> : null}
 
