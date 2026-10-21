@@ -5,6 +5,8 @@ import { krizakaFetch, useMutation } from "@krizaka/query";
 import { YororisLogo } from "@krizaka/ui";
 import { AppShell } from "@krizaka/ui/app-shell";
 import { Button } from "@krizaka/ui/button";
+import { SiteFooter } from "@krizaka/ui/site-footer";
+import { familyLabels } from "@krizaka/ui/sites";
 import { ThemeToggle } from "@krizaka/ui/theme";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -89,6 +91,7 @@ export function ConsoleShell({ locale, email, organiser, version, children }: { 
           {say("shell.banner")}
         </p>
         <AppShell.Main>{children}</AppShell.Main>
+        <SiteFooter current="yororis" family={false} variant="app" env="dev" version={version} labels={familyLabels[locale]} />
       </AppShell.Body>
     </AppShell.Root>
   );
