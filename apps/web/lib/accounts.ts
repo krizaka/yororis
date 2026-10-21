@@ -3,6 +3,7 @@ import crypto from "node:crypto";
 import { query } from "./db";
 import { decoyHash, hashPassword, passwordProblem, verifyPassword } from "./password";
 import type { Member } from "./store";
+import { TERMS_VERSION } from "./terms";
 
 /**
  * The invited testers' accounts (docs/FRAMEWORK.md §5, « lawyers OK in principle, 2026-10-21, invited testers only »): e-mail,
@@ -24,8 +25,10 @@ interface Row {
   avatar: string | null;
   created_at: Date;
   last_seen_at: Date | null;
+  consented_at: Date | null;
+  terms_version: string | null;
 }
-const COLUMNS = "id, email, name, locale, role, status, subtitles, calm_motion, avatar, created_at, last_seen_at";
+const COLUMNS = "id, email, name, locale, role, status, subtitles, calm_motion, avatar, created_at, last_seen_at, consented_at, terms_version";
 
 export const toMember = (r: Row): Member => ({
   id: r.id,
@@ -38,6 +41,7 @@ export const toMember = (r: Row): Member => ({
   subtitles: r.subtitles,
   calmMotion: r.calm_motion,
   avatar: r.avatar,
+  consented: !!r.consented_at && r.terms_version === TERMS_VERSION,
   createdAt: r.created_at.toISOString(),
   lastSeenAt: r.last_seen_at?.toISOString() ?? null,
 });

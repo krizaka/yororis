@@ -17,6 +17,7 @@ const Body = z.object({ presence: z.string(), language: z.enum(["en", "fr"]), ag
 export async function POST(req: Request) {
   const r = await requireMember(req);
   if ("refusal" in r) return r.refusal;
+  if (r.member.consented === false) return fail(403, "CONSENT_REQUIRED");
   const body = Body.safeParse(await req.json().catch(() => null));
   const presence = body.success ? presenceOf(body.data.presence) : undefined;
   if (!body.success || !presence) return fail(400, "INVALID_PAYLOAD");

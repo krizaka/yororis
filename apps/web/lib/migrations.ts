@@ -36,6 +36,10 @@ export const MIGRATIONS: { version: number; sql: string }[] = [
         created_at timestamptz NOT NULL DEFAULT now()
       );`,
   },
+  {
+    version: 2,
+    sql: `ALTER TABLE accounts ADD COLUMN consented_at timestamptz, ADD COLUMN terms_version text;`,
+  },
 ];
 
 const LOCK = 7_411_001;

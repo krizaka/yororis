@@ -13,7 +13,7 @@ const Patch = z
   .partial()
   .strict();
 
-const view = (m: { id: string; email: string; name: string; locale: string; subtitles: boolean; calmMotion: boolean; organisation: string; avatar?: string | null }) => ({ id: m.id, email: m.email, name: m.name, locale: m.locale, subtitles: m.subtitles, calmMotion: m.calmMotion, organisation: m.organisation, avatar: m.avatar ?? null });
+const view = (m: { id: string; email: string; name: string; locale: string; subtitles: boolean; calmMotion: boolean; organisation: string; avatar?: string | null; consented?: boolean }) => ({ id: m.id, email: m.email, name: m.name, locale: m.locale, subtitles: m.subtitles, calmMotion: m.calmMotion, organisation: m.organisation, avatar: m.avatar ?? null, consented: m.consented ?? true });
 
 /** The signed-in member: name, language, the two display choices, the organisation. */
 export async function GET(req: Request) {

@@ -88,7 +88,8 @@
       "PASSWORD_TOO_SHORT": "Use at least 12 characters.",
       "PASSWORD_TOO_LONG": "That password is too long.",
       "INVALID_TOKEN": "This link is not valid any more.",
-      "NOT_AVAILABLE": "This is not available here."
+      "NOT_AVAILABLE": "This is not available here.",
+      "CONSENT_REQUIRED": "Agree to the terms first."
     },
     "dashboard": {
       "greeting": "Hello, {name}",
@@ -403,6 +404,27 @@
       "invalid": "This link is not valid any more. Ask for a new one.",
       "toSignIn": "Sign in",
       "askAgain": "Ask for a new link"
+    },
+    "welcome": {
+      "title": "Before you come in",
+      "description": "One question, once.",
+      "adult": "I am 18 or older.",
+      "terms": "I accept the terms of use.",
+      "termsLink": "Read the terms",
+      "submit": "Come in",
+      "hint": "Both boxes are needed. We keep only the date and the version of the terms."
+    },
+    "terms": {
+      "title": "Terms of use",
+      "version": "Version {version}",
+      "items": [
+        "Yororis is a short chat with an AI neighbour. It is not a health service, not an emergency service and not a person. In a crisis in Canada, call or text 9-8-8; in Québec, call 811 (Info-Social).",
+        "This space is open to invited testers who are 18 or older. Nobody can create an account here.",
+        "What you say is not kept: no transcript, no summary.",
+        "We keep your e-mail, your first name, your language, your picture and the date you agreed, only to let you in.",
+        "You can delete your account at once from the account page: everything about you goes with it."
+      ],
+      "back": "Back"
     }
   },
   "mail": {

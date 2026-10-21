@@ -12,6 +12,8 @@ export default async function ConsoleLayout({ children, params }: { children: Re
   const locale = asLocale((await params).locale);
   const member = await pageMember();
   if (!member) redirect(`/${locale}/sign-in`);
+  // The first sign-in's one question (18 or older, the terms) comes before anything else.
+  if (member.consented === false) redirect(`/${locale}/welcome`);
   return (
     <ConsoleShell locale={locale} email={member.email} id={member.id} name={member.name} avatar={member.avatar ?? null} organiser={member.role === "ADMIN"} version={appVersion()}>
       {children}
