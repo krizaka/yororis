@@ -78,6 +78,13 @@ test("the proxy: the public pages pass, the dev host's robots.txt shuts the door
   const dev = proxy(req("/robots.txt", { host: "dev.yororis.com" }));
   assert.equal(await dev.text(), "User-agent: *\nDisallow: /\n");
   assert.match(dev.headers.get("x-robots-tag"), /noindex/);
+  // dev.yororis.com: its API, /.well-known and robots.txt are its own; every other path (a page, an asset) is sent to www with a 308
+  for (const path of ["/api/health", "/.well-known/security.txt"]) assert.equal(proxy(req(path, { host: "dev.yororis.com" })), undefined, path);
+  for (const [path, to] of [["/", "https://www.yororis.com/"], ["/fr/account?x=1", "https://www.yororis.com/fr/account?x=1"], ["/logo.png", "https://www.yororis.com/logo.png"]]) {
+    const r = proxy(req(path, { host: "dev.yororis.com" }));
+    assert.equal(r.status, 308, path);
+    assert.equal(r.headers.get("location"), to);
+  }
   const redirect = proxy(req("/account", { "accept-language": "fr-CA,fr;q=0.9" }));
   assert.equal(new URL(redirect.headers.get("location")).pathname, "/fr/account");
   assert.equal(proxy(req("/en/account")), undefined);
