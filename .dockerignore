@@ -2,7 +2,9 @@
 **/.next
 .git
 .github
-site
+site/node_modules
+site/out
+site/.next
 docs
 scripts
 **/tests

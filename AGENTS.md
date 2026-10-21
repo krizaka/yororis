@@ -14,7 +14,7 @@ product, §4 architecture) is the source of truth. Its rules already apply:
    https://www.yororis.com — a Next.js **static export** (`output: "export"`, no server), built from the published
    `@krizaka/ui` blocks (bar, hero, sections, cards, footer; the animated mark), `@krizaka/tokens` (`.brand-yororis`) and
    `@krizaka/fonts`, dark and light (system, with a toggle), English at `/` and French at `/fr/`. Shipped as a free
-   DigitalOcean App Platform static site (`.do/app.yaml`, app `yororis-dev`, project `yororis`, `output_dir: out`). It carries
+   static site, since 2026-10-21 **served by the app** (see « One host » below; its own free DigitalOcean static app `yororis-dev` and `.do/app.yaml` are retired). It carries
    the idea, how it is built in the open, the reviewed "under construction" and "What Yororis is not" texts (copied from
    krizaka.com `site.yororis.reviewed.*`, fingerprinted in `site/tests/site.test.mjs`), the crisis lines (9-8-8, 811), one call
    to action ("Talk to us about Yororis" → krizaka.com/contact?topic=yororis), the footer "A Krizaka product", the version.
@@ -52,7 +52,15 @@ product, §4 architecture) is the source of truth. Its rules already apply:
    no new marketing text outside the reviewed-text process, the lexicon is law, product first (Orazaka as the engine). E-mail (the reset
    link) goes through Mailgun like the other products (`MAIL_PROVIDER=mailgun`, a Yororis from-address). The guard allows exactly
    `DATABASE_URL` and `DATABASE_CA_CERT` as SECRETs in the app's spec, nothing else of a database.
-   `.do/app.yaml` still declares the one static site and must not reference `apps/`. No sign-up exists (the cast is invited by construction).
+   **One host (Oussama, 2026-10-21, via the coordinator).** `www.yororis.com` is served by ONE DigitalOcean app, `yororis-qa`
+   (`deploy/digitalocean/qa.app.yaml`, the one `apps-s-1vcpu-0.5gb` service, $5/month; the apex, `qa.` and `dev.` lead to www with a 308
+   at the ingress, `dev.` keeping only its `/api`, `/.well-known` and `robots.txt`, noindex): the image (`deploy/docker/Dockerfile`)
+   builds `site/` (the static export, indexed) into `apps/web/public/_home`, which `apps/web/next.config.mjs` serves through rewrites
+   (the home in English at `/` and French at `/fr`, the changelog, robots, sitemap, llms.txt — `/fr` is the member's home when the
+   sign-in cookie is present); the member space and its API (`/{en,fr}/sign-in`, `forgot`, `reset`, `account`, `moment`, `admin`) are
+   noindex. `site/` stays a static export with the same rules and tests (no route handler, no env read); the guard
+   (`check-construction.mjs`) allows the app's spec to carry the Yororis hosts once no `.do/app.yaml` exists. No sign-up exists
+   (accounts are provisioned by an operator).
    The lexicon applies to every word and identifier of the app (`apps/web/tests/lexicon.test.mjs`: the messages, the paths and the
    code; "session" only in the sign-in code). www.yororis.com shows it only as **screenshots** in "How we're building it in the
    open", labelled "in development, not available".
@@ -90,4 +98,4 @@ product, §4 architecture) is the source of truth. Its rules already apply:
 The contract is defined once, in krizaka-com `AGENTS.md` §2.4, and checked here by `scripts/check-seo-family.mjs` (a copy of
 the same dependency-free file in every site's repository — keep the copies identical; its unit test sits beside it).
 
-www.yororis.com is **indexed** (the apex answers 308 with www; `dev.yororis.com` keeps only `/.well-known` and sends every other page to www with a 308 — ingress in `.do/app.yaml`, tested by `site/tests/dev-redirect.test.mjs`; epic krizaka/.github#119). Construction mode keeps it static: `llms.txt` is a file in `site/public/` (a route handler is forbidden), the JSON-LD (WebSite + SoftwareApplication, publisher = the Krizaka Organization) offers nothing — no `offers`, no download — and the lexicon applies to `llms.txt` too (`site/tests/site.test.mjs`).
+www.yororis.com is **indexed** (the apex answers 308 with www; `dev.yororis.com` keeps only `/api`, `/.well-known` and `robots.txt` (noindex) and sends every other page to www with a 308 — ingress in `deploy/digitalocean/qa.app.yaml`, tested by `site/tests/dev-redirect.test.mjs`; epic krizaka/.github#119). Construction mode keeps it static: `llms.txt` is a file in `site/public/` (a route handler is forbidden), the JSON-LD (WebSite + SoftwareApplication, publisher = the Krizaka Organization) offers nothing — no `offers`, no download — and the lexicon applies to `llms.txt` too (`site/tests/site.test.mjs`).
