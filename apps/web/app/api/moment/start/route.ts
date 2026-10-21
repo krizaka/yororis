@@ -1,11 +1,13 @@
 import { z } from "zod";
 
+import { dbConfigured } from "@/lib/db";
 import { done, fail, requireMember } from "@/lib/http";
 import { limits } from "@/lib/moment-api";
 import { allowance } from "@/lib/moment-policy";
-import { begin, liveOf, takenBy } from "@/lib/moments";
+import { begin, hydrateTaken, liveOf, takenBy } from "@/lib/moments";
 import { orazaka,OrazakaError, UPSTREAM_FAILED } from "@/lib/orazaka";
 import { presenceOf } from "@/lib/presences";
+import { loadStarts, recordStart } from "@/lib/starts";
 
 const Body = z.object({ presence: z.string(), language: z.enum(["en", "fr"]), agreed: z.literal(true) }).strict();
 
@@ -25,6 +27,7 @@ export async function POST(req: Request) {
   if (!client) return fail(UPSTREAM_FAILED, "AI_UNAVAILABLE");
   if (liveOf(r.member.id)) return fail(409, "MOMENT_OPEN");
   const lim = limits();
+  if (dbConfigured()) hydrateTaken(r.member.id, await loadStarts(r.member.id));
   const may = allowance(takenBy(r.member.id), Date.now(), lim);
   if (!may.ok) return Response.json({ success: false, code: may.reason === "DAY" ? "STOPS_DAY" : "STOPS_WEEK", nextAt: new Date(may.nextAt).toISOString() }, { status: 429 });
   try {
@@ -33,5 +36,6 @@ export async function POST(req: Request) {
     return e instanceof OrazakaError ? fail(e.status, e.code) : fail(UPSTREAM_FAILED, "AI_UNAVAILABLE");
   }
   const moment = begin({ memberId: r.member.id, presence: presence.id, language: body.data.language }, lim);
+  if (dbConfigured()) await recordStart(r.member.id, moment.startedAt);
   return done({ moment: { id: moment.id, presence: presence.id, startedAt: new Date(moment.startedAt).toISOString(), endsAt: new Date(moment.endsAt).toISOString() } }, { status: 201 });
 }

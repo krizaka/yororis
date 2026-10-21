@@ -327,7 +327,8 @@
       "speaks": "Parle français et anglais",
       "goneTitle": "Ça s’efface à la fin",
       "goneText": "Ce que tu dis reste ici seulement pendant qu’on parle. Quand c’est fini, c’est parti.",
-      "closingWait": "Un instant."
+      "closingWait": "Un instant.",
+      "neighbourGoes": "Le voisin doit y aller. Merci pour la jasette, à la prochaine."
     },
     "notFound": {
       "code": "404",

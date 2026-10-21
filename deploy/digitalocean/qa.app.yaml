@@ -69,7 +69,4 @@ services:
       - { key: AI_API_URL, scope: RUN_TIME, value: "https://dev.orazaka.com/edge" }
       - { key: AI_API_KEY, scope: RUN_TIME, type: SECRET, value: "__AI_API_KEY__" }
       - { key: APP_REGION, scope: RUN_TIME, value: "CA-QC" }
-      # QA widens the presence that stops (the product's defaults are 25 minutes, 1 a day, 3 a week); the length stays 25.
-      - { key: APP_MOMENT_MINUTES, scope: RUN_TIME, value: "25" }
-      - { key: APP_MOMENTS_PER_DAY, scope: RUN_TIME, value: "20" }
-      - { key: APP_MOMENTS_PER_WEEK, scope: RUN_TIME, value: "100" }
+      # The presence that stops: the product's defaults apply (8 minutes, 8 turns, 2 a day, 10 a week; docs/FRAMEWORK.md).

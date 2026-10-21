@@ -1,10 +1,10 @@
 import { z } from "zod";
 
 import { done, fail, isUuid, requireMember } from "@/lib/http";
-import { limits, MAX_AUDIO_BYTES } from "@/lib/moment-api";
+import { limits, MAX_AUDIO_BYTES, remainingView } from "@/lib/moment-api";
 import { isNearlyOver, isOver } from "@/lib/moment-policy";
 import { updateStat } from "@/lib/moment-stats";
-import { contextOf, findMoment, finish, MAX_TURNS, remember } from "@/lib/moments";
+import { contextOf, findMoment, finish, remember } from "@/lib/moments";
 import { clipHref, orazaka, OrazakaError, type TurnInput, UPSTREAM_FAILED } from "@/lib/orazaka";
 import { presenceOf } from "@/lib/presences";
 
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
   if (!moment || moment.ended) return fail(404, "MOMENT_NOT_FOUND");
   const lim = limits();
   const now = Date.now();
-  if (isOver(moment.startedAt, now, lim) || moment.turns >= MAX_TURNS) return fail(409, "MOMENT_OVER");
+  if (isOver(moment.startedAt, now, lim) || moment.turns >= lim.turns) return fail(409, "MOMENT_OVER");
   const client = orazaka();
   if (!client) return fail(UPSTREAM_FAILED, "AI_UNAVAILABLE");
   if (moment.busy) return fail(429, "RATE_LIMITED");
@@ -56,6 +56,8 @@ export async function POST(req: Request) {
   try {
     const turn = await client.turn({ ...heard.input, conversationId: moment.conversationId, locale: presence.tags[moment.language], voice: presence.voices[moment.language], context: contextOf(moment) });
     moment.turns += 1;
+    // The last turn: the neighbour has to go. The answer is shown, then the moment is over and forgotten; no more model call.
+    const closing = !turn.crisis && moment.turns >= lim.turns;
     const person = heard.typed ?? turn.transcript ?? "";
     // The pack's fixed reply ends the moment: the presence stops performing and nothing more is said to it. Its words are not remembered.
     updateStat(moment.statId, { turns: moment.turns });
@@ -63,9 +65,14 @@ export async function POST(req: Request) {
       updateStat(moment.statId, { outcome: "lines", lines: true, endedAt: Date.now() });
       finish(moment);
     }
-    else if (person) remember(moment, person, turn.sentences.map((s) => s.text).join(" "));
+    else if (closing) {
+      updateStat(moment.statId, { outcome: "closed", endedAt: Date.now() });
+      finish(moment);
+    } else if (person) remember(moment, person, turn.sentences.map((s) => s.text).join(" "));
     return done({
       turn: {
+        closing,
+        ...(closing ? { remaining: remainingView(r.member.id) } : {}),
         heard: heard.typed === null ? person : null,
         sentences: turn.sentences.map((s) => ({ index: s.index, text: s.text, voice: s.audio ? { clip: clipHref(s.audio.url), durationMs: s.audio.durationMs ?? null } : null })),
         crisis: turn.crisis ? { text: turn.crisis.text, resource: turn.crisis.resource, voice: turn.crisis.audio ? { clip: clipHref(turn.crisis.audio.url), durationMs: turn.crisis.audio.durationMs ?? null } : null } : null,

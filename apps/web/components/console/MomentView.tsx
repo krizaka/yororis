@@ -17,7 +17,7 @@ import { errorKey } from "@/lib/client";
 import { useSay } from "@/lib/i18n-client";
 import { type Presence,PRESENCES } from "@/lib/presences";
 
-import { EndSchema, MomentClosing, type Remaining } from "./MomentClosing";
+import { EndSchema, MomentClosing, type Remaining, RemainingSchema } from "./MomentClosing";
 import { PresenceFace } from "./PresenceFace";
 import { useHoldToTalk, useSpeech } from "./voice";
 
@@ -50,6 +50,9 @@ const TurnSchema = z.object({
     sentences: z.array(z.object({ text: z.string(), voice: VoiceSchema })),
     crisis: CrisisSchema.nullable(),
     declined: z.object({ text: z.string(), voice: VoiceSchema }).nullable(),
+    /** The last turn: the neighbour has to go (the moment is already over and forgotten on the server). */
+    closing: z.boolean().optional(),
+    remaining: RemainingSchema.optional(),
   }),
   nearlyOver: z.boolean(),
 });
@@ -96,6 +99,8 @@ export function MomentView({ available, minutes, stops, calmMotion }: MomentProp
   const [crisis, setCrisis] = useState<Crisis | null>(null);
   const [ended, setEnded] = useState<"over" | "closed" | null>(null);
   const [closing, setClosing] = useState<{ remaining: Remaining } | null>(null);
+  // The neighbour has to go: the last answer and the warm goodbye stay on screen, the composer gives way to what is left.
+  const [farewell, setFarewell] = useState<{ remaining: Remaining | null } | null>(null);
   const [note, setNote] = useState<string | null>(null);
   const [nearly, setNearly] = useState(false);
   const end = useRef<HTMLDivElement>(null);
@@ -134,9 +139,10 @@ export function MomentView({ available, minutes, stops, calmMotion }: MomentProp
       }
       const spoken = t.declined ? [t.declined.voice?.clip] : t.sentences.map((s) => s.voice?.clip);
       const said = t.declined?.text ? [t.declined.text] : t.sentences.map((s) => s.text);
-      setLines((l) => [...l, { who: "presence", text: said.join(" ") }]);
+      setLines((l) => [...l, { who: "presence", text: said.join(" ") }, ...(t.closing ? [{ who: "presence" as const, text: say("moment.neighbourGoes") }] : [])]);
       speech.play(spoken.filter((c): c is string => typeof c === "string"));
       setNearly(r.nearlyOver);
+      if (t.closing) setFarewell({ remaining: t.remaining ?? null });
     },
     onError: (e) => {
       const key = errorKey(e);
@@ -301,6 +307,9 @@ export function MomentView({ available, minutes, stops, calmMotion }: MomentProp
         <div ref={end} />
       </ol>
       {note ?? talkNote ? <Alert tone="danger">{note ?? talkNote}</Alert> : null}
+      {farewell ? (
+        <MomentClosing remaining={farewell.remaining} over={false} />
+      ) : (
       <MessageComposer
         value={draft}
         onValueChange={setDraft}
@@ -346,6 +355,7 @@ export function MomentView({ available, minutes, stops, calmMotion }: MomentProp
           ) : null
         }
       />
+      )}
     </>,
   );
 }

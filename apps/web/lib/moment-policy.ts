@@ -6,6 +6,8 @@ export interface Limits {
   minutes: number;
   perDay: number;
   perWeek: number;
+  /** How many turns a moment has: the neighbour closes after the last one. */
+  turns: number;
 }
 
 export interface Taken {

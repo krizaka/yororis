@@ -5,6 +5,11 @@ import test from "node:test";
 
 process.env.AUTH_SESSION_SECRET = "t".repeat(40);
 process.env.AUTH_DEMO_PASSWORD = "a-demo-password-1";
+// These tests are about the mechanics of the limits: a long moment, one a day, three a week, enough turns.
+process.env.APP_MOMENT_MINUTES = "25";
+process.env.APP_MOMENTS_PER_DAY = "1";
+process.env.APP_MOMENTS_PER_WEEK = "3";
+process.env.APP_MOMENT_TURNS = "20";
 
 const { issue } = await import("../lib/token.ts");
 const store = await import("../lib/store.ts");
