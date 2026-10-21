@@ -2,7 +2,6 @@
 
 import { krizakaFetch, useMutation } from "@krizaka/query";
 import { Alert } from "@krizaka/ui/alert";
-import { Button } from "@krizaka/ui/button";
 import { ConfirmButton } from "@krizaka/ui/confirm-button";
 import { DescriptionList } from "@krizaka/ui/description-list";
 import { createKrizakaForm } from "@krizaka/ui/form";
@@ -71,7 +70,7 @@ export function AccountView({ account, passwordEnabled = false }: { account: Acc
   const choose = (key: "subtitles" | "calmMotion", on: boolean) =>
     patch.mutate({ [key]: on }, { onSuccess: () => tell("display", "success", say("account.display.saved")), onError: (e) => fail("display", e) });
   const note = (section: string) => (notice?.section === section ? <Alert tone={notice.tone}>{notice.text}</Alert> : null);
-  const nav = (passwordEnabled ? (["profile", "avatar", "password", "display", "consent", "notebook", "delete"] as const) : (["profile", "display", "consent", "notebook", "delete"] as const)).map((id) => ({ id, label: say(`account.nav.${id}`), href: `#${id}` }));
+  const nav = (passwordEnabled ? (["profile", "avatar", "password", "display", "delete"] as const) : (["profile", "display", "delete"] as const)).map((id) => ({ id, label: say(`account.nav.${id}`), href: `#${id}` }));
 
   return (
     <SettingsLayout className="w-full" title={say("account.title")} description={say("account.description")} nav={nav} navLabel={say("account.navLabel")} linkAs={Link}>
@@ -122,26 +121,6 @@ export function AccountView({ account, passwordEnabled = false }: { account: Acc
           </div>
         ))}
         {note("display")}
-      </SettingsSection>
-
-      <SettingsSection id="consent" title={say("account.consent.title")} description={say("account.consent.description")}>
-        <DescriptionList
-          layout="inline"
-          items={[
-            { term: say("account.consent.version"), details: say("account.consent.versionNone"), hint: say("account.consent.statusHint") },
-            { term: say("account.consent.status"), details: "—" },
-            { term: say("account.consent.age"), details: "—", hint: say("account.consent.ageHint") },
-          ]}
-        />
-      </SettingsSection>
-
-      <SettingsSection id="notebook" title={say("account.notebook.title")} description={say("account.notebook.description")}>
-        <p className="text-sm text-fg-secondary">{say("account.notebook.hint")}</p>
-        <div>
-          <Button size="sm" variant="secondary" disabled>
-            {say("account.notebook.action")}
-          </Button>
-        </div>
       </SettingsSection>
 
       <SettingsSection id="delete" title={say("account.delete.title")} description={say("account.delete.description")}>

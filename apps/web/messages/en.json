@@ -75,7 +75,7 @@
       "AI_UNAVAILABLE": "Nothing is answering right now. Try again in a moment.",
       "AI_KEY": "The connection to the listening engine is not set up.",
       "AI_SHAPE": "The answer could not be read. Try again.",
-      "CONSENT": "What is kept must be agreed to first.",
+      "CONSENT": "The consent for this space is needed first.",
       "NO_VOICE": "There is no voice for this language yet.",
       "MOMENT_OPEN": "A moment is already open.",
       "MOMENT_NOT_FOUND": "This moment is not open any more.",
@@ -106,18 +106,6 @@
       "momentsDescription": "The moments you had, newest first.",
       "momentsEmptyTitle": "No moment yet",
       "momentsEmpty": "Each moment will be listed here with the day, and how you felt before and after, in your words. Nothing is inferred.",
-      "keepTitle": "What I keep",
-      "keepDescription": "A few lines you read, edit or delete.",
-      "keepEmptyTitle": "Nothing kept",
-      "keepEmpty": "When a moment ends, the transcript is gone. What stays is a short summary that is yours.",
-      "threadTitle": "The thread",
-      "threadDescription": "What you chose to carry into your next moment.",
-      "threadEmptyTitle": "No thread yet",
-      "threadEmpty": "The thread starts with the first summary you keep.",
-      "notebookTitle": "My notebook",
-      "notebookDescription": "Everything you kept, in one place.",
-      "notebookEmptyTitle": "Your notebook is empty",
-      "notebookEmpty": "It fills as you keep summaries. You can export it as one page.",
       "crisisTitle": "Talk to someone now",
       "crisisText": "Trained people listen, right now.",
       "call": "Call 9-8-8",
@@ -134,8 +122,6 @@
       "nav": {
         "profile": "Profile",
         "display": "Display",
-        "consent": "Consent",
-        "notebook": "To bring with you",
         "delete": "Delete",
         "password": "Password",
         "avatar": "Picture"
@@ -162,26 +148,10 @@
         "calmHint": "Less movement in the portrait and the page.",
         "saved": "Saved."
       },
-      "consent": {
-        "title": "Consent",
-        "description": "Before a first moment you read a statement and agree to it. It has a version: when it changes, you agree again.",
-        "version": "Current statement",
-        "versionNone": "None yet",
-        "status": "Nothing to agree to yet",
-        "statusHint": "The statement is written with Orazaka’s wellbeing pack. It is not available.",
-        "age": "Adults only",
-        "ageHint": "Your age is attested before a first moment."
-      },
-      "notebook": {
-        "title": "To bring with you",
-        "description": "Your notebook as one page, to bring to my therapist, doctor or whoever supports me.",
-        "action": "Export my notebook",
-        "hint": "Not available: there is nothing to export yet."
-      },
       "delete": {
         "title": "Delete my account",
         "description": "This is final.",
-        "now": "Deleted at once: your name, your choices, everything you kept.",
+        "now": "Deleted at once: your name, your choices, everything about you.",
         "remains": "What remains: nothing that identifies you.",
         "action": "Delete my account",
         "confirm": "Sure? Delete it for good"
@@ -286,7 +256,6 @@
         "duration": "Length",
         "turns": "Turns",
         "ended": "How it ended",
-        "kept": "Lines kept",
         "yes": "Yes",
         "no": "No",
         "outcomes": {
@@ -300,9 +269,7 @@
         "kpiAverage": "Average length",
         "kpiAverageHint": "Of the moments that ended",
         "kpiLines": "Lines to call shown",
-        "kpiLinesHint": "The pack's fixed reply, as sent",
-        "kpiKept": "Lines kept",
-        "kpiKeptHint": "Of the moments that ended"
+        "kpiLinesHint": "The pack's fixed reply, as sent"
       }
     },
     "moment": {
@@ -317,10 +284,8 @@
       "aiNote": "{name} is an AI presence, not a person and not an emergency service.",
       "opening": "I'm {name}, an AI presence. I'm not a therapist and not an emergency service. Tell me what is on your mind, and I will listen.",
       "limits": "A moment lasts up to {minutes} minutes. It stops on time.",
-      "keepTitle": "What is kept",
-      "keepText": "Nothing of what you say is saved. The words are held only while the moment lasts, and for the few minutes you take to choose what you keep, then they are gone. This is a development build, not yet reviewed by a lawyer.",
-      "agree": "I have read what is kept",
-      "agreeFirst": "Read and tick what is kept to begin.",
+      "agree": "I understand this is an AI, and that what I say is forgotten when it ends.",
+      "agreeFirst": "Tick the box to begin.",
       "unavailableTitle": "Moments are not available right now",
       "unavailableText": "Nothing is answering at the moment. If you want to talk to someone now, the lines are always open.",
       "conversation": "The conversation",
@@ -354,30 +319,15 @@
       "silence": "I did not hear anything. Try again.",
       "voiceOn": "Voice on",
       "voiceOff": "Voice off",
-      "keepAskTitle": "Keep three lines?",
-      "keepAskText": "If you want, a short description of what you said, in your words, to read, change or leave. It is not saved here: it is yours to take along.",
-      "keepYes": "Write what I keep",
-      "keepNo": "Let everything go",
-      "keepWorking": "Writing what you keep…",
-      "keptTitle": "What I keep",
-      "keptHelp": "Read it, change it, or leave it. It is yours: copy it or download it. Nothing is saved here, and the words of the moment are already gone.",
-      "fieldThemes": "What came up",
-      "fieldHelped": "What helped",
-      "fieldStep": "A small step",
-      "fieldAlong": "To bring with you",
-      "copy": "Copy",
-      "copied": "Copied",
-      "copyFailed": "Copy did not work. Select the text instead.",
-      "download": "Download one page",
-      "dropAll": "Let it go",
-      "moodBefore": "How do you feel right now, 1 to 5? You say.",
-      "moodAfter": "And now, 1 to 5? You say.",
       "laterTitle": "Come back later",
       "laterLeft": "Moments left: {today} today, {week} this week.",
       "laterNext": "The next one opens {time}.",
       "laterOpen": "You can begin another whenever you are ready.",
       "chooseCaption": "Each one is an AI presence with its own face and voice. You can choose another next time.",
-      "speaks": "Speaks English and French"
+      "speaks": "Speaks English and French",
+      "goneTitle": "Gone when it ends",
+      "goneText": "What you say stays here only while we talk. When it ends, it is gone.",
+      "closingWait": "One moment."
     },
     "notFound": {
       "code": "404",
@@ -412,7 +362,7 @@
       "terms": "I accept the terms of use.",
       "termsLink": "Read the terms",
       "submit": "Come in",
-      "hint": "Both boxes are needed. We keep only the date and the version of the terms."
+      "hint": "Both boxes are needed. We hold only the date and the version of the terms."
     },
     "terms": {
       "title": "Terms of use",
@@ -420,8 +370,8 @@
       "items": [
         "Yororis is a short chat with an AI neighbour. It is not a health service, not an emergency service and not a person. In a crisis in Canada, call or text 9-8-8; in Québec, call 811 (Info-Social).",
         "This space is open to invited testers who are 18 or older. Nobody can create an account here.",
-        "What you say is not kept: no transcript, no summary.",
-        "We keep your e-mail, your first name, your language, your picture and the date you agreed, only to let you in.",
+        "What you say is forgotten when the moment ends: no transcript, nothing taken away.",
+        "We hold your e-mail, your first name, your language, your picture and the date you agreed, only to let you in.",
         "You can delete your account at once from the account page: everything about you goes with it."
       ],
       "back": "Back"

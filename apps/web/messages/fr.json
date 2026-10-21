@@ -75,7 +75,7 @@
       "AI_UNAVAILABLE": "Rien ne répond pour l'instant. Réessaie dans un moment.",
       "AI_KEY": "La connexion au moteur d'écoute n'est pas configurée.",
       "AI_SHAPE": "La réponse n'a pas pu être lue. Réessaie.",
-      "CONSENT": "Il faut d'abord accepter ce qui est gardé.",
+      "CONSENT": "Il faut d’abord le consentement pour cet espace.",
       "NO_VOICE": "Il n'y a pas encore de voix pour cette langue.",
       "MOMENT_OPEN": "Un moment est déjà ouvert.",
       "MOMENT_NOT_FOUND": "Ce moment n'est plus ouvert.",
@@ -106,18 +106,6 @@
       "momentsDescription": "Les moments que tu as eus, du plus récent au plus ancien.",
       "momentsEmptyTitle": "Pas encore de moment",
       "momentsEmpty": "Chaque moment sera listé ici avec le jour, et comment tu te sentais avant et après, avec tes mots. Rien n’est déduit.",
-      "keepTitle": "Ce que je garde",
-      "keepDescription": "Quelques lignes que tu lis, modifies ou supprimes.",
-      "keepEmptyTitle": "Rien de gardé",
-      "keepEmpty": "Quand un moment se termine, la transcription disparaît. Il reste un court résumé qui est à toi.",
-      "threadTitle": "Le fil",
-      "threadDescription": "Ce que tu as choisi de porter jusqu’à ton prochain moment.",
-      "threadEmptyTitle": "Pas encore de fil",
-      "threadEmpty": "Le fil commence avec le premier résumé que tu gardes.",
-      "notebookTitle": "Mon carnet",
-      "notebookDescription": "Tout ce que tu as gardé, au même endroit.",
-      "notebookEmptyTitle": "Ton carnet est vide",
-      "notebookEmpty": "Il se remplit au fil des résumés que tu gardes. Tu peux l’exporter en une page.",
       "crisisTitle": "Parler à quelqu’un maintenant",
       "crisisText": "Des personnes formées écoutent, tout de suite.",
       "call": "Appeler le 9-8-8",
@@ -134,8 +122,6 @@
       "nav": {
         "profile": "Profil",
         "display": "Affichage",
-        "consent": "Consentement",
-        "notebook": "À apporter",
         "delete": "Supprimer",
         "password": "Mot de passe",
         "avatar": "Image"
@@ -162,26 +148,10 @@
         "calmHint": "Moins de mouvement dans le portrait et dans la page.",
         "saved": "Enregistré."
       },
-      "consent": {
-        "title": "Consentement",
-        "description": "Avant un premier moment, tu lis un énoncé et tu l’acceptes. Il a une version : quand il change, tu l’acceptes de nouveau.",
-        "version": "Énoncé en vigueur",
-        "versionNone": "Aucun pour l’instant",
-        "status": "Rien à accepter pour l’instant",
-        "statusHint": "L’énoncé s’écrit avec le pack bien-être d’Orazaka. Il n’est pas disponible.",
-        "age": "Adultes seulement",
-        "ageHint": "Ton âge est attesté avant un premier moment."
-      },
-      "notebook": {
-        "title": "À apporter",
-        "description": "Ton carnet en une page, à apporter à ma thérapeute, mon médecin ou la personne qui m’accompagne.",
-        "action": "Exporter mon carnet",
-        "hint": "Non disponible : il n’y a rien à exporter pour l’instant."
-      },
       "delete": {
         "title": "Supprimer mon compte",
         "description": "C’est définitif.",
-        "now": "Supprimés tout de suite : ton prénom, tes choix, tout ce que tu as gardé.",
+        "now": "Supprimé tout de suite : ton nom, tes choix, tout ce qui te concerne.",
         "remains": "Ce qui reste : rien qui t’identifie.",
         "action": "Supprimer mon compte",
         "confirm": "Sûr·e ? Supprimer pour de bon"
@@ -286,7 +256,6 @@
         "duration": "Durée",
         "turns": "Tours",
         "ended": "Comment il s'est terminé",
-        "kept": "Lignes gardées",
         "yes": "Oui",
         "no": "Non",
         "outcomes": {
@@ -300,9 +269,7 @@
         "kpiAverage": "Durée moyenne",
         "kpiAverageHint": "Des moments terminés",
         "kpiLines": "Lignes à appeler montrées",
-        "kpiLinesHint": "La réponse fixe du pack, telle qu'envoyée",
-        "kpiKept": "Lignes gardées",
-        "kpiKeptHint": "Des moments terminés"
+        "kpiLinesHint": "La réponse fixe du pack, telle qu'envoyée"
       }
     },
     "moment": {
@@ -317,10 +284,8 @@
       "aiNote": "{name} est une présence IA, pas une personne et pas un service d'urgence.",
       "opening": "Je suis {name}, une présence IA. Je ne suis ni thérapeute ni un service d'urgence. Dis-moi ce que tu as en tête, je t'écoute.",
       "limits": "Un moment dure jusqu'à {minutes} minutes. Il s'arrête à l'heure.",
-      "keepTitle": "Ce qui est gardé",
-      "keepText": "Rien de ce que tu dis n'est enregistré. Les mots sont retenus seulement le temps du moment, et les quelques minutes que tu prends pour choisir ce que tu gardes, puis ils disparaissent. Ceci est une version de développement, pas encore relue par une avocate ou un avocat.",
-      "agree": "J'ai lu ce qui est gardé",
-      "agreeFirst": "Lis et coche ce qui est gardé pour commencer.",
+      "agree": "Je comprends que c’est une IA, et que ce que je dis est oublié à la fin.",
+      "agreeFirst": "Coche la case pour commencer.",
       "unavailableTitle": "Les moments ne sont pas disponibles pour l'instant",
       "unavailableText": "Rien ne répond en ce moment. Si tu veux parler à quelqu'un maintenant, les lignes sont toujours ouvertes.",
       "conversation": "La conversation",
@@ -354,30 +319,15 @@
       "silence": "Je n'ai rien entendu. Réessaie.",
       "voiceOn": "Voix activée",
       "voiceOff": "Voix coupée",
-      "keepAskTitle": "Garder trois lignes ?",
-      "keepAskText": "Si tu veux, une courte description de ce que tu as dit, avec tes mots, à lire, modifier ou laisser. Elle n'est pas enregistrée ici : elle est à toi, à emporter.",
-      "keepYes": "Écrire ce que je garde",
-      "keepNo": "Tout laisser aller",
-      "keepWorking": "J'écris ce que tu gardes…",
-      "keptTitle": "Ce que je garde",
-      "keptHelp": "Lis-le, change-le, ou laisse-le. C'est à toi : copie-le ou télécharge-le. Rien n'est enregistré ici, et les mots du moment ont déjà disparu.",
-      "fieldThemes": "Ce qui est venu",
-      "fieldHelped": "Ce qui a aidé",
-      "fieldStep": "Un petit pas",
-      "fieldAlong": "À emporter",
-      "copy": "Copier",
-      "copied": "Copié",
-      "copyFailed": "La copie n'a pas marché. Sélectionne plutôt le texte.",
-      "download": "Télécharger une page",
-      "dropAll": "Laisser aller",
-      "moodBefore": "Comment tu te sens, là, de 1 à 5 ? C'est toi qui le dis.",
-      "moodAfter": "Et maintenant, de 1 à 5 ? C'est toi qui le dis.",
       "laterTitle": "Revenir plus tard",
       "laterLeft": "Moments restants : {today} aujourd'hui, {week} cette semaine.",
       "laterNext": "Le prochain s'ouvre {time}.",
       "laterOpen": "Tu peux en commencer un autre quand tu veux.",
       "chooseCaption": "Chacune est une présence IA avec son visage et sa voix. Tu peux en choisir une autre la prochaine fois.",
-      "speaks": "Parle français et anglais"
+      "speaks": "Parle français et anglais",
+      "goneTitle": "Ça s’efface à la fin",
+      "goneText": "Ce que tu dis reste ici seulement pendant qu’on parle. Quand c’est fini, c’est parti.",
+      "closingWait": "Un instant."
     },
     "notFound": {
       "code": "404",
@@ -412,7 +362,7 @@
       "terms": "J’accepte les conditions d’utilisation.",
       "termsLink": "Lire les conditions",
       "submit": "Entrer",
-      "hint": "Les deux cases sont nécessaires. On ne garde que la date et la version des conditions."
+      "hint": "Les deux cases sont nécessaires. On ne conserve que la date et la version des conditions."
     },
     "terms": {
       "title": "Conditions d’utilisation",
@@ -420,8 +370,8 @@
       "items": [
         "Yororis est une courte conversation avec un voisin qui est une IA. Ce n’est ni un service de santé, ni un service d’urgence, ni une personne. En cas de crise au Canada, appelle ou texte le 9-8-8; au Québec, appelle le 811 (Info-Social).",
         "Cet espace est ouvert aux testeurs invités qui ont 18 ans ou plus. Personne ne peut s’y créer un compte.",
-        "Ce que tu dis n’est pas gardé : ni transcription, ni résumé.",
-        "On garde ton courriel, ton prénom, ta langue, ton image et la date de ton accord, seulement pour te laisser entrer.",
+        "Ce que tu dis est oublié à la fin du moment : ni transcription, ni rien à emporter.",
+        "On conserve ton courriel, ton prénom, ta langue, ton image et la date de ton accord, seulement pour te laisser entrer.",
         "Tu peux supprimer ton compte tout de suite depuis la page du compte : tout ce qui te concerne part avec lui."
       ],
       "back": "Retour"

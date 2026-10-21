@@ -1,6 +1,5 @@
 // The Yororis lexicon (company/prompts-yororis.md §2.1, column "jamais") on every word of the member space: the messages,
-// the names of files and routes, and the identifiers of the code. Two exceptions are written out, because they deny or
-// point to someone else: the export phrase (the human outside the product) and nothing more.
+// the names of files and routes, and the identifiers of the code. One exception is written out, because it denies: the presence's disclosure.
 import assert from "node:assert/strict";
 import { execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
@@ -17,8 +16,6 @@ const NEVER = [
   /\b24\/7\b|tu me manques|\bi miss you\b|\bje t.aime\b/i, /suicid/i,
 ];
 
-// The one other place a word of the "never" column may appear: the human OUTSIDE the product, to whom the notebook goes.
-const EXPORT_PHRASE = { en: "to bring to my therapist, doctor or whoever supports me", fr: "à apporter à ma thérapeute, mon médecin ou la personne qui m’accompagne" };
 
 // The presence's disclosure (§2.1 « Ce qu'elle dit toujours », ★): the word is allowed here because the sentence DENIES it.
 const DISCLOSURE = { en: "I'm not a therapist and not an emergency service.", fr: "Je ne suis ni thérapeute ni un service d'urgence." };
@@ -29,15 +26,11 @@ const messages = { en: JSON.parse(readFileSync("messages/en.json", "utf8")), fr:
 for (const l of ["en", "fr"]) {
   test(`lexicon: no "never" word in any message (${l})`, () => {
     for (const raw of strings(messages[l])) {
-      const s = raw.replace(EXPORT_PHRASE[l], "").replace(DISCLOSURE[l], "");
+      const s = raw.replace(DISCLOSURE[l], "");
       for (const re of NEVER) assert.ok(!re.test(s), `${re} in message "${raw}" (${l})`);
     }
   });
 }
-
-test("lexicon: the export phrase is used exactly where it should be (once per language)", () => {
-  for (const l of ["en", "fr"]) assert.equal(strings(messages[l]).filter((s) => s.includes(EXPORT_PHRASE[l])).length, 1);
-});
 
 test("lexicon: the disclosure is used exactly where it should be (the presence's opening, once per language)", () => {
   for (const l of ["en", "fr"]) assert.equal(strings(messages[l]).filter((s) => s.includes(DISCLOSURE[l])).length, 1);

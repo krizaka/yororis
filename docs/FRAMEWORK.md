@@ -11,8 +11,8 @@
 name, an animated portrait carrying a permanent "AI" mark, a voice and exact subtitles. The presence listens, reflects
 back, asks one question at a time and helps put words on what is being lived. The moment has a maximum length and a
 number of moments per day and per week, set by the organisation that offers it (defaults: 25 minutes, one a day, three
-a week). When it closes, the transcript is gone; what remains is **what I keep** — a short summary the person reads,
-edits or deletes — and **the thread** that carries it into the next moment.
+a week). When it closes, what was said is gone: **100 % stateless** since 2026-10-21 (krizaka/yororis#97). No transcript, no
+summary, no thread, no notebook, no export, no mood score: nothing emotional or conversational is persisted anywhere.
 
 It is meant for organisations first (a wellbeing programme, a clinic, a professional order), which set the limits for
 their members. It is **what a person brings to their therapist, doctor or whoever supports them — not instead of them.**
@@ -32,10 +32,8 @@ This section is the only place in the product where the words below appear, and 
   and a sourced regional line — in Canada, call or text **9-8-8**; in Québec, **811** (Info-Social).
 - **Not a 24/7 companion.** The presence never says "I'm here 24/7", "you can always count on me", "I miss you"; there
   is no affective nudge, no streak, no reward, and no paid "one more moment today".
-- **Not a reader of emotions.** Mood is two self-reported sliders, before and after; nothing is inferred from the
-  voice or the text, and no score is computed.
-- **Not a record.** No session notes, no file, no clinical history: summaries the person owns, exports as one page,
-  and deletes.
+- **Not a reader of emotions.** There is no mood scale; nothing is inferred from the voice or the text, and no score is computed.
+- **Not a record.** No notes, no file, no history: what is said lives in memory only while the moment lasts.
 
 ## 3. The controls Yororis inherits
 
@@ -53,8 +51,8 @@ building on [ADR-051](https://github.com/krizaka/orazaka/blob/main/docs/adr/ADR-
 | Retention and audit | 30-day retention (shorter on request), encryption, append-only audit, no aggregate without a data class. |
 | Regions | Installs only where a verified crisis resource exists (FR, BE-FR, BE-NL, CA today; CA-QC to be added). |
 
-Yororis adds its own: limits applied by the server, the transcript destroyed at the summary, self-reported mood,
-export and deletion by the person, aggregate statistics only — and construction mode (§5).
+Yororis adds its own: limits applied by the server, what is said forgotten when the moment ends,
+immediate deletion of the account by the person, aggregate statistics only — and construction mode (§5).
 
 ## 4. What is being studied
 

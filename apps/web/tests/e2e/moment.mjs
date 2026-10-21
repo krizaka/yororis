@@ -247,11 +247,10 @@ for (const [device, viewport] of Object.entries(VIEWPORTS)) {
 }
 
 for (const [device, viewport] of Object.entries(VIEWPORTS)) {
-  await step(`${device}: the end of the moment — keep three lines (edit, copy, download), what is left, come back later; the lines to call stay whole`, async () => {
+  await step(`${device}: the end of the moment — nothing kept, what is left, come back later; the lines to call stay whole`, async () => {
     const { context, page } = await open(viewport, "dark");
     await page.getByText("Léa", { exact: true }).first().click();
     await page.getByRole("checkbox").click();
-    await page.getByRole("button", { name: "4" }).first().click();
     await page.getByRole("button", { name: /Begin a moment with Léa/ }).click();
     await page.getByRole("log").waitFor();
     await page.getByPlaceholder("Say what is on your mind").fill("Work was heavy this week");
@@ -260,23 +259,11 @@ for (const [device, viewport] of Object.entries(VIEWPORTS)) {
     await page.getByRole("button", { name: "End this moment" }).click();
     const closing = page.getByTestId("moment-closing");
     await closing.waitFor();
-    await closing.getByText("Keep three lines?").waitFor();
-    assert.ok(await closing.getByTestId("come-back-later").getByText(/Moments left: \d+ today, \d+ this week\./).isVisible(), "what is left is shown");
-    await assertLinesVisible(page, viewport, `at the end (${device})`);
-    if (shots) await page.screenshot({ path: `${shots}/closing-ask-${device}.png` });
-    await closing.getByRole("button", { name: "4" }).click();
-    await closing.getByRole("button", { name: "Write what I keep" }).click();
-    await closing.getByText("What I keep", { exact: true }).waitFor();
-    const field = closing.getByLabel("To bring with you");
-    assert.equal(await field.inputValue(), "Evenings with the kids");
-    await field.fill("Evenings with the kids\nA quarter of an hour");
-    assert.ok(await closing.getByRole("button", { name: "Copy" }).isVisible());
-    assert.ok(await closing.getByRole("button", { name: "Download one page" }).isVisible());
-    await assertLinesVisible(page, viewport, `with what I keep (${device})`);
-    if (shots) await page.screenshot({ path: `${shots}/closing-kept-${device}.png` });
-    await closing.getByRole("button", { name: "Let it go" }).click();
     await closing.getByText(/Nothing was saved/).waitFor();
-    assert.equal(await closing.getByLabel("To bring with you").count(), 0, "what was let go is gone from the screen");
+    assert.ok(await closing.getByTestId("come-back-later").getByText(/Moments left: \d+ today, \d+ this week\./).isVisible(), "what is left is shown");
+    assert.equal(await closing.getByRole("button", { name: /keep|Copy|Download/i }).count(), 0, "nothing is kept, copied or downloaded");
+    await assertLinesVisible(page, viewport, `at the end (${device})`);
+    if (shots) await page.screenshot({ path: `${shots}/closing-${device}.png` });
     await context.close();
   });
 }

@@ -117,37 +117,8 @@ export function clipHref(edgeUrl: string): string | null {
 }
 
 /** What the person keeps of a moment: described by the pack's Studio from their own words, read and edited by them, stored nowhere here. */
-export interface Kept {
-  themes: string[];
-  whatHelped: string;
-  smallStep: string;
-  /** What the person wants to take along to whoever supports them. */
-  takeAlong: string[];
-}
-
-export interface KeepInput {
-  /** The moment, in order: « Person: … » / « Presence: … » lines. */
-  turns: string;
-  locale: string;
-  /** The person's own two numbers, 1 to 5 — never computed, never inferred. */
-  moodBefore?: number;
-  moodAfter?: number;
-}
-
-const KeptShape = z.object({ themes: z.array(z.string()).max(3), whatHelped: z.string(), smallStep: z.string() }).passthrough();
-const Run = z.object({ id: z.string().optional(), status: z.string(), outputs: z.array(z.object({ key: z.string(), value: z.unknown() }).passthrough()).optional(), errorMessage: z.string().nullish() });
-
-/** The lines to take along are the one array besides `themes` in the Studio's output (its key is the Studio's, not ours). */
-export function readKept(value: unknown): Kept {
-  const raw = typeof value === "string" ? (JSON.parse(value) as unknown) : value;
-  const k = KeptShape.parse(raw) as Record<string, unknown>;
-  const along = Object.entries(k).find(([key, v]) => key !== "themes" && Array.isArray(v))?.[1] ?? [];
-  return { themes: k.themes as string[], whatHelped: k.whatHelped as string, smallStep: k.smallStep as string, takeAlong: z.array(z.string()).max(3).parse(along) };
-}
 
 export interface OrazakaClient {
-  /** What the person keeps: one Studio run of the wellbeing pack over the moment's words. */
-  keep(input: KeepInput): Promise<Kept>;
   /** The installation id the voice turns run under (the wellbeing pack, installed once with its consent). */
   installation(): Promise<string>;
   turn(input: TurnInput): Promise<Turn>;
@@ -199,46 +170,8 @@ export function createOrazakaClient(options: { baseUrl: string; apiKey: string; 
     return (installationId = id);
   }
 
-  /** The installation of the pack's « what I keep » Studio (any Studio whose key ends with -summary): installed once, with the provisioning. */
-  async function keepInstallation(): Promise<string> {
-    const mine = await send("/api/v1/studios/installations", { headers: { accept: "application/json" } });
-    if (!mine.ok) throw refusalOf(mine.status);
-    const list = (await mine.json().catch(() => [])) as unknown[];
-    const found = Array.isArray(list) ? list.map((i) => ({ id: idOf(i), key: Installation.safeParse(i).data?.studioKey ?? "" })).find((i) => i.key.endsWith("-summary") && i.id) : undefined;
-    if (!found?.id) throw new OrazakaError(UPSTREAM_FAILED, "AI_UNAVAILABLE");
-    return found.id;
-  }
-
   return {
     installation,
-    async keep(input) {
-      const id = await keepInstallation();
-      const inputs: Record<string, unknown> = { turns: input.turns.slice(0, 30_000), locale: input.locale };
-      if (input.moodBefore) inputs.moodBefore = input.moodBefore;
-      if (input.moodAfter) inputs.moodAfter = input.moodAfter;
-      const started = await send(`/api/v1/studios/installations/${id}/runs`, { method: "POST", headers: { "content-type": "application/json", accept: "application/json" }, body: JSON.stringify({ inputs }) });
-      if (!started.ok) throw refusalOf(started.status);
-      const runId = Run.safeParse(await started.json().catch(() => null));
-      if (!runId.success || !runId.data.id) throw new OrazakaError(UPSTREAM_FAILED, "AI_SHAPE");
-      for (let i = 0; i < 40; i++) {
-        const polled = await send(`/api/v1/studios/runs/${runId.data.id}`, { headers: { accept: "application/json" } });
-        if (!polled.ok) throw refusalOf(polled.status);
-        const run = Run.safeParse(await polled.json().catch(() => null));
-        if (!run.success) throw new OrazakaError(UPSTREAM_FAILED, "AI_SHAPE");
-        if (run.data.status === "SUCCEEDED") {
-          const out = run.data.outputs?.find((o) => o.key === "summary");
-          if (!out) throw new OrazakaError(UPSTREAM_FAILED, "AI_SHAPE");
-          try {
-            return readKept(out.value);
-          } catch {
-            throw new OrazakaError(UPSTREAM_FAILED, "AI_SHAPE");
-          }
-        }
-        if (run.data.status !== "RUNNING" && run.data.status !== "PENDING" && run.data.status !== "QUEUED") throw new OrazakaError(UPSTREAM_FAILED, "AI_UNAVAILABLE");
-        await new Promise((r) => setTimeout(r, options.pollMs ?? 1500));
-      }
-      throw new OrazakaError(UPSTREAM_FAILED, "AI_UNAVAILABLE");
-    },
     async clip(path) {
       if (!isClipPath(path)) throw new OrazakaError(400, "INVALID_PAYLOAD");
       // The clip's signature is its credential (an <audio> element cannot send a bearer): no key is sent with it.

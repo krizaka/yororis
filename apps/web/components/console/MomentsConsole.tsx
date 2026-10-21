@@ -12,8 +12,8 @@ import { presenceOf } from "@/lib/presences";
 
 import { tableLabels } from "./table";
 
-const Row = z.object({ id: z.string(), hour: z.string(), presence: z.string(), language: z.enum(["en", "fr"]), durationSec: z.number().nullable(), turns: z.number(), outcome: z.enum(["open", "closed", "over", "lines"]), lines: z.boolean(), kept: z.boolean() });
-const Page = z.object({ rows: z.array(Row), total: z.number(), summary: z.object({ moments: z.number(), last24h: z.number(), averageSeconds: z.number(), linesShown: z.number(), keptShare: z.number() }) });
+const Row = z.object({ id: z.string(), hour: z.string(), presence: z.string(), language: z.enum(["en", "fr"]), durationSec: z.number().nullable(), turns: z.number(), outcome: z.enum(["open", "closed", "over", "lines"]), lines: z.boolean() });
+const Page = z.object({ rows: z.array(Row), total: z.number(), summary: z.object({ moments: z.number(), last24h: z.number(), averageSeconds: z.number(), linesShown: z.number() }) });
 type RowT = z.infer<typeof Row>;
 
 const keys = defineKeys("moments", { list: (query: DataTableQuery) => [query] });
@@ -59,7 +59,6 @@ export function MomentsConsole() {
           </Badge>
         ),
       },
-      { id: "kept", header: say("admin.moments.kept"), value: (m) => String(m.kept), cell: (m) => (m.kept ? say("admin.moments.yes") : say("admin.moments.no")) },
     ],
     [say, when],
   );
@@ -75,7 +74,6 @@ export function MomentsConsole() {
         <Stat label={say("admin.moments.kpiMoments")} value={s?.moments ?? "—"} hint={say("admin.moments.kpiLast24h", { count: s?.last24h ?? 0 })} />
         <Stat label={say("admin.moments.kpiAverage")} value={s ? clock(s.averageSeconds) : "—"} hint={say("admin.moments.kpiAverageHint")} />
         <Stat label={say("admin.moments.kpiLines")} value={s?.linesShown ?? "—"} hint={say("admin.moments.kpiLinesHint")} />
-        <Stat label={say("admin.moments.kpiKept")} value={s ? `${s.keptShare} %` : "—"} hint={say("admin.moments.kpiKeptHint")} />
       </StatGrid>
       <DataTable
         caption={say("admin.moments.caption")}

@@ -1,4 +1,4 @@
-// The organisation's view of the moments: counts and durations, the lines to call shown, lines kept — never a word, never a name; organisers only.
+// The organisation's view of the moments: counts and durations, the lines to call shown, nothing about words — never a word, never a name; organisers only.
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
@@ -16,7 +16,6 @@ const { useOrazakaClient } = await import("../lib/orazaka.ts");
 const start = await import("../app/api/moment/start/route.ts");
 const turn = await import("../app/api/moment/turn/route.ts");
 const end = await import("../app/api/moment/end/route.ts");
-const keep = await import("../app/api/moment/keep/route.ts");
 const admin = await import("../app/api/admin/moments/route.ts");
 
 const SECRET_WORDS = "my-private-sentence-xyz";
@@ -25,7 +24,6 @@ function engine(crisis = false) {
     async installation() { return "i"; },
     async turn() { return crisis ? { transcript: null, sentences: [], crisis: { text: "fixed", resource: null, audio: null }, declined: null } : { transcript: null, sentences: [{ index: 0, text: "I hear you.", audio: null }], crisis: null, declined: null }; },
     async clip() { return new Response("x"); },
-    async keep() { return { themes: ["a"], whatHelped: "b", smallStep: "c", takeAlong: [] }; },
   };
 }
 
@@ -50,23 +48,21 @@ test("organisers only: a member is refused, a signed-out visitor too", async () 
   assert.equal((await list(1)).status, 200, "the organiser (the first of the cast)");
 });
 
-test("a moment is one line: when to the hour, presence, language, length, turns, how it ended, lines shown, lines kept — and no word, no name", async () => {
+test("a moment is one line: when to the hour, presence, language, length, turns, how it ended, lines shown, nothing about words — and no word, no name", async () => {
   const id = await open(3, "fr", "noor");
   await post(turn, "/api/moment/turn", { momentId: id, text: SECRET_WORDS }, 3);
-  await post(end, "/api/moment/end", { momentId: id, keep: true }, 3);
-  await post(keep, "/api/moment/keep", { momentId: id }, 3);
+  await post(end, "/api/moment/end", { momentId: id }, 3);
   const res = await list(1);
   const text = await res.text();
   assert.ok(!text.includes(SECRET_WORDS), "the words never reach the organisation");
   assert.ok(!text.includes(ID(3)) && !/demo\.yororis|Marie|Samir|Jordan|Camille|Noor \(demo\)/i.test(text), "nor who");
   const { rows, total } = JSON.parse(text);
   assert.equal(total, 1);
-  assert.deepEqual(Object.keys(rows[0]).sort(), ["durationSec", "hour", "id", "kept", "language", "lines", "outcome", "presence", "turns"]);
+  assert.deepEqual(Object.keys(rows[0]).sort(), ["durationSec", "hour", "id", "language", "lines", "outcome", "presence", "turns"]);
   assert.equal(rows[0].presence, "noor");
   assert.equal(rows[0].language, "fr");
   assert.equal(rows[0].turns, 1);
   assert.equal(rows[0].outcome, "closed");
-  assert.equal(rows[0].kept, true);
   assert.equal(rows[0].lines, false);
   assert.match(rows[0].hour, /T\d\d:00:00\.000Z$/, "to the hour, no more");
   assert.ok(rows[0].durationSec >= 0);
@@ -82,7 +78,7 @@ test("the pack's fixed reply is counted as « the lines to call were shown »", 
   assert.equal(summary.linesShown, 1);
 });
 
-test("a moment left open past its end stopped on its own; one let go is not « kept »", async () => {
+test("a moment left open past its end stopped on its own; one ended is closed", async () => {
   const id = await open(3);
   await post(turn, "/api/moment/turn", { momentId: id, text: "hello" }, 3);
   const later = Date.now() + 26 * 60_000;
@@ -92,20 +88,19 @@ test("a moment left open past its end stopped on its own; one let go is not « k
   const id2 = await open(4);
   await post(turn, "/api/moment/turn", { momentId: id2, text: "hello" }, 4);
   await post(end, "/api/moment/end", { momentId: id2 }, 4);
-  assert.equal(stats.listStats({ sort: "hour", dir: "desc", page: 1, size: 10 }).rows.find((r) => r.id !== rows[0].id).kept, false);
+  assert.equal(stats.listStats({ sort: "hour", dir: "desc", page: 1, size: 10 }).rows.find((r) => r.id !== rows[0].id).outcome, "closed");
 });
 
-test("the figures: moments, last 24 h, average length, lines shown, share kept", async () => {
+test("the figures: moments, last 24 h, average length, lines shown", async () => {
   for (const n of [3, 4]) {
     const id = await open(n);
     await post(turn, "/api/moment/turn", { momentId: id, text: "a" }, n);
-    await post(end, "/api/moment/end", { momentId: id, keep: true }, n);
-    if (n === 3) await post(keep, "/api/moment/keep", { momentId: id }, n);
+    await post(end, "/api/moment/end", { momentId: id }, n);
   }
   const { summary } = await (await list(1)).json();
   assert.equal(summary.moments, 2);
   assert.equal(summary.last24h, 2);
-  assert.equal(summary.keptShare, 50);
+  assert.ok(!("keptShare" in summary));
   assert.equal(summary.linesShown, 0);
   assert.ok(summary.averageSeconds >= 0);
 });
