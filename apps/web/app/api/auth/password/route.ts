@@ -5,27 +5,11 @@ import { ACCESS_DAYS,issueToken } from "@/lib/access";
 import { checkPassword } from "@/lib/accounts";
 import { dbConfigured } from "@/lib/db";
 import { fail } from "@/lib/http";
+import { clientKey, tooMany } from "@/lib/rate-limit";
 import { findByEmail, record, touch } from "@/lib/store";
-import { cookieHeader, issue, sameOrigin,samePassword } from "@/lib/token";
+import { cookieHeader, issue, sameOrigin, samePassword } from "@/lib/token";
 
 const Body = z.object({ email: z.string().trim().email().max(254), password: z.string().min(1).max(200) });
-
-const tries = new Map<string, { n: number; reset: number }>();
-const MAX_TRIES = 1000;
-
-const tooMany = (key: string) => {
-  const now = Date.now();
-  if (tries.size > MAX_TRIES) {
-    for (const [k, v] of tries) {
-      if (v.reset < now) tries.delete(k);
-    }
-    if (tries.size > MAX_TRIES) tries.clear();
-  }
-  const t = tries.get(key);
-  if (!t || t.reset < now) tries.set(key, { n: 1, reset: now + 15 * 60_000 });
-  else t.n++;
-  return (tries.get(key)?.n ?? 0) > 10;
-};
 
 /** Signs a member in with the e-mail and the demo password: the answer sets an HttpOnly cookie. The same 401 answers a wrong address and a wrong password; 10 tries per address per 15 minutes. */
 export async function POST(req: Request) {
@@ -33,7 +17,7 @@ export async function POST(req: Request) {
   const parsed = Body.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return fail(400, "INVALID_PAYLOAD");
   const { email, password } = parsed.data;
-  if (tooMany(email.toLowerCase())) return fail(429, "RATE_LIMITED");
+  if (tooMany(`sign-in:${email.toLowerCase()}`, 10) || tooMany(`sign-in-ip:${clientKey(req)}`, 60)) return fail(429, "RATE_LIMITED");
   if (dbConfigured()) {
     const checked = await checkPassword(email, password);
     if (!checked.ok) return checked.reason === "PAUSED" ? fail(403, "PAUSED") : fail(401, "INVALID_CREDENTIALS");

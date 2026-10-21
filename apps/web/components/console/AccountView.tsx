@@ -16,6 +16,8 @@ import { z } from "zod";
 import { errorKey } from "@/lib/client";
 import { useSay } from "@/lib/i18n-client";
 
+import { PasswordSection } from "./PasswordSection";
+
 export interface AccountDto {
   email: string;
   organisation: string;
@@ -31,7 +33,7 @@ const profileForm = createKrizakaForm({
 });
 
 /** Account on @krizaka/ui's SettingsLayout: each section a titled card with its own save. The parts that wait for the product (consent, export) say so. */
-export function AccountView({ account }: { account: AccountDto }) {
+export function AccountView({ account, passwordEnabled = false }: { account: AccountDto; passwordEnabled?: boolean }) {
   const { say, locale } = useSay();
   const router = useRouter();
   const i18n = { t: (key: string, vars?: unknown) => say(key, vars as Record<string, string | number> | undefined), locale };
@@ -66,7 +68,7 @@ export function AccountView({ account }: { account: AccountDto }) {
   const choose = (key: "subtitles" | "calmMotion", on: boolean) =>
     patch.mutate({ [key]: on }, { onSuccess: () => tell("display", "success", say("account.display.saved")), onError: (e) => fail("display", e) });
   const note = (section: string) => (notice?.section === section ? <Alert tone={notice.tone}>{notice.text}</Alert> : null);
-  const nav = (["profile", "display", "consent", "notebook", "delete"] as const).map((id) => ({ id, label: say(`account.nav.${id}`), href: `#${id}` }));
+  const nav = (passwordEnabled ? (["profile", "password", "display", "consent", "notebook", "delete"] as const) : (["profile", "display", "consent", "notebook", "delete"] as const)).map((id) => ({ id, label: say(`account.nav.${id}`), href: `#${id}` }));
 
   return (
     <SettingsLayout className="w-full" title={say("account.title")} description={say("account.description")} nav={nav} navLabel={say("account.navLabel")} linkAs={Link}>
@@ -96,6 +98,8 @@ export function AccountView({ account }: { account: AccountDto }) {
           </div>
         </profile.Form>
       </SettingsSection>
+
+      {passwordEnabled ? <PasswordSection /> : null}
 
       <SettingsSection id="display" title={say("account.display.title")} description={say("account.display.description")}>
         {(

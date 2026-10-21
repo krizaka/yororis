@@ -51,10 +51,11 @@
       "email": "Courriel",
       "password": "Mot de passe",
       "submit": "Se connecter",
-      "noticeTitle": "En développement, pour les comptes de QA seulement",
-      "notice": "Cet espace est ouvert aux comptes de QA de l’équipe et à une distribution fictive. Personne en dehors de l’équipe ne peut l’utiliser, et rien n’est offert.",
+      "noticeTitle": "En développement, pour les testeurs invités seulement",
+      "notice": "Cet espace est ouvert aux personnes invitées par l’équipe. Rien n’est offert à d’autres, et il n’y a pas de moyen de demander un compte ici.",
       "contact": "Discuter de Yororis",
-      "asideFooter": "© Krizaka · Montréal"
+      "asideFooter": "© Krizaka · Montréal",
+      "forgot": "Mot de passe oublié ?"
     },
     "errors": {
       "INVALID_CREDENTIALS": "Courriel ou mot de passe incorrect.",
@@ -82,7 +83,12 @@
       "STOPS_DAY": "C'est tout pour aujourd'hui.",
       "STOPS_WEEK": "C'est tout pour cette semaine.",
       "AUDIO_TOO_LONG": "Cet enregistrement est trop long. Maintiens le bouton 30 secondes au plus.",
-      "AUDIO_TYPE": "Ce navigateur a enregistré le son dans un format inutilisable. Écris plutôt."
+      "AUDIO_TYPE": "Ce navigateur a enregistré le son dans un format inutilisable. Écris plutôt.",
+      "WRONG_PASSWORD": "Le mot de passe actuel n’est pas le bon.",
+      "PASSWORD_TOO_SHORT": "Utilise au moins 12 caractères.",
+      "PASSWORD_TOO_LONG": "Ce mot de passe est trop long.",
+      "INVALID_TOKEN": "Ce lien n’est plus valide.",
+      "NOT_AVAILABLE": "Ce n’est pas disponible ici."
     },
     "dashboard": {
       "greeting": "Bonjour, {name}",
@@ -129,7 +135,8 @@
         "display": "Affichage",
         "consent": "Consentement",
         "notebook": "À apporter",
-        "delete": "Supprimer"
+        "delete": "Supprimer",
+        "password": "Mot de passe"
       },
       "profile": {
         "title": "Profil",
@@ -176,6 +183,14 @@
         "remains": "Ce qui reste : rien qui t’identifie.",
         "action": "Supprimer mon compte",
         "confirm": "Sûr·e ? Supprimer pour de bon"
+      },
+      "password": {
+        "title": "Mot de passe",
+        "description": "Change-le ici. Tes autres connexions prennent fin.",
+        "current": "Mot de passe actuel",
+        "next": "Nouveau mot de passe (12 caractères ou plus)",
+        "submit": "Changer le mot de passe",
+        "saved": "Mot de passe changé."
       }
     },
     "admin": {
@@ -359,6 +374,30 @@
       "title": "Cette page n’est pas ici",
       "text": "Cette adresse ne fait pas partie de l’espace membre, ou elle ne t’est pas ouverte.",
       "home": "Retour à l’accueil"
+    },
+    "forgot": {
+      "title": "Mot de passe oublié ?",
+      "description": "Écris ton courriel. S’il a un compte, on t’envoie un lien pour choisir un nouveau mot de passe.",
+      "email": "Courriel",
+      "submit": "Envoyer le lien",
+      "sent": "Si cette adresse a un compte, un lien est en route. Il fonctionne une fois, pendant 30 minutes.",
+      "back": "Retour à la connexion"
+    },
+    "reset": {
+      "title": "Choisis un nouveau mot de passe",
+      "description": "12 caractères au moins. Ce lien fonctionne une seule fois.",
+      "password": "Nouveau mot de passe",
+      "confirm": "Écris-le encore",
+      "submit": "Enregistrer le nouveau mot de passe",
+      "mismatch": "Les deux mots de passe ne sont pas identiques.",
+      "done": "Ton mot de passe est changé. Tu peux te connecter.",
+      "invalid": "Ce lien n’est plus valide. Demande-en un nouveau.",
+      "toSignIn": "Se connecter",
+      "askAgain": "Demander un nouveau lien"
     }
+  },
+  "mail": {
+    "resetSubject": "Choisis un nouveau mot de passe Yororis",
+    "resetBody": "Bonjour,\n\nQuelqu’un a demandé de choisir un nouveau mot de passe pour ton compte Yororis. Ouvre ce lien dans les 30 minutes (il fonctionne une fois) :\n\n{url}\n\nSi ce n’était pas toi, ignore ce courriel : rien ne change.\n\nYororis"
   }
 }
