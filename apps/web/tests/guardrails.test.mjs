@@ -89,3 +89,13 @@ test("the counter holds numbers and dates, never text", () => {
   assert.deepEqual(Object.keys(moments.takenBy(ID(3))[0]), ["startedAt"]);
   assert.ok(!JSON.stringify(globalThis.__yororisMoments?.taken ? [...globalThis.__yororisMoments.taken] : []).includes("something private"));
 });
+
+test("a moment past its end is over: it no longer blocks the next one", async () => {
+  const first = await begin(as(4));
+  assert.equal(first.res.status, 201);
+  const m = moments.findMoment(first.json.moment.id, ID(4));
+  m.endsAt = Date.now() - 1000; // its time ran out and nobody ended it
+  assert.equal(moments.liveOf(ID(4)), undefined, "an expired moment is not live");
+  moments.resetMoments();
+  assert.equal((await begin(as(5))).res.status, 201);
+});
