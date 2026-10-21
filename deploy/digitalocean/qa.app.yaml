@@ -16,7 +16,7 @@ domains:
   - domain: qa.yororis.com
     type: ALIAS
 # The apex, qa and dev lead to www (308), the path kept. dev serves only its API, its /.well-known and its robots.txt (noindex); the rule
-# order matters: first match wins (the family's www rule, krizaka/.github#119).
+# order matters: first match wins (`preserve_path_prefix`: the platform strips the matched prefix otherwise) (the family's www rule, krizaka/.github#119).
 ingress:
   rules:
     - match: { authority: { exact: yororis.com } }
@@ -24,11 +24,11 @@ ingress:
     - match: { authority: { exact: qa.yororis.com } }
       redirect: { authority: www.yororis.com, redirect_code: 308 }
     - match: { authority: { exact: dev.yororis.com }, path: { prefix: /api } }
-      component: { name: web }
+      component: { name: web, preserve_path_prefix: true }
     - match: { authority: { exact: dev.yororis.com }, path: { prefix: /.well-known } }
-      component: { name: web }
+      component: { name: web, preserve_path_prefix: true }
     - match: { authority: { exact: dev.yororis.com }, path: { prefix: /robots.txt } }
-      component: { name: web }
+      component: { name: web, preserve_path_prefix: true }
     - match: { authority: { exact: dev.yororis.com } }
       redirect: { authority: www.yororis.com, redirect_code: 308 }
     - match: { path: { prefix: / } }
