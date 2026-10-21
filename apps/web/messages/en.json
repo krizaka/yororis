@@ -327,7 +327,8 @@
       "speaks": "Speaks English and French",
       "goneTitle": "Gone when it ends",
       "goneText": "What you say stays here only while we talk. When it ends, it is gone.",
-      "closingWait": "One moment."
+      "closingWait": "One moment.",
+      "neighbourGoes": "The neighbour has to go. Thanks for the chat, see you next time."
     },
     "notFound": {
       "code": "404",

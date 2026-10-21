@@ -40,6 +40,14 @@ export const MIGRATIONS: { version: number; sql: string }[] = [
     version: 2,
     sql: `ALTER TABLE accounts ADD COLUMN consented_at timestamptz, ADD COLUMN terms_version text;`,
   },
+  {
+    version: 3,
+    sql: `CREATE TABLE moment_starts (
+      account_id uuid NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
+      started_at timestamptz NOT NULL
+    );
+    CREATE INDEX moment_starts_account ON moment_starts(account_id, started_at);`,
+  },
 ];
 
 const LOCK = 7_411_001;

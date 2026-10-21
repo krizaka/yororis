@@ -23,8 +23,6 @@ export interface Moment {
   statId: string;
 }
 
-export const MAX_TURNS = 60;
-
 /** An abandoned moment (nobody ended it) is forgotten this long after it should have ended. */
 const ABANDONED_MS = 15 * 60_000;
 
@@ -48,6 +46,10 @@ export function sweep(now = Date.now()): number {
 export const resetMoments = () => {
   holder.__yororisMoments = { live: new Map(), taken: new Map() };
 };
+/** The member's starts of the last seven days, loaded from the database (dates only) into the counter: it survives a restart. */
+export function hydrateTaken(memberId: string, starts: number[]): void {
+  state().taken.set(memberId, [...starts].sort((a, b) => a - b));
+}
 export const takenBy = (memberId: string) => (state().taken.get(memberId) ?? []).map((startedAt) => ({ startedAt }));
 export const liveOf = (memberId: string) => [...state().live.values()].find((m) => m.memberId === memberId && !m.ended);
 export const findMoment = (id: string, memberId: string) => {

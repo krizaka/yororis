@@ -37,9 +37,11 @@ const Schema = z.object({
   AI_WELLBEING_CONSENT: z.string().min(1).default("1.0"),
   APP_REGION: z.string().regex(/^[A-Z]{2}(-[A-Z]{2})?$/).default("CA-QC"),
   // The presence that stops (docs/FRAMEWORK.md): the longest moment and how many a day and a week. QA may widen them on dev.
-  APP_MOMENT_MINUTES: z.coerce.number().int().min(1).max(25).default(25),
-  APP_MOMENTS_PER_DAY: z.coerce.number().int().min(1).max(50).default(1),
-  APP_MOMENTS_PER_WEEK: z.coerce.number().int().min(1).max(350).default(3),
+  APP_MOMENT_MINUTES: z.coerce.number().int().min(1).max(25).default(8),
+  // A moment is a short pause (anti-dependence, cost control): so many turns, then the neighbour has to go.
+  APP_MOMENT_TURNS: z.coerce.number().int().min(2).max(20).default(8),
+  APP_MOMENTS_PER_DAY: z.coerce.number().int().min(1).max(50).default(2),
+  APP_MOMENTS_PER_WEEK: z.coerce.number().int().min(1).max(350).default(10),
 });
 
 export class ConfigurationError extends Error {}
@@ -65,6 +67,7 @@ export function readEnv(env: Env = process.env) {
     AI_WELLBEING_CONSENT: blank(env.AI_WELLBEING_CONSENT),
     APP_REGION: blank(env.APP_REGION),
     APP_MOMENT_MINUTES: blank(env.APP_MOMENT_MINUTES),
+    APP_MOMENT_TURNS: blank(env.APP_MOMENT_TURNS),
     APP_MOMENTS_PER_DAY: blank(env.APP_MOMENTS_PER_DAY),
     APP_MOMENTS_PER_WEEK: blank(env.APP_MOMENTS_PER_WEEK),
   });
