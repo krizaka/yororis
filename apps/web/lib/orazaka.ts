@@ -159,6 +159,11 @@ export function createOrazakaClient(options: { baseUrl: string; apiKey: string; 
     const list = (await mine.json().catch(() => [])) as unknown[];
     const found = Array.isArray(list) ? list.map((i) => ({ id: idOf(i), key: Installation.safeParse(i).data?.studioKey })).find((i) => i.key === WELLBEING_STUDIO && i.id) : undefined;
     if (found?.id) return (installationId = found.id);
+    return (installationId = await install());
+  }
+
+  /** Posts the installation with the consent version this app knows (the pack answers 451 when its own moved): idempotent on the edge. */
+  async function install(): Promise<string> {
     const made = await send(`/api/v1/studios/${WELLBEING_STUDIO}/installations?locale=en`, {
       method: "POST",
       headers: { "content-type": "application/json", accept: "application/json" },
@@ -167,7 +172,7 @@ export function createOrazakaClient(options: { baseUrl: string; apiKey: string; 
     if (!made.ok) throw refusalOf(made.status);
     const id = idOf(await made.json().catch(() => null));
     if (!id) throw new OrazakaError(UPSTREAM_FAILED, "AI_SHAPE");
-    return (installationId = id);
+    return id;
   }
 
   return {
@@ -190,7 +195,13 @@ export function createOrazakaClient(options: { baseUrl: string; apiKey: string; 
       form.set("installationId", await installation());
       if (input.voice) form.set("voice", input.voice);
       if (input.context) form.set("context", input.context);
-      const res = await send("/api/v1/voice/turns", { method: "POST", headers: { accept: "text/event-stream" }, body: form });
+      const post = () => send("/api/v1/voice/turns", { method: "POST", headers: { accept: "text/event-stream" }, body: form });
+      let res = await post();
+      if (res.status === 451) {
+        // The pack's consent version moved: post the installation's consent again at ours, then retry once (a second 451 is the refusal).
+        form.set("installationId", (installationId = await install()));
+        res = await post();
+      }
       if (!res.ok) throw refusalOf(res.status);
       return parseTurn(await res.text());
     },
