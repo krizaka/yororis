@@ -49,7 +49,7 @@ for (const l of ["en", "fr"]) {
 }
 
 test("the French page links to the French contact page of krizaka.com; the English page to the English one", () => {
-  const hrefs = (l) => page(PAGES[l]).querySelectorAll("a").map((a) => a.getAttribute("href") ?? "").filter((h) => h.includes("krizaka.com/") && h.includes("contact"));
+  const hrefs = (l) => page(PAGES[l]).querySelectorAll("a").map((a) => a.getAttribute("href") ?? "").filter((h) => /^https:\/\/www\.krizaka\.com\/(fr\/)?contact/.test(h));
   const fr = hrefs("fr");
   assert.ok(fr.length > 0);
   for (const h of fr) assert.ok(h.startsWith("https://www.krizaka.com/fr/contact"), h);
