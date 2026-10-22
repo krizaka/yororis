@@ -12,14 +12,17 @@ import { errorKey } from "@/lib/client";
 import { useSay } from "@/lib/i18n-client";
 
 /** The first sign-in's one question: 18 or older, and the terms. Both boxes before the button works. */
-export function ConsentForm() {
+const BANDS = ["18-24", "25-34", "35-49", "50-64", "65+"] as const;
+
+export function ConsentForm({ askBand = false }: { askBand?: boolean }) {
   const { say, locale } = useSay();
   const router = useRouter();
   const [adult, setAdult] = useState(false);
   const [terms, setTerms] = useState(false);
+  const [band, setBand] = useState<string | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
   const send = useMutation({
-    mutationFn: () => krizakaFetch("/api/me/consent", { method: "POST", json: { adult: true, terms: true } }),
+    mutationFn: () => krizakaFetch("/api/me/consent", { method: "POST", json: { adult: true, terms: true, ...(band ? { ageBand: band } : {}) } }),
     onSuccess: () => {
       router.replace(`/${locale}`);
       router.refresh();
@@ -36,12 +39,25 @@ export function ConsentForm() {
         <Checkbox checked={terms} onCheckedChange={(v) => setTerms(v === true)} />
         {say("welcome.terms")}
       </label>
+      {askBand ? (
+        <div role="group" aria-label={say("welcome.ageTitle")} className="flex flex-col gap-2">
+          <span className="text-sm font-medium text-fg">{say("welcome.ageTitle")}</span>
+          <div className="flex flex-wrap gap-2">
+            {BANDS.map((b) => (
+              <Button key={b} type="button" size="sm" variant={band === b ? "primary" : "secondary"} aria-pressed={band === b} onClick={() => setBand(b)}>
+                {say(`bands.${b}`)}
+              </Button>
+            ))}
+          </div>
+          <p className="text-sm text-fg-secondary">{say("welcome.ageHint")}</p>
+        </div>
+      ) : null}
       <Link className="text-sm font-semibold text-fg-accent" href={`/${locale}/terms`} target="_blank">
         {say("welcome.termsLink")}
       </Link>
       <p className="text-sm text-fg-secondary">{say("welcome.hint")}</p>
       {problem ? <Alert tone="danger">{problem}</Alert> : null}
-      <Button size="lg" className="w-full" disabled={!adult || !terms} loading={send.isPending} onClick={() => send.mutate()}>
+      <Button size="lg" className="w-full" disabled={!adult || !terms || (askBand && !band)} loading={send.isPending} onClick={() => send.mutate()}>
         {say("welcome.submit")}
       </Button>
     </div>

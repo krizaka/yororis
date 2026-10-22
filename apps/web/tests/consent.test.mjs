@@ -49,10 +49,10 @@ test("before consent the moment is closed; consent needs BOTH boxes; then it is 
   const refused = await start.POST(req("/api/moment/start", "POST", { presence: "x", language: "en" }, cookie));
   assert.equal(refused.status, 403);
   assert.equal((await refused.json()).code, "CONSENT_REQUIRED");
-  for (const body of [{}, { adult: true }, { terms: true }, { adult: false, terms: true }, { adult: true, terms: "yes" }]) {
+  for (const body of [{}, { adult: true }, { terms: true }, { adult: false, terms: true }, { adult: true, terms: "yes" }, { adult: true, terms: true }]) {
     assert.equal((await consent.POST(req("/api/me/consent", "POST", body, cookie))).status, 400, JSON.stringify(body));
   }
-  assert.equal((await consent.POST(req("/api/me/consent", "POST", { adult: true, terms: true }, cookie))).status, 200);
+  assert.equal((await consent.POST(req("/api/me/consent", "POST", { adult: true, terms: true, ageBand: "25-34" }, cookie))).status, 200);
   const [row] = await db.query("SELECT consented_at, terms_version FROM accounts WHERE email = 'noor@example.test'");
   assert.ok(row.consented_at);
   assert.equal(row.terms_version, terms.TERMS_VERSION);
@@ -65,7 +65,7 @@ test("the account holds only what is listed; no conversation, mood or summary co
   const cols = (await db.query("SELECT table_name, column_name FROM information_schema.columns WHERE table_schema = 't_consent' ORDER BY 1, 2")).map((r) => `${r.table_name}.${r.column_name}`);
   assert.deepEqual(
     cols.filter((c) => c.startsWith("accounts.")),
-    ["accounts.avatar", "accounts.calm_motion", "accounts.consented_at", "accounts.created_at", "accounts.email", "accounts.id", "accounts.last_seen_at", "accounts.locale", "accounts.name", "accounts.password_hash", "accounts.role", "accounts.status", "accounts.subtitles", "accounts.terms_version"],
+    ["accounts.age_band", "accounts.avatar", "accounts.calm_motion", "accounts.consented_at", "accounts.created_at", "accounts.email", "accounts.id", "accounts.last_moved_at", "accounts.last_seen_at", "accounts.locale", "accounts.move_due_at", "accounts.moved_from", "accounts.name", "accounts.neighbour_id", "accounts.neighbour_since", "accounts.password_hash", "accounts.role", "accounts.status", "accounts.subtitles", "accounts.terms_version"],
   );
   assert.ok(!cols.some((c) => /mood|summary|transcript|message|utterance|keep/i.test(c)));
 });

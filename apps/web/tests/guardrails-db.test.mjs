@@ -36,6 +36,7 @@ after(async () => {
 test("two moments today, then a restart: the third is still refused; the table holds dates only", { skip }, async () => {
   const m = await accounts.provisionAccount({ email: "mira@example.test", name: "Mira", password: "a-long-test-passphrase-1" });
   await db.query("UPDATE accounts SET consented_at = now(), terms_version = '2026-10-21' WHERE id = $1", [m.id]);
+  await (await import("../lib/neighbours.ts")).assign(m.id, "25-34", Date.now(), Math.random);
   const login = await signIn.POST(req("/api/auth/password", "POST", { email: "mira@example.test", password: "a-long-test-passphrase-1" }));
   const cookie = `yororis_auth=${/yororis_auth=([^;]*)/.exec(login.headers.get("set-cookie"))?.[1]}`;
   const begin = () => start.POST(req("/api/moment/start", "POST", { presence: "lea", language: "fr", agreed: true }, cookie));

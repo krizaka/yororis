@@ -32,7 +32,7 @@ after(async () => {
 });
 
 test("migrations apply once, in order, and are idempotent", { skip }, async () => {
-  assert.deepEqual(await migrations.migrate(), [1, 2, 3]);
+  assert.deepEqual(await migrations.migrate(), [1, 2, 3, 4]);
   assert.deepEqual(await migrations.migrate(), []);
 });
 

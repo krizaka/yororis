@@ -21,6 +21,8 @@ export interface Moment {
   ended: boolean;
   /** The line of this moment in the organisation's counts (lib/moment-stats.ts): no words, no name. */
   statId: string;
+  /** What the persona is told about this chat's neighbour (name, humour, anecdotes, pace): words, never a memory of anyone. */
+  profile?: string;
 }
 
 /** An abandoned moment (nobody ended it) is forgotten this long after it should have ended. */

@@ -1,7 +1,8 @@
 import { pool } from "./db";
+import { NEIGHBOURS } from "./neighbours-seed";
 
 /** Versioned, forward-only migrations, applied at start under an advisory lock (two instances never race). */
-export const MIGRATIONS: { version: number; sql: string }[] = [
+export const MIGRATIONS: { version: number; sql: string; after?: (run: (text: string, values?: unknown[]) => Promise<unknown>) => Promise<void> }[] = [
   {
     version: 1,
     sql: `
@@ -48,6 +49,35 @@ export const MIGRATIONS: { version: number; sql: string }[] = [
     );
     CREATE INDEX moment_starts_account ON moment_starts(account_id, started_at);`,
   },
+  {
+    // The neighbours (#112 to #115): a cast as data, and per account only the self-declared age band, the assigned neighbour and when.
+    version: 4,
+    sql: `CREATE TABLE neighbours (
+      id text PRIMARY KEY,
+      name text NOT NULL UNIQUE,
+      band text NOT NULL CHECK (band IN ('18-24','25-34','35-49','50-64','65+')),
+      presence text NOT NULL,
+      humour_fr text NOT NULL, humour_en text NOT NULL,
+      anecdotes_fr text NOT NULL, anecdotes_en text NOT NULL,
+      pace_fr text NOT NULL, pace_en text NOT NULL,
+      line_fr text NOT NULL, line_en text NOT NULL
+    );
+    ALTER TABLE accounts
+      ADD COLUMN age_band text CHECK (age_band IN ('18-24','25-34','35-49','50-64','65+')),
+      ADD COLUMN neighbour_id text REFERENCES neighbours(id),
+      ADD COLUMN neighbour_since timestamptz,
+      ADD COLUMN move_due_at timestamptz,
+      ADD COLUMN last_moved_at timestamptz,
+      ADD COLUMN moved_from text REFERENCES neighbours(id);`,
+    after: async (run) => {
+      for (const n of NEIGHBOURS) {
+        await run(
+          "INSERT INTO neighbours (id, name, band, presence, humour_fr, humour_en, anecdotes_fr, anecdotes_en, pace_fr, pace_en, line_fr, line_en) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)",
+          [n.id, n.name, n.band, n.presence, n.humour.fr, n.humour.en, n.anecdotes.fr, n.anecdotes.en, n.pace.fr, n.pace.en, n.line.fr, n.line.en],
+        );
+      }
+    },
+  },
 ];
 
 const LOCK = 7_411_001;
@@ -64,6 +94,7 @@ export async function migrate(): Promise<number[]> {
       await client.query("BEGIN");
       try {
         await client.query(m.sql);
+        await m.after?.((text, values) => client.query(text, values));
         await client.query("INSERT INTO schema_migrations (version) VALUES ($1)", [m.version]);
         await client.query("COMMIT");
         applied.push(m.version);

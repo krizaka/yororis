@@ -31,6 +31,8 @@ export interface MomentProps {
   calmMotion: boolean;
   /** Voice turns are on only when a transcript can be screened before the model (APP_VOICE_TURNS). */
   voice: boolean;
+  /** The neighbour assigned to the member (never chosen): the chat is with them. Null on local runs, where a presence is picked. */
+  neighbour?: { name: string; presence: string; line: string } | null;
 }
 
 interface Line {
@@ -91,9 +93,12 @@ const STYLE = { lea: "moment.styleLea", samuel: "moment.styleSamuel", noor: "mom
 const fmt = (iso: string, locale: string) => new Intl.DateTimeFormat(locale, { weekday: "long", hour: "numeric", minute: "2-digit" }).format(new Date(iso));
 
 /** The Moment: choose a presence, agree to what is kept, talk in text with captions on both sides, until the moment stops. */
-export function MomentView({ available, minutes, stops, calmMotion, voice }: MomentProps) {
+export function MomentView({ available, minutes, stops, calmMotion, voice, neighbour }: MomentProps) {
   const { say, locale } = useSay();
-  const [chosen, setChosen] = useState<Presence | null>(null);
+  const [chosen, setChosen] = useState<Presence | null>(() => {
+    const base = neighbour ? PRESENCES.find((p) => p.id === neighbour.presence) : undefined;
+    return neighbour && base ? { ...base, name: neighbour.name } : null;
+  });
   const [agreed, setAgreed] = useState(false);
   const [moment, setMoment] = useState<Started | null>(null);
   const [lines, setLines] = useState<Line[]>([]);
@@ -236,23 +241,30 @@ export function MomentView({ available, minutes, stops, calmMotion, voice }: Mom
           <Alert tone="info">{say(stops.reason === "DAY" ? "moment.stopsDay" : "moment.stopsWeek", { time: fmt(stops.nextAt, locale) })}</Alert>
         ) : (
           <>
+            {neighbour ? (
+              <section className="flex flex-col gap-1 rounded-lg border border-border-default bg-surface-1 p-3" data-testid="your-neighbour">
+                <h3 className="font-semibold text-fg">{say("moment.yourNeighbour", { name: neighbour.name })}</h3>
+                <p className="text-sm text-fg-secondary">{neighbour.line}</p>
+              </section>
+            ) : (
             <ChoiceGrid
-              label={say("moment.chooseTitle")}
-              prompt={say("moment.chooseTitle")}
-              caption={say("moment.chooseCaption")}
-              columns={3}
-              animated={false}
-              value={chosen?.id}
-              onValueChange={(id) => setChosen(PRESENCES.find((p) => p.id === id) ?? null)}
-              items={PRESENCES.map((p) => ({
-                id: p.id,
-                name: p.name,
-                title: say(STYLE[p.id]),
-                badge: say("moment.aiMark"),
-                visual: <Avatar size="xl" src={p.face} fallback={p.name.slice(0, 1)} alt="" />,
-                meta: say("moment.speaks"),
-              }))}
-            />
+                label={say("moment.chooseTitle")}
+                prompt={say("moment.chooseTitle")}
+                caption={say("moment.chooseCaption")}
+                columns={3}
+                animated={false}
+                value={chosen?.id}
+                onValueChange={(id) => setChosen(PRESENCES.find((p) => p.id === id) ?? null)}
+                items={PRESENCES.map((p) => ({
+                  id: p.id,
+                  name: p.name,
+                  title: say(STYLE[p.id]),
+                  badge: say("moment.aiMark"),
+                  visual: <Avatar size="xl" src={p.face} fallback={p.name.slice(0, 1)} alt="" />,
+                  meta: say("moment.speaks"),
+                }))}
+              />
+            )}
             <section className="flex flex-col gap-2 rounded-lg border border-border-default bg-surface-1 p-3">
               <h3 className="font-semibold text-fg">{say("moment.goneTitle")}</h3>
               <p className="text-sm text-fg-secondary">{say("moment.goneText")}</p>

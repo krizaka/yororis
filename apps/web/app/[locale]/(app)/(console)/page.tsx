@@ -4,8 +4,11 @@ import { DashboardLayout, Widget } from "@krizaka/ui/dashboard-layout";
 import { EmptyState } from "@krizaka/ui/empty-state";
 
 import { ButtonLink } from "@/components/console/ButtonLink";
+import { NeighbourCard } from "@/components/console/NeighbourCard";
 import { pageMember } from "@/lib/auth";
+import { dbConfigured } from "@/lib/db";
 import { asLocale, getDictionary } from "@/lib/i18n";
+import { current } from "@/lib/neighbours";
 
 const placeholders = ["moments"] as const;
 
@@ -19,6 +22,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const member = await pageMember();
   const d = getDictionary(locale).console.dashboard;
   const first = member?.name.split(" ")[0] ?? "";
+  const c = member && dbConfigured() ? await current(member.id, Date.now(), Math.random) : null;
   return (
     <DashboardLayout headingAs="h2" title={d.greeting.replace("{name}", first)} description={d.lead}>
       <Widget level={3} title={d.beginTitle} description={d.begin} span="full">
@@ -26,6 +30,11 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           {d.beginAction}
         </ButtonLink>
       </Widget>
+      {c ? (
+        <Widget level={3} title={d.neighbour.title} span={2}>
+          <NeighbourCard name={c.neighbour.name} line={c.neighbour.line[locale]} moved={c.moved ? { from: c.moved.from.name, to: c.moved.to.name } : null} />
+        </Widget>
+      ) : null}
       <Widget level={3} title={d.stopsTitle} description={d.stopsDescription} span={2}>
         <dl className="grid grid-cols-3 gap-3 text-sm">
           {(

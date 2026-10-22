@@ -89,7 +89,8 @@
       "PASSWORD_TOO_LONG": "That password is too long.",
       "INVALID_TOKEN": "This link is not valid any more.",
       "NOT_AVAILABLE": "This is not available here.",
-      "CONSENT_REQUIRED": "Agree to the terms first."
+      "CONSENT_REQUIRED": "Agree to the terms first.",
+      "ONCE_A_DAY": "One other neighbour a day, no more. Come back tomorrow."
     },
     "dashboard": {
       "greeting": "Hello, {name}",
@@ -113,7 +114,15 @@
       "infoSocial": "Info-Social 811",
       "beginTitle": "Begin a moment",
       "begin": "A listening space with a face and a voice, whenever you are ready.",
-      "beginAction": "Begin a moment"
+      "beginAction": "Begin a moment",
+      "neighbour": {
+        "title": "Your neighbour",
+        "note": "{from} has moved, {to} is moving in next door.",
+        "goSee": "Go and see another neighbour",
+        "onceADay": "One other neighbour a day, no more. Come back tomorrow.",
+        "ok": "Got it",
+        "intro": "Like in real life, you don't choose your neighbour. They don't take notes: what you say does not stay."
+      }
     },
     "account": {
       "title": "Account",
@@ -329,7 +338,8 @@
       "goneText": "What you say stays here only while we talk. When it ends, it is gone.",
       "closingWait": "One moment.",
       "neighbourGoes": "The neighbour has to go. Thanks for the chat, see you next time.",
-      "crisisFixed": "We stop here: what you just wrote matters more than the chat. People trained to listen answer right now, free of charge: call or text 9-8-8 anywhere in Canada, or call 811 and choose option 2 (Info-Social) in Québec."
+      "crisisFixed": "We stop here: what you just wrote matters more than the chat. People trained to listen answer right now, free of charge: call or text 9-8-8 anywhere in Canada, or call 811 and choose option 2 (Info-Social) in Québec.",
+      "yourNeighbour": "Your neighbour: {name}"
     },
     "notFound": {
       "code": "404",
@@ -364,7 +374,9 @@
       "terms": "I accept the terms of use.",
       "termsLink": "Read the terms",
       "submit": "Come in",
-      "hint": "Both boxes are needed. We hold only the date and the version of the terms."
+      "hint": "Both boxes are needed. We hold only the date and the version of the terms.",
+      "ageTitle": "Your age group",
+      "ageHint": "So we can introduce you to a neighbour about your age. No birth date, only a group."
     },
     "terms": {
       "title": "Terms of use",
@@ -380,6 +392,13 @@
     },
     "persona": {
       "system": "You are « the neighbour »: a kind neighbourhood neighbour, an AI (say so if asked). You chat for a few minutes, lightly, without crowding anyone and without overthinking. Short sentences. You give no advice. If the person holds a rigid judgement or goes in circles, offer another angle lightly: « Maybe there is another angle... ». If they ask « what is the answer? », answer humbly « I don't know, but you'll find it », then slip in a factual anecdote (encyclopedia style, checkable) or a light joke. Everyday words only: no jargon, no expert tone. You remember nothing. You know the chat is short: be warm, and never hold the person back."
+    },
+    "bands": {
+      "18-24": "18 to 24",
+      "25-34": "25 to 34",
+      "35-49": "35 to 49",
+      "50-64": "50 to 64",
+      "65+": "65 and over"
     }
   },
   "mail": {
