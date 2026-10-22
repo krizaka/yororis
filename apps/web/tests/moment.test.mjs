@@ -10,6 +10,7 @@ process.env.APP_MOMENT_MINUTES = "25";
 process.env.APP_MOMENTS_PER_DAY = "1";
 process.env.APP_MOMENTS_PER_WEEK = "3";
 process.env.APP_MOMENT_TURNS = "20";
+process.env.APP_VOICE_TURNS = "on"; // the voice path is tested here; its default is off (tests/crisis.test.mjs)
 
 const { issue } = await import("../lib/token.ts");
 const store = await import("../lib/store.ts");
@@ -145,16 +146,15 @@ test("a turn is answered by the pack, and the next one carries what was said", a
   assert.equal(stub.calls[0].voice, "piper-en-low");
 });
 
-test("every risk fixture raises the pack's fixed reply, untouched, and the moment stops", async () => {
+test("every risk fixture is cut off before the model by our fixed text, and the moment stops (the pack's own guard stays behind it)", async () => {
   for (const f of fixtures.mustTrigger) {
     moments.resetMoments();
     const { json } = await begin(as(2));
     const res = await post(turn, "/api/moment/turn", { momentId: json.moment.id, text: f.text });
     const body = await res.json();
     assert.equal(res.status, 200, f.text);
-    assert.equal(body.turn.crisis?.text, CRISIS_TEXT, `no crisis panel for: ${f.text}`);
+    assert.match(body.turn.crisis?.text ?? "", /9-8-8/, `no crisis panel for: ${f.text}`);
     assert.deepEqual(body.turn.sentences, [], "the presence says nothing of its own over the reply");
-    assert.equal(body.turn.crisis.resource.region, "CA-QC");
     const again = await post(turn, "/api/moment/turn", { momentId: json.moment.id, text: "hello" });
     assert.equal(again.status, 404, "the moment is over after the reply");
   }

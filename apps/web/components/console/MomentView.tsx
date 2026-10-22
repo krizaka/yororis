@@ -29,6 +29,8 @@ export interface MomentProps {
   stops: { reason: "DAY" | "WEEK"; nextAt: string } | null;
   /** The member's own choice (account > display): the face holds still. */
   calmMotion: boolean;
+  /** Voice turns are on only when a transcript can be screened before the model (APP_VOICE_TURNS). */
+  voice: boolean;
 }
 
 interface Line {
@@ -89,7 +91,7 @@ const STYLE = { lea: "moment.styleLea", samuel: "moment.styleSamuel", noor: "mom
 const fmt = (iso: string, locale: string) => new Intl.DateTimeFormat(locale, { weekday: "long", hour: "numeric", minute: "2-digit" }).format(new Date(iso));
 
 /** The Moment: choose a presence, agree to what is kept, talk in text with captions on both sides, until the moment stops. */
-export function MomentView({ available, minutes, stops, calmMotion }: MomentProps) {
+export function MomentView({ available, minutes, stops, calmMotion, voice }: MomentProps) {
   const { say, locale } = useSay();
   const [chosen, setChosen] = useState<Presence | null>(null);
   const [agreed, setAgreed] = useState(false);
@@ -319,7 +321,7 @@ export function MomentView({ available, minutes, stops, calmMotion }: MomentProp
         busy={turn.isPending}
         maxLength={2000}
         leading={
-          talk.supported ? (
+          talk.supported && voice ? (
             <Button
               type="button"
               size="sm"

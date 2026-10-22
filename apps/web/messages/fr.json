@@ -328,7 +328,8 @@
       "goneTitle": "Ça s’efface à la fin",
       "goneText": "Ce que tu dis reste ici seulement pendant qu’on parle. Quand c’est fini, c’est parti.",
       "closingWait": "Un instant.",
-      "neighbourGoes": "Le voisin doit y aller. Merci pour la jasette, à la prochaine."
+      "neighbourGoes": "Le voisin doit y aller. Merci pour la jasette, à la prochaine.",
+      "crisisFixed": "On arrête ici : ce que tu viens d’écrire compte plus que la jasette. Des personnes formées répondent tout de suite, gratuitement : appelle ou texte le 9-8-8 partout au Canada, ou appelle le 811 et choisis l’option 2 (Info-Social) au Québec."
     },
     "notFound": {
       "code": "404",

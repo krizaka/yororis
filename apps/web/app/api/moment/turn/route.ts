@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { detectCrisis } from "@/lib/crisis";
+import { readEnv } from "@/lib/env";
 import { done, fail, isUuid, requireMember } from "@/lib/http";
 import { limits, MAX_AUDIO_BYTES, remainingView } from "@/lib/moment-api";
 import { isNearlyOver, isOver } from "@/lib/moment-policy";
@@ -7,6 +9,12 @@ import { updateStat } from "@/lib/moment-stats";
 import { contextOf, findMoment, finish, remember } from "@/lib/moments";
 import { clipHref, orazaka, OrazakaError, type TurnInput, UPSTREAM_FAILED } from "@/lib/orazaka";
 import { presenceOf } from "@/lib/presences";
+
+import en from "../../../../messages/en.json";
+import fr from "../../../../messages/fr.json";
+
+/** The fixed text shown when the cut-off fires: written once in the messages, never generated, never rephrased. */
+const FIXED = { en: en.console.moment.crisisFixed, fr: fr.console.moment.crisisFixed };
 
 const Text = z.object({ momentId: z.string().refine(isUuid), text: z.string().trim().min(1).max(2000) }).strict();
 
@@ -17,6 +25,7 @@ type Said = { momentId: string; input: Pick<TurnInput, "text" | "audio">; typed:
 /** The turn's words: typed (JSON) or spoken (multipart, one `audio` part). */
 async function said(req: Request): Promise<Said> {
   if ((req.headers.get("content-type") ?? "").startsWith("multipart/form-data")) {
+    if (readEnv().APP_VOICE_TURNS !== "on") return { refusal: fail(415, "VOICE_OFF") };
     const form = await req.formData().catch(() => null);
     const momentId = form?.get("momentId");
     const audio = form?.get("audio");
@@ -47,6 +56,13 @@ export async function POST(req: Request) {
   const lim = limits();
   const now = Date.now();
   if (isOver(moment.startedAt, now, lim) || moment.turns >= lim.turns) return fail(409, "MOMENT_OVER");
+  // The cut-off: before the model, on what was typed. The moment stops at once; the text is fixed; nothing of the input is kept, logged or counted.
+  if (heard.typed !== null && detectCrisis(heard.typed)) {
+    updateStat(moment.statId, { outcome: "lines", lines: true, endedAt: Date.now() });
+    const language = moment.language;
+    finish(moment);
+    return done({ turn: { heard: null, sentences: [], crisis: { text: FIXED[language], resource: null }, declined: null, closing: false }, nearlyOver: false });
+  }
   const client = orazaka();
   if (!client) return fail(UPSTREAM_FAILED, "AI_UNAVAILABLE");
   if (moment.busy) return fail(429, "RATE_LIMITED");

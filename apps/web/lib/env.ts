@@ -39,6 +39,8 @@ const Schema = z.object({
   // The presence that stops (docs/FRAMEWORK.md): the longest moment and how many a day and a week. QA may widen them on dev.
   APP_MOMENT_MINUTES: z.coerce.number().int().min(1).max(25).default(8),
   // A moment is a short pause (anti-dependence, cost control): so many turns, then the neighbour has to go.
+  // Voice turns reach the model with a recording nobody can screen first: off until a transcript is read by the crisis cut-off before the model.
+  APP_VOICE_TURNS: z.enum(["on", "off"]).default("off"),
   APP_MOMENT_TURNS: z.coerce.number().int().min(2).max(20).default(8),
   APP_MOMENTS_PER_DAY: z.coerce.number().int().min(1).max(50).default(2),
   APP_MOMENTS_PER_WEEK: z.coerce.number().int().min(1).max(350).default(10),
@@ -68,6 +70,7 @@ export function readEnv(env: Env = process.env) {
     APP_REGION: blank(env.APP_REGION),
     APP_MOMENT_MINUTES: blank(env.APP_MOMENT_MINUTES),
     APP_MOMENT_TURNS: blank(env.APP_MOMENT_TURNS),
+    APP_VOICE_TURNS: blank(env.APP_VOICE_TURNS),
     APP_MOMENTS_PER_DAY: blank(env.APP_MOMENTS_PER_DAY),
     APP_MOMENTS_PER_WEEK: blank(env.APP_MOMENTS_PER_WEEK),
   });

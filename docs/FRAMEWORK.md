@@ -88,3 +88,11 @@ Questions only, by jurisdiction — answers are recorded privately with their da
 creation and last-seen dates, and the consent (`consented_at`, `terms_version`: 18 or older and the terms, asked on the first
 sign-in). `access_tokens`: the keyed hash of a sign-in cookie. `password_resets`: the hash of a one-use link (30 minutes).
 Nothing of what is said in a moment is stored. `DELETE /api/me` removes the account and, by cascade, its sign-ins and reset links, at once.
+
+## The crisis cut-off (krizaka/yororis#100)
+
+Deterministic, in `apps/web/lib/crisis.ts`, run on every typed sentence BEFORE the model (French and English, accents, case, spaced letters;
+figures of speech pass). A hit stops the moment at once and answers with a FIXED text (`console.moment.crisisFixed`, naming 9-8-8 and 811
+Info-Social): the model is not called, and nothing of the input is stored, logged or counted. The pack's own crisis guard stays behind it.
+Voice turns are OFF by default (`APP_VOICE_TURNS`): a recording reaches the model before anyone can read it, so it is refused until a transcript
+can be screened first. Tests: `apps/web/tests/crisis.test.mjs`.

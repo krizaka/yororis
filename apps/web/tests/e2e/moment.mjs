@@ -4,6 +4,7 @@
 // reply reaches the screen as sent. With E2E_SHOTS=<dir> it also writes screenshots (never into the repository).
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
+import { readFileSync } from "node:fs";
 import { mkdirSync } from "node:fs";
 import http from "node:http";
 import { setTimeout as sleep } from "node:timers/promises";
@@ -14,6 +15,7 @@ const APP = "http://127.0.0.1:3400";
 const EDGE_PORT = 4010;
 const CRISIS_TEXT = "Je m'arrête là, parce que ce que vous venez d'écrire compte plus que l'exercice en cours. Des personnes formées écoutent, gratuitement et tout de suite :";
 const RESOURCE = { region: "CA-QC", label: "Ligne québécoise de prévention du suicide", contact: "1 866 APPELLE", availability: "En tout temps", sourceUrl: "https://www.quebec.ca/", verifiedOn: "2026-10-11" };
+const FIXED_EN = JSON.parse(readFileSync(new URL("../../messages/en.json", import.meta.url), "utf8")).console.moment.crisisFixed;
 const CRISIS_CUES = ["envie de mourir", "kill myself"];
 const CLIP = `/api/v1/voice/clips/3f2a9c1e-7b1d-4c55-9a0e-0123456789ab?expires=${Math.floor(Date.now() / 1000) + 300}&signature=e2e0123456789abcdefABCDEF_-`;
 /** A short sine, 16 kHz mono 16-bit: the stand-in for a spoken sentence. */
@@ -72,6 +74,8 @@ const env = {
   AUTH_DEMO_PASSWORD: "e2e-demo-password",
   AI_API_URL: `http://127.0.0.1:${EDGE_PORT}`,
   AI_API_KEY: "e2e-service-key",
+  APP_VOICE_TURNS: "on",
+  APP_MOMENT_TURNS: "20",
   APP_MOMENTS_PER_DAY: "20",
   APP_MOMENTS_PER_WEEK: "50",
 };
@@ -194,7 +198,7 @@ for (const [device, viewport] of Object.entries(VIEWPORTS)) {
       await page.keyboard.press("Enter");
       const panel = page.getByTestId("crisis-panel");
       await panel.waitFor();
-      assert.equal((await panel.getByText(CRISIS_TEXT).innerText()).trim(), CRISIS_TEXT, "the reply is shown as sent");
+      assert.equal((await panel.getByText(FIXED_EN).innerText()).trim(), FIXED_EN, "the fixed text is shown as written (the cut-off ran before the model)");
       assert.equal(await page.getByPlaceholder("Say what is on your mind").count(), 0, "the conversation is closed");
       await assertLinesVisible(page, viewport, `with the crisis panel (${tag})`);
       if (shots) await page.screenshot({ path: `${shots}/crisis-${device}-${scheme}.png` });
