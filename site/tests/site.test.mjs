@@ -38,7 +38,7 @@ const shape = (v) => (typeof v === "string" ? "s" : Array.isArray(v) ? v.map(sha
 
 // The reviewed texts (krizaka-com `site.yororis.reviewed.*`, lexicon §2.1): they deny the vocabulary, so the lexicon check
 // does not read them. A change is a review.
-const REVIEWED_SHA = "ab5ef48655d616a7";
+const REVIEWED_SHA = "87fb593f75c47ed4";
 const reviewedOf = (l) => [messages[l].reviewed.construction, ...messages[l].reviewed.isNot, messages[l].reviewed.isNotRule];
 
 // company/prompts-yororis.md §2.1, column "jamais" (words that name care, a relationship, a promise of service).
@@ -48,7 +48,6 @@ const NEVER = [
   /coming soon/i, /bient[oô]t/i, /\bbeta\b|\bb[êe]ta\b/i, /wait ?list|waiting list|liste d.attente/i, /early access|acc[èe]s anticip/i,
   /sign[- ]?up|s'inscrire|inscription|inscri(?:s|vez)/i, /pr[ée]command|pre-?order|\blaunch|lancement/i, /\bhuman\b|humaine/i,
 ];
-const RULE_OF_THE_BUILD = /construction mode|mode construction/i; // names the rule that forbids sign-up; allowed with "no"/"aucune"
 
 for (const l of ["en", "fr"]) {
   test(`reviewed texts unchanged (${l})`, () => {
@@ -65,7 +64,6 @@ for (const l of ["en", "fr"]) {
     for (const re of NEVER) assert.ok(!re.test(text), `${re} found in the ${l} page text`);
     const own = { ...messages[l], reviewed: undefined, how: { ...messages[l].how, own: { ...messages[l].how.own, items: messages[l].how.own.items.filter((s) => !s.includes(allowed)) } } };
     for (const s of strings(JSON.parse(JSON.stringify(own)))) for (const re of NEVER) assert.ok(!re.test(s), `${re} in message "${s}" (${l})`);
-    assert.ok(RULE_OF_THE_BUILD.test(textOf(l)));
   });
 
   test(`reviewed texts are on the page, word for word (${l})`, () => {
@@ -76,9 +74,9 @@ for (const l of ["en", "fr"]) {
   test(`contract (${l}): one action everywhere, crisis line, footer, version, document`, () => {
     const d = dom(l);
     const hrefs = links(l);
-    const contact = hrefs.filter((x) => hostOf(x.href) === "www.krizaka.com" && new URL(x.href).pathname === "/contact");
+    const contact = hrefs.filter((x) => hostOf(x.href) === "www.krizaka.com" && new URL(x.href).pathname === (l === "fr" ? "/fr/contact" : "/contact"));
     assert.ok(contact.length >= 2, "the action is in the bar and at the end of the page");
-    for (const x of contact) assert.equal(x.href, CONTACT, "every contact link is the one action");
+    for (const x of contact) assert.equal(x.href, l === "fr" ? CONTACT.replace("/contact", "/fr/contact") : CONTACT, "every contact link is the one action, in the reader's language");
     assert.ok(textOf(l).includes(messages[l].bar.talk));
     for (const tel of ["tel:988", "tel:811"]) assert.ok(hrefs.some((x) => x.href === tel), `the crisis line ${tel} is one tap away`);
     assert.ok(/9-8-8/.test(textOf(l)) && /811/.test(textOf(l)));

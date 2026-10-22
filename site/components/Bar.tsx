@@ -13,7 +13,7 @@ import { languageNames } from "@krizaka/ui/language-switch";
 import { NavBar } from "@krizaka/ui/nav-bar";
 import { useTheme } from "@krizaka/ui/theme";
 import type { Locale, Messages } from "@/lib/messages";
-import { CONTACT, REPO, SECTIONS } from "@/lib/site";
+import { contactFor, REPO, SECTIONS } from "@/lib/site";
 
 const DARK_QUERY = "(prefers-color-scheme: dark)";
 function subscribe(onChange: () => void) {
@@ -66,7 +66,7 @@ export function Bar({ m, locale, home, otherHref, otherName }: { m: Messages["ba
             <NavBar.Language label={m.language} current={locale} languages={languages} />
           </span>
           <Button asChild variant="primary" size="sm" className="ml-1 hidden font-bold md:inline-flex">
-            <a href={CONTACT}>{m.talk}</a>
+            <a href={contactFor(locale)}>{m.talk}</a>
           </Button>
 
           <NavBar.Mobile openLabel={m.menu} closeLabel={m.close} className="gap-1 p-3">
@@ -82,7 +82,7 @@ export function Bar({ m, locale, home, otherHref, otherName }: { m: Messages["ba
               <NavBar.Language label={m.language} current={locale} languages={languages} />
             </NavBar.MobilePreferences>
             <Button asChild variant="primary" size="md" className="mt-2 font-bold">
-              <a href={CONTACT}>{m.talk}</a>
+              <a href={contactFor(locale)}>{m.talk}</a>
             </Button>
               </NavBar.Mobile>
         </NavBar.Actions>

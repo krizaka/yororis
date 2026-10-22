@@ -96,3 +96,14 @@ figures of speech pass). A hit stops the moment at once and answers with a FIXED
 Info-Social): the model is not called, and nothing of the input is stored, logged or counted. The pack's own crisis guard stays behind it.
 Voice turns are OFF by default (`APP_VOICE_TURNS`): a recording reaches the model before anyone can read it, so it is refused until a transcript
 can be screened first. Tests: `apps/web/tests/crisis.test.mjs`.
+
+## The neighbour (pivot of 2026-10-21, krizaka/yororis#96 to #102)
+
+Yororis is **not** a health tool, a listening service for professionals or an app that treats anything: it is a virtual neighbour (an AI, it
+says so) with whom a person chats for a few minutes to unwind. It does not overthink: faced with a rigid judgement or a loop it offers another
+angle lightly; asked « what is the answer? » it says « I don't know, but you'll find it », then a factual anecdote or a light joke. It never
+gives advice. Conversations are 100 % ephemeral, short (limits applied by the server) and the neighbour ends them warmly. Quebec compliance:
+Law 25 (minimum data, immediate deletion, a person in charge of personal information), Charter of the French language (French first),
+the company's public identification in the footer (name, NEQ, Montréal). The words of care, health, therapy and clinics are forbidden in every text
+(the lexicon tests in `apps/web/tests/lexicon.test.mjs` and `site/tests/site.test.mjs`). The reviewed texts of the site were re-accepted on
+2026-10-21 (`REVIEWED_SHA` of `site/tests/site.test.mjs`).

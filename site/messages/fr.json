@@ -3,8 +3,8 @@
   "otherName": "English",
   "otherHref": "/",
   "meta": {
-    "title": "Yororis: un espace d'écoute avec un visage et une voix",
-    "description": "Yororis est un espace d'écoute avec un visage et une voix. En construction : construit en public, son cadre étudié avant toute mise à disposition. Rien n'est en ligne, et il n'y a pas de date.",
+    "title": "Yororis : un voisin à qui parler quelques minutes",
+    "description": "Yororis est un voisin virtuel (une IA, il le dit) avec qui on jase quelques minutes pour décompresser, puis qui doit y aller. Rien n'est gardé. En test, sur invitation seulement.",
     "ogAlt": "La marque Yororis"
   },
   "bar": {
@@ -24,21 +24,21 @@
     "preferences": "Préférences"
   },
   "hero": {
-    "eyebrow": "En construction",
-    "title": "Un espace d'écoute avec un visage et une voix.",
-    "lead": "Certains soirs, on a besoin de mettre des mots sur ce qu'on porte. Yororis vous donne une présence, une IA qui le dit, qui écoute, pose une question, et s'arrête.",
+    "eyebrow": "En test, sur invitation",
+    "title": "Un voisin à qui parler quelques minutes.",
+    "lead": "Un voisin virtuel (une IA, il le dit) à qui jaser quelques minutes pour décompresser. Il ne se prend pas la tête, puis il doit y aller.",
     "factsLabel": "Où en est Yororis",
     "facts": {
-      "status": "En construction",
+      "status": "En test, sur invitation",
       "open": "Open source · Apache-2.0",
-      "date": "Pas de date"
+      "date": "Sans date"
     },
-    "explore": "Comment se passe un moment",
-    "talk": "Discuter de Yororis",
+    "explore": "Comment ça se passe",
+    "talk": "Écrivez-nous",
     "take": {
-      "label": "Un moment, enregistré en local",
-      "aria": "Enregistrement d'un moment : la présence se présente, la voix est activée, le temps qui reste est à l'écran et les lignes de crise restent affichées.",
-      "note": "Un moment de {seconds} secondes, enregistré sur la version locale avec une distribution fictive. En construction, non disponible.",
+      "label": "Une conversation, enregistrée sur la version de test",
+      "aria": "Un enregistrement d'une conversation: le voisin se présente, le temps restant est à l'écran et les lignes d'aide restent visibles.",
+      "note": "Une conversation de {seconds} secondes, enregistrée sur la version de test avec des personnages fictifs. L'interface a changé depuis.",
       "play": "Lire l'enregistrement",
       "pause": "Mettre l'enregistrement en pause"
     }
@@ -52,19 +52,19 @@
     "aria": "Lignes de crise"
   },
   "reviewed": {
-    "construction": "Nous construisons Yororis en public et nous étudions son cadre — juridique, éthique, clinique — avant toute mise à disposition. Rien n'est en ligne, rien n'est offert, et il n'y a pas de date.",
+    "construction": "Yororis est en test, sur invitation seulement. Rien n'est offert au public et il n'y a pas de date.",
     "isNot": [
-      "Pas un soin : Yororis ne prétend à aucun effet sur la santé et ne remplace personne qui vous accompagne.",
-      "Pas un service d'urgence : en cas de crise, des personnes formées à l'écoute répondent tout de suite.",
-      "Pas une personne : une présence IA qui le dit, chaque fois."
+      "Ni un service de santé, ni un conseiller: Yororis ne donne pas de conseil et ne remplace personne.",
+      "Pas un service d'urgence: en cas de crise, des personnes formées répondent tout de suite.",
+      "Pas une personne: une IA, qui le dit à chaque fois."
     ],
-    "isNotRule": "Pas un soin, pas un service d'urgence, pas une personne. En cas de crise au Canada, appelez ou textez le 9-8-8 — au Québec, le 811 (Info-Social)."
+    "isNotRule": "Ni service de santé, ni service d'urgence, ni une personne. En cas de crise au Canada, appelez ou textez le 9-8-8; au Québec, appelez le 811 (Info-Social)."
   },
   "what": {
-    "eyebrow": "Comment se passe un moment",
-    "title": "Une présence qui écoute, et qui s'arrête",
+    "eyebrow": "Comment ça se passe",
+    "title": "Une jasette, puis la vie reprend",
     "status": "En construction",
-    "statusNote": "Aucune de ces quatre étapes n'est encore disponible. Voici ce que nous construisons, dans l'ordre.",
+    "statusNote": "Rien de tout cela n'est ouvert au public. C'est ce que nous testons, avec des personnes invitées.",
     "labels": {
       "done": "Terminé",
       "current": "En cours",
@@ -73,48 +73,48 @@
     },
     "steps": [
       {
-        "title": "Vous arrivez",
-        "text": "Votre organisation vous invite. Vous lisez un court énoncé, confirmez votre âge et choisissez votre langue."
+        "title": "Vous êtes invité",
+        "text": "Vous recevez un accès. À la première connexion, vous confirmez avoir 18 ans ou plus et vous acceptez les conditions."
       },
       {
-        "title": "La présence se présente",
-        "text": "Elle dit qu'elle est une IA, avec une marque « IA » permanente sur son portrait. Vous donnez vous-même votre humeur, de 1 à 5."
+        "title": "Le voisin se présente",
+        "text": "Il dit qu'il est une IA. Vous choisissez la langue, le français ou l'anglais."
       },
       {
-        "title": "Vous parlez, elle écoute",
-        "text": "Elle écoute, reformule et pose une question à la fois. Le temps qui reste est toujours à l'écran."
+        "title": "Vous jasez",
+        "text": "Quelques échanges, à l'écrit. Le temps restant est toujours à l'écran."
       },
       {
-        "title": "Elle s'arrête, vous gardez un résumé",
-        "text": "À la fin du moment, la transcription disparaît. Il reste un court résumé, à vous de le lire, le modifier ou le supprimer."
+        "title": "Il doit y aller",
+        "text": "Il vous salue chaleureusement, tout s'efface, et vous retournez à votre vie."
       }
     ],
-    "lead": "Une personne ouvre un moment avec une présence : une IA qui a un prénom, un portrait animé portant une marque « IA » permanente, une voix et des sous-titres exacts. Elle est pensée d'abord pour les organisations, un programme de mieux-être, un ordre professionnel, un employeur, qui fixent les limites pour leurs membres."
+    "lead": "On a tous besoin d'un ami à qui dire « Tu sais quoi, l'éléphant, avec ses oreilles, il peut voler », et qui répond « C'est ouf, il est capable ! ». Une personne invitée ouvre une conversation avec ce voisin virtuel: une IA avec un prénom et une marque « IA » permanente. C'est court, léger, et ça s'arrête."
   },
   "how": {
-    "eyebrow": "En public",
-    "title": "Comment on le construit",
+    "eyebrow": "À ciel ouvert",
+    "title": "Comment nous le construisons",
     "lead": "Les dépôts sont publics, le cadre est écrit, et le code refuse d'aller plus vite que l'étude. Rien ici n'est une promesse de disponibilité.",
     "guards": {
       "title": "Les garde-fous",
-      "lead": "Yororis n'a aucun fournisseur d'IA à lui : tout appel d'IA passe par le pack bien-être de son moteur, Orazaka. Les gardes vivent dans le moteur, pas dans un prompt.",
+      "lead": "Yororis n'a pas de fournisseur d'IA propre: tout passe par son moteur, Orazaka. Les garde-fous sont écrits dans le code et testés.",
       "items": [
-        "Consentement à un énoncé versionné, bloquant : pas de consentement, pas de moment (`451`)",
-        "Une garde de crise qui passe en premier et ne se débranche pas : une réponse fixe, relue, et une ressource régionale sourcée, jamais générée",
-        "Une garde de périmètre : ce qui sort d'un espace d'écoute est refusé, mot pour mot",
-        "Une attestation d'âge, consignée ; non offert aux mineurs",
-        "Une rétention courte (30 jours, moins sur demande), le chiffrement et un audit en ajout seul",
-        "Installé seulement là où une ressource de crise vérifiée existe"
+        "Consentement à l'accès: 18 ans ou plus et conditions, à la première connexion",
+        "Un coupe-circuit de crise déterministe, avant le modèle: un texte fixe qui nomme le 9-8-8 et le 811 (Info-Social), sans rien enregistrer",
+        "Un voisin qui ne donne pas de conseil: ce qui sort de la jasette est décliné",
+        "Un accès sur invitation, fermé aux mineurs",
+        "Aucune conversation conservée: pas de transcription, pas de résumé",
+        "Des limites de durée, d'échanges et de conversations par jour, appliquées par le serveur"
       ]
     },
     "own": {
       "title": "Ce que Yororis ajoute",
       "items": [
         "Des limites appliquées par le serveur, pas par l'écran",
-        "La transcription détruite quand le résumé est fait",
-        "Une humeur que vous donnez vous-même, de 1 à 5, rien n'est déduit, aucun score",
-        "Export et suppression par la personne ; statistiques agrégées seulement",
-        "Le mode construction, vérifié par la CI : aucun déploiement, aucune inscription, aucune variable de production"
+        "Tout s'efface à la fin de la conversation",
+        "Aucune mesure d'humeur, rien d'inféré, aucun score",
+        "Suppression du compte par la personne, tout de suite",
+        "Un accès sur invitation, vérifié par l'intégration continue: aucune création de compte"
       ]
     },
     "open": {
@@ -130,8 +130,8 @@
           "line": "Ce que c'est, ce que ce n'est pas, les contrôles, les questions à l'étude (en anglais)"
         },
         "adr": {
-          "name": "ADR-055: le pack bien-être",
-          "line": "Pourquoi le nom est le premier contrôle, et comment fonctionnent les gardes (en anglais)"
+          "name": "ADR-055: le moteur d'IA",
+          "line": "Comment les garde-fous du moteur fonctionnent"
         },
         "sensitive": {
           "name": "ADR-051: contrôles sensibles",
@@ -141,37 +141,37 @@
     },
     "study": {
       "title": "Ce que nous étudions",
-      "lead": "Des questions, pas des conclusions, avec un avocat, avant que quoi que ce soit soit offert à qui que ce soit.",
+      "lead": "Des questions, pas des conclusions, avec un avocat, avant que quoi que ce soit soit offert au public.",
       "items": [
-        "Québec : le titre et l'acte réservés, et la Loi 25, étude d'impact sur la vie privée, consentement, conservation, hébergement",
-        "Canada : les règles de Santé Canada pour les logiciels, la loi fédérale sur la vie privée, et ce qui peut être dit aux organisations",
-        "France et Union européenne : le règlement sur l'IA (dire qu'on parle à une IA, la lecture des émotions), l'article 9 du RGPD",
-        "Belgique : les mêmes questions européennes, et les lignes d'écoute de crise des deux communautés linguistiques",
-        "Partout : les conditions d'un pilote avec des personnes extérieures, et l'assurance"
+        "Québec: la Loi 25 (renseignements personnels), la Charte de la langue française et les mentions légales de l'entreprise",
+        "Canada: les lois fédérales sur la protection des renseignements personnels et ce qui peut être dit aux organisations",
+        "France et Union européenne: la loi sur l'IA (dire qu'on parle à une IA) et le RGPD",
+        "Belgique: les mêmes questions européennes, et les lignes d'aide des deux communautés linguistiques",
+        "Partout: les conditions d'un test avec des personnes extérieures, et l'assurance"
       ]
     },
-    "rule": "La grue écoute avant de bouger. Nous étudions avant d'offrir.",
+    "rule": "Le voisin écoute avant de répondre. Nous étudions avant d'offrir.",
     "app": {
-      "title": "L’espace membre, en développement",
-      "lead": "Un premier regard sur l’espace que nous construisons pour les personnes d’une organisation : un accueil calme, un compte, et les membres. Il tourne sur nos propres ordinateurs avec un cast fictif. Il n’est pas disponible.",
-      "status": "En développement, non disponible",
+      "title": "L'espace membre, en test",
+      "lead": "Un premier regard sur l'espace que nous testons avec des personnes invitées: un accueil simple, un compte, et la conversation.",
+      "status": "En test, sur invitation",
       "phone": "Téléphone, clair",
-      "note": "Captures de la version locale. Rien ici ne peut être ouvert, rejoint ni téléchargé.",
+      "note": "Captures d'une version antérieure de la version de test. Rien ici ne peut être ouvert ou téléchargé.",
       "shots": {
         "home": {
           "label": "Accueil",
-          "alt": "L’accueil de l’espace membre : une présence qui s’arrête, vos moments, ce que je garde, le fil, mon carnet, chacun vide, et les lignes à appeler.",
-          "line": "Un accueil calme : la présence qui s’arrête, vos moments, ce que vous gardez."
+          "alt": "L'accueil de l'espace membre: la conversation, les limites du voisin et les lignes d'aide.",
+          "line": "Un accueil simple: la conversation et les lignes d'aide."
         },
         "account": {
           "label": "Compte",
-          "alt": "Le compte : profil, choix d’affichage, consentement, ce qu’on apporte, suppression.",
-          "line": "Le compte : profil, affichage, consentement, suppression."
+          "alt": "Le compte: profil, affichage, suppression.",
+          "line": "Le compte: profil, affichage, suppression."
         },
         "members": {
           "label": "Membres",
-          "alt": "Les membres de l’organisation : une liste où chercher et filtrer, avec le statut de chaque membre.",
-          "line": "Pour une personne qui organise : les membres, jamais ce qu’ils disent ou gardent."
+          "alt": "La liste des membres d'une organisation, avec leur statut.",
+          "line": "Pour un organisateur: les membres, jamais ce qu'ils disent."
         }
       },
       "player": {
@@ -182,7 +182,7 @@
         "title": "yororis · version locale"
       }
     },
-    "crane": "La grue écoute"
+    "crane": "Le voisin écoute"
   },
   "not": {
     "title": "Ce que Yororis n'est pas",
@@ -191,62 +191,69 @@
     "powered": "Propulsé par Orazaka.",
     "stops": {
       "eyebrow": "Signature",
-      "title": "Une présence qui s'arrête",
-      "lead": "Les limites ne sont pas une contrainte technique : ce sont le produit. Fixées par l'organisation qui offre Yororis, appliquées par le serveur, affichées à l'écran.",
+      "title": "Un voisin qui doit y aller",
+      "lead": "Les limites ne sont pas une contrainte technique: elles sont le produit. Appliquées par le serveur, affichées à l'écran.",
       "decisions": [
         {
-          "chose": "Jusqu'à 25 minutes, un moment par jour, trois par semaine, des valeurs par défaut qu'une organisation peut abaisser",
-          "refused": "Une présence disponible jour et nuit",
-          "because": "La disponibilité sans fin est ce qui rend ces apps difficiles à lâcher, et la soirée finit quand même. Un moment qui a une fin vous renvoie à votre vie et à vos proches.",
-          "cost": "Certains soirs, vous en voudrez plus et ne l'aurez pas. « C'est tout pour aujourd'hui. On se retrouve demain à partir de 9 h. »"
+          "chose": "Une courte pause: 8 minutes, 8 échanges, 2 conversations par jour",
+          "refused": "Un voisin disponible à toute heure",
+          "because": "Un voisin qui ne part jamais finit par prendre toute la place. La conversation se termine, et vous retournez à votre vie et à vos proches.",
+          "cost": "Certains soirs, vous en voudrez plus et vous n'en aurez pas. « Le voisin doit y aller. »"
         },
         {
-          "chose": "Une présence qui dit qu'elle est une IA, à chaque moment, avec une marque « IA » permanente sur un portrait clairement synthétique",
+          "chose": "Une IA qui le dit à chaque conversation, avec une marque « IA » permanente",
           "refused": "Un visage qui pourrait passer pour une personne",
-          "because": "La présence vient du rythme, de la voix et de l'attention, pas d'une illusion. Le règlement européen sur l'IA l'exige ; l'honnêteté l'exige partout.",
+          "because": "La présence vient du rythme et de l'attention, pas d'une illusion. La loi européenne sur l'IA l'exige; l'honnêteté l'exige partout.",
           "cost": "Moins d'illusion. C'est voulu."
         },
         {
-          "chose": "Une humeur que vous indiquez vous-même, de 1 à 5, avant et après",
-          "refused": "Lire vos sentiments dans votre voix ou vos mots",
-          "because": "Aucun modèle ne décide de ce que vous ressentez, et rien n'est calculé sur vous. C'est plus honnête, et Yororis ne lit pas les émotions.",
-          "cost": "Aucun graphique automatique de vos soirées, seulement ce que vous avez dit."
+          "chose": "Rien n'est gardé: ni transcription, ni résumé, ni mesure de votre humeur",
+          "refused": "Lire vos émotions dans votre voix ou vos mots",
+          "because": "Aucun modèle ne décide de ce que vous ressentez, et rien n'est calculé à votre sujet. C'est plus honnête, et c'est la meilleure protection de vos renseignements.",
+          "cost": "Pas d'historique de vos soirées, seulement ce que vous vous rappelez."
         },
         {
-          "chose": "Aucune incitation à revenir, aucun compteur de jours, aucun moment de plus à vendre",
+          "chose": "Aucune relance pour revenir, aucun compteur, aucune conversation de plus à vendre",
           "refused": "Les mécaniques d'engagement",
-          "because": "Un espace d'écoute qui veut vous voir revenir n'écoute pas.",
-          "cost": "Une croissance à gagner autrement : par les organisations, pas par l'attention."
+          "because": "Un voisin qui veut vous voir revenir n'est pas un voisin.",
+          "cost": "Une croissance à gagner autrement, sans capter l'attention."
         }
       ]
     },
     "privacy": {
-      "eyebrow": "Ce qui est gardé",
-      "title": "Ce qui est gardé, combien de temps, qui le lit",
-      "lead": "Des réponses courtes, tirées des garde-fous déjà écrits et relus.",
+      "eyebrow": "Vos renseignements",
+      "title": "Ce qui est conservé, combien de temps, qui le lit",
+      "lead": "Réponses courtes, selon la Loi 25 du Québec: le strict minimum.",
       "items": [
         {
-          "q": "Ce qui est gardé",
-          "a": "Un court résumé de chaque moment, à vous de le lire, le modifier ou le supprimer. La transcription est détruite quand le résumé est fait."
+          "q": "Ce qui est conservé",
+          "a": "Votre courriel, votre prénom, votre langue, votre image et la date de votre accord, seulement pour vous laisser entrer. Rien de ce que vous dites."
         },
         {
           "q": "Combien de temps",
-          "a": "La rétention est courte : 30 jours, moins sur demande. Tout est chiffré et chaque accès est consigné."
+          "a": "Tant que vous gardez votre compte. Vous pouvez le supprimer tout de suite, et tout ce qui vous concerne disparaît avec lui."
         },
         {
           "q": "Qui le lit",
-          "a": "Vous. L'organisation qui offre Yororis ne voit que des statistiques agrégées, jamais ce que quelqu'un dit ou garde."
+          "a": "Personne: ce que vous dites n'est ni enregistré ni transcrit, et l'équipe ne voit que des compteurs sans texte."
         }
       ]
     }
   },
   "cta": {
-    "title": "Discuter de Yororis",
-    "body": "Une organisation qui a un programme de mieux-être, une professionnelle qui veut lire le cadre, un développeur qui veut le construire avec nous : écrivez-nous. Tant que Yororis est en construction, c'est la seule porte ouverte."
+    "title": "Écrivez-nous",
+    "body": "Une organisation qui veut en discuter, une personne qui veut lire le cadre, un développeur qui veut le construire avec nous: écrivez-nous. Pendant les tests, c'est la seule porte ouverte."
   },
   "footer": {
     "nav": "Pied de page",
-    "devNotice": "Environnement de développement: accès sur invitation"
+    "devNotice": "Environnement de développement: accès sur invitation",
+    "legalTitle": "Mentions légales",
+    "company": "Technologies Krizaka Inc.",
+    "neq": "NEQ 1182652231",
+    "place": "Montréal, Québec",
+    "privacyOfficer": "Responsable de la protection des renseignements personnels",
+    "privacyContact": "contact@krizaka.com",
+    "noRetention": "Aucune conversation n'est conservée."
   },
   "notFound": {
     "title": "Page introuvable",
@@ -295,24 +302,24 @@
     "langTag": "fr-CA"
   },
   "features": {
-    "eyebrow": "Un visage et une voix",
-    "title": "Une présence qui écoute, et qui le dit",
+    "eyebrow": "Un voisin de quartier",
+    "title": "Quelqu'un qui est là, sans envahir",
     "items": [
       {
-        "title": "Un visage",
-        "text": "Une présence IA avec un prénom et un portrait animé, qui porte en permanence la marque « IA »."
+        "title": "Il dit ce qu'il est",
+        "text": "Une IA, avec un prénom et une marque « IA » permanente. Il ne se fait jamais passer pour une personne."
       },
       {
-        "title": "Une voix",
-        "text": "Une voix et des sous-titres exacts : on peut écouter, lire, ou les deux."
+        "title": "Léger, parfois drôle",
+        "text": "Une anecdote, une vanne légère, une autre piste quand ça tourne en rond. Jamais de conseil."
       },
       {
-        "title": "Une question à la fois",
-        "text": "Elle écoute, reformule et pose une question, puis elle s'arrête. Le temps qui reste est toujours à l'écran."
+        "title": "Quelques minutes",
+        "text": "Une courte pause: quelques échanges, le temps restant toujours à l'écran. Puis le voisin doit y aller."
       },
       {
-        "title": "Ce que je garde",
-        "text": "À la fin du moment, la transcription disparaît. Un court résumé reste, à vous de le lire, de le modifier ou de le supprimer."
+        "title": "Rien n'est gardé",
+        "text": "Ce que vous dites s'efface à la fin. Ni transcription, ni résumé, ni historique."
       }
     ]
   }

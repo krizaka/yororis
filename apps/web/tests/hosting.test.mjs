@@ -88,4 +88,10 @@ test("the proxy: the public pages pass, the dev host's robots.txt shuts the door
   const redirect = proxy(req("/account", { "accept-language": "fr-CA,fr;q=0.9" }));
   assert.equal(new URL(redirect.headers.get("location")).pathname, "/fr/account");
   assert.equal(proxy(req("/en/account")), undefined);
+  // French by default for a French browser; English when asked for, or without a language (crawlers).
+  const fr = proxy(req("/", { "accept-language": "fr-CA,fr;q=0.9,en;q=0.8" }));
+  assert.equal(new URL(fr.headers.get("location")).pathname, "/fr");
+  assert.equal(proxy(req("/", { "accept-language": "fr-CA,fr;q=0.9", cookie: "NEXT_LOCALE=en" })), undefined);
+  assert.equal(proxy(req("/", { "accept-language": "en-US,en;q=0.9" })), undefined);
+  assert.equal(proxy(req("/")), undefined);
 });

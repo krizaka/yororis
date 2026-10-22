@@ -1,5 +1,5 @@
 // The Yororis lexicon (company/prompts-yororis.md §2.1, column "jamais") on every word of the member space: the messages,
-// the names of files and routes, and the identifiers of the code. One exception is written out, because it denies: the presence's disclosure.
+// the names of files and routes, and the identifiers of the code. No exception: since the pivot to the neighbour (2026-10-21) the presence does not even deny the clinical words.
 import assert from "node:assert/strict";
 import { execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
@@ -13,12 +13,10 @@ const NEVER = [
   /\bsessions?\b/i, /\bquota|cr[ée]dit|limite atteinte|\bstreak|\brewards?\b|\bbadges?\b|\bunlock|d[ée]bloquer/i,
   /dossier|historique clinique|profil psychologique|\bsuivi\b|[ée]valuation|bilan/i, /\bb[ée]n[ée]ficiaire|\busager|\bpatient/i,
   /mood score|score [ée]motionnel|emotion detect|d[ée]tection d.[ée]motion|sentiment analysis|humeur d[ée]tect[ée]e|on a remarqu[ée] que/i,
-  /\b24\/7\b|tu me manques|\bi miss you\b|\bje t.aime\b/i, /suicid/i,
+  /health canada|sant[ée] canada|bien-?[êe]tre|wellbeing/i, /\b24\/7\b|tu me manques|\bi miss you\b|\bje t.aime\b/i, /suicid/i,
 ];
 
 
-// The presence's disclosure (§2.1 « Ce qu'elle dit toujours », ★): the word is allowed here because the sentence DENIES it.
-const DISCLOSURE = { en: "I'm not a therapist and not an emergency service.", fr: "Je ne suis ni thérapeute ni un service d'urgence." };
 
 const strings = (v) => (typeof v === "string" ? [v] : Array.isArray(v) ? v.flatMap(strings) : Object.values(v).flatMap(strings));
 const messages = { en: JSON.parse(readFileSync("messages/en.json", "utf8")), fr: JSON.parse(readFileSync("messages/fr.json", "utf8")) };
@@ -26,15 +24,11 @@ const messages = { en: JSON.parse(readFileSync("messages/en.json", "utf8")), fr:
 for (const l of ["en", "fr"]) {
   test(`lexicon: no "never" word in any message (${l})`, () => {
     for (const raw of strings(messages[l])) {
-      const s = raw.replace(DISCLOSURE[l], "");
+      const s = raw;
       for (const re of NEVER) assert.ok(!re.test(s), `${re} in message "${raw}" (${l})`);
     }
   });
 }
-
-test("lexicon: the disclosure is used exactly where it should be (the presence's opening, once per language)", () => {
-  for (const l of ["en", "fr"]) assert.equal(strings(messages[l]).filter((s) => s.includes(DISCLOSURE[l])).length, 1);
-});
 
 test("lexicon: no file name, route or identifier of the code speaks the language of care", () => {
   const files = execSync("git ls-files --cached --others --exclude-standard .", { encoding: "utf8" }).split("\n").filter(Boolean).filter((f) => !/\.(json|lock)$/.test(f) && !f.startsWith("tests/"));

@@ -282,7 +282,7 @@
       "begin": "Commencer un moment avec {name}",
       "aiMark": "IA",
       "aiNote": "{name} est une présence IA, pas une personne et pas un service d'urgence.",
-      "opening": "Je suis {name}, une présence IA. Je ne suis ni thérapeute ni un service d'urgence. Dis-moi ce que tu as en tête, je t'écoute.",
+      "opening": "Je suis {name}, un voisin IA. Je ne suis ni un service d'urgence ni une personne. Dis-moi ce que tu as en tête, on jase quelques minutes.",
       "limits": "Un moment dure jusqu'à {minutes} minutes. Il s'arrête à l'heure.",
       "agree": "Je comprends que c’est une IA, et que ce que je dis est oublié à la fin.",
       "agreeFirst": "Coche la case pour commencer.",
