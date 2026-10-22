@@ -53,21 +53,13 @@ export function Home({ locale }: { locale: Locale }) {
         visual={<MomentTake m={m.hero.take} />}
         actions={
           <div className="rd-stack yo-hero-stack">
-            <div aria-label={m.crisis.aria} role="group">
-              <Crisis m={m.crisis} />
-            </div>
             <div className="rd-links">
               <Button asChild variant="primary" size="lg">
                 <a href={contactFor(locale)}>
                   {m.hero.talk} <ForwardIcon size={16} strokeWidth={2.25} />
                 </a>
               </Button>
-              <Button asChild variant="secondary" size="lg">
-                <a href="#what">{m.hero.explore}</a>
-              </Button>
             </div>
-            <Facts aria-label={m.hero.factsLabel} items={[{ label: m.hero.facts.status, tone: "wip" }, { label: m.hero.facts.open }, { label: m.hero.facts.date }]} />
-            <p className="rd-prose yo-status">{m.reviewed.construction}</p>
           </div>
         }
         featuresHeading={{ eyebrow: m.features.eyebrow, title: m.features.title }}
@@ -84,6 +76,8 @@ export function Home({ locale }: { locale: Locale }) {
       >
       <Section id="what" eyebrow={m.what.eyebrow} title={m.what.title} lead={m.what.lead} headingSize="sm" spacing="sm">
         <div className="rd-stack">
+          <Facts aria-label={m.hero.factsLabel} items={[{ label: m.hero.facts.status, tone: "wip" }, { label: m.hero.facts.open }, { label: m.hero.facts.date }]} />
+          <p className="rd-prose yo-status">{m.reviewed.construction}</p>
           <p className="yo-shot-status" role="note" {...reveal()}>
             {m.what.status} · {m.what.statusNote}
           </p>
@@ -94,6 +88,9 @@ export function Home({ locale }: { locale: Locale }) {
               labels={m.what.labels}
               steps={m.what.steps.map((step) => ({ title: step.title, description: step.text, status: "upcoming" as const }))}
             />
+          </div>
+          <div {...reveal(2)}>
+            <Crisis m={m.crisis} />
           </div>
         </div>
       </Section>
@@ -110,7 +107,6 @@ export function Home({ locale }: { locale: Locale }) {
             </div>
             <div className="rd-stack" {...reveal(1)}>
               <p className="rd-prose yo-rule">{m.reviewed.isNotRule}</p>
-              <Crisis m={m.crisis} />
             </div>
           </div>
           <h3 className="rd-h3" {...reveal()}>
@@ -211,6 +207,12 @@ export function Home({ locale }: { locale: Locale }) {
             ))}
           </CardGrid>
           <p className="rd-prose is-small yo-powered">{m.not.powered}</p>
+        </div>
+      </Section>
+
+      <Section id="help" title={m.crisis.label} lead={m.crisis.lead} headingSize="sm" divider>
+        <div {...reveal()}>
+          <Crisis m={m.crisis} />
         </div>
       </Section>
 

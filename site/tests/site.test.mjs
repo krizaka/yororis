@@ -95,9 +95,9 @@ for (const l of ["en", "fr"]) {
     // One story on the LandingPage template: the promise (hero, with the crisis lines), the four things it is, the honest steps,
     // what it is not, how it is built, the call — six blocks at most.
     const blocks = d.querySelector("main > div").childNodes.filter((n) => n.nodeType === 1);
-    assert.ok(blocks.length <= 6, `${blocks.length} sections on the page — six at most`);
-    const crisis = d.querySelector("main header");
-    assert.ok(crisis && /9-8-8/.test(crisis.text), "the crisis lines are in the first screen");
+    assert.ok(blocks.length <= 7, `${blocks.length} sections on the page — seven at most (the calm crisis section is the seventh)`);
+    const help = d.getElementById("help")?.closest("section");
+    assert.ok(help && /9-8-8/.test(help.text) && /811/.test(help.text), "the crisis lines have their own calm section near the footer");
   });
 }
 
@@ -197,20 +197,28 @@ for (const l of ["en", "fr"]) {
     assert.ok(not);
     for (const i of messages[l].not.privacy.items) assert.ok(not.text.includes(i.q) && not.text.includes(i.a), i.q);
     for (const t of [...messages[l].reviewed.isNot, messages[l].reviewed.isNotRule]) assert.ok(not.text.includes(t), t);
-    assert.ok(not.querySelector('a[href="tel:988"]') && not.querySelector('a[href="tel:811"]'), "the crisis lines again");
   });
 
-  test(`the crane is the hero's bird, and the crisis lines come before any section (${l})`, () => {
+  test(`the hero has a crane and no crisis panel; the page still has it, under « how it goes » and near the footer, readable and reachable (${l})`, () => {
     const d = dom(l);
     const header = d.querySelector("main header");
     assert.ok(header.querySelector("svg"), "the hero draws the crane");
-    assert.ok(header.querySelector('a[href="tel:988"]') && header.querySelector('a[href="tel:811"]'));
-    assert.ok(header.querySelector(".yo-crisis"), "the crisis note is in the hero");
-    // Phone first (360 px): the lines come right after the lead, before the facts and the status text, and the lead stays short.
-    const html = header.outerHTML;
-    assert.ok(html.indexOf("yo-crisis") < html.indexOf("yo-status"), "the crisis lines come before the status text");
-    assert.ok(html.indexOf("yo-crisis") < html.indexOf(messages[l].hero.facts.open), "the crisis lines come before the facts");
-    assert.ok(messages[l].hero.lead.length <= 190, "a short lead keeps the crisis lines inside the first phone screen");
+    assert.ok(!header.querySelector(".yo-crisis") && !header.querySelector('a[href^="tel:"]'), "no crisis panel in the hero");
+    for (const part of [header, ...d.querySelectorAll(".yo-crisis")]) assert.ok(!/—/.test(part.text), "no em dash in the hero or the crisis panel");
+    const what = d.getElementById("what")?.closest("section");
+    assert.ok(what?.querySelector(".yo-crisis"), "the panel is under « how it goes »");
+    const help = d.getElementById("help")?.closest("section");
+    assert.ok(help, "a section of its own near the footer");
+    assert.ok(help.querySelector("h2"), "it has a heading");
+    assert.equal(help.querySelector("h2").text.trim(), messages[l].crisis.label);
+    for (const tel of ["tel:988", "tel:811"]) {
+      const a = help.querySelector(`a[href="${tel}"]`);
+      assert.ok(a, tel);
+      assert.ok(a.getAttribute("tabindex") !== "-1", "reachable by keyboard");
+    }
+    const order = d.querySelectorAll("main section").map((x) => x.querySelector("[id]")?.getAttribute("id") ?? x.getAttribute("id"));
+    assert.ok(order.indexOf("help") > order.indexOf("how"), "the crisis section comes after the whole story, near the footer");
+    assert.match(help.querySelector(".yo-crisis").getAttribute("aria-label"), new RegExp(messages[l].crisis.aria));
   });
 }
 

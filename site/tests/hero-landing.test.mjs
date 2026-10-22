@@ -24,14 +24,13 @@ test("the home is a LandingPage with a visual, features and a closing call", () 
 });
 
 for (const l of ["en", "fr"]) {
-  test(`the hero (${l}): the crane in the bar's colours, the crisis lines before the take, the real Moment take in a phone frame`, () => {
+  test(`the hero (${l}): the crane in the bar's colours, one action and NO crisis panel (it frightens: it lives lower, calm), the real Moment take in a phone frame`, () => {
     const d = dom(l);
     const header = d.querySelector("main header");
     assert.ok(header, "a hero header in main");
     assert.ok(header.querySelector("h1"));
-    assert.ok(header.querySelector('a[href="tel:988"]') && header.querySelector('a[href="tel:811"]'), "the crisis lines are in the hero");
-    const html = header.outerHTML;
-    assert.ok(html.indexOf("yo-crisis") < html.indexOf("yo-take"), "the crisis lines come before the take (phone first)");
+    assert.ok(!header.querySelector(".yo-crisis") && !header.querySelector('a[href^="tel:"]'), "no crisis panel in the hero");
+    assert.equal(header.querySelectorAll("a.kz-button, a[class*=button]").length <= 2, true, "the hero keeps one action");
     assert.ok(header.querySelector(".yo-hero-crane svg"), "the crane");
     const t = messages[l].hero.take;
     const card = header.querySelector(".yo-take");

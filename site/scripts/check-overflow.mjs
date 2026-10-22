@@ -61,9 +61,8 @@ export async function check({ base, shots }) {
         if (result.actions.some((h) => h < 36)) problems.push(`${where}: an action is ${Math.min(...result.actions)} px tall (< 36)`);
         if (width === 360) {
           await page.setViewportSize({ width, height: 740 });
-          const crisis = await page.evaluate(() => [...document.querySelectorAll('main header a[href^="tel:"]')].map((a) => { const r = a.getBoundingClientRect(); const box = a.closest("span")?.getBoundingClientRect() ?? r; return { bottom: Math.round(r.bottom), box: Math.round(box.height) }; }));
-          if (crisis.length < 2) problems.push(`${where}: the crisis lines are not in the hero`);
-          else if (crisis.some((c) => c.bottom > 740)) problems.push(`${where}: a crisis line ends at ${Math.max(...crisis.map((c) => c.bottom))} px, below the first screen (740)`);
+          const crisis = await page.evaluate(() => [...(document.getElementById("help")?.closest("section") ?? document).querySelectorAll('a[href^="tel:"]')].map((a) => { const r = a.getBoundingClientRect(); const box = a.closest("span")?.getBoundingClientRect() ?? r; return { bottom: Math.round(r.bottom), box: Math.round(box.height) }; }));
+          if (crisis.length < 2) problems.push(`${where}: the crisis lines are not in their section near the footer`);
           else if (crisis.some((c) => c.box < 44)) problems.push(`${where}: a crisis line is ${Math.min(...crisis.map((c) => c.box))} px tall (< 44)`);
           await page.setViewportSize({ width, height: 900 });
         }
