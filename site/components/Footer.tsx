@@ -29,6 +29,15 @@ export function Footer({ locale, m, crisis, version, ui, devNotice }: { locale: 
         <SiteFooter.Link href="tel:988">9-8-8</SiteFooter.Link>
         <SiteFooter.Link href="tel:811">{crisis.quebecName}</SiteFooter.Link>
       </SiteFooter.Column>
+      {/* The company's legal identification, only what is public in the REQ (Law 25, Charter of the French language): name, NEQ, place, the person in charge of personal information (a role and a contact, nothing personal). */}
+      <SiteFooter.Column title={m.legalTitle}>
+        <span>{m.company}</span>
+        <span>{m.neq}</span>
+        <span>{m.place}</span>
+        <span>{m.privacyOfficer}</span>
+        <SiteFooter.Link href={`mailto:${m.privacyContact}`}>{m.privacyContact}</SiteFooter.Link>
+        <span>{m.noRetention}</span>
+      </SiteFooter.Column>
     </SiteFooter>
   );
 }

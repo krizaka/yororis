@@ -24,6 +24,10 @@ export function proxy(request: NextRequest) {
     return new NextResponse(ROBOTS_DEV, { headers: { "content-type": "text/plain; charset=utf-8", "x-robots-tag": "noindex, nofollow" } });
   }
   if (dev && DEV_OPEN.test(pathname) && pathname !== "/robots.txt") return; // the API and /.well-known (the matcher lets them through on the dev host)
+  // French by default in Québec: a reader whose browser prefers French and who has not chosen English lands on the French home (crawlers send no language).
+  if (pathname === "/" && request.cookies.get("NEXT_LOCALE")?.value !== "en" && (request.headers.get("accept-language") ?? "").split(",")[0]?.trim().toLowerCase().startsWith("fr")) {
+    return NextResponse.redirect(new URL("/fr", request.url));
+  }
   if (pathname === "/robots.txt" || PUBLIC.test(pathname)) return;
   const segment = pathname.split("/")[1];
   if (segment === "en" || segment === "fr") return;

@@ -3,8 +3,8 @@
   "otherName": "Français",
   "otherHref": "/fr/",
   "meta": {
-    "title": "Yororis: a listening space with a face and a voice",
-    "description": "Yororis is a listening space with a face and a voice. Under construction: built in the open, its framework studied before anything is offered. Nothing is live, and there is no date.",
+    "title": "Yororis: a neighbour to chat with for a few minutes",
+    "description": "Yororis is a virtual neighbour (an AI, and it says so) you chat with for a few minutes to unwind, who then has to go. Nothing is kept. In testing, by invitation only.",
     "ogAlt": "The Yororis mark"
   },
   "bar": {
@@ -24,21 +24,21 @@
     "preferences": "Preferences"
   },
   "hero": {
-    "eyebrow": "Under construction",
-    "title": "A listening space with a face and a voice.",
-    "lead": "Some evenings you need to put words on what you carry. Yororis gives you a presence, an AI that says it is one, that listens, asks one question, and stops.",
+    "eyebrow": "In testing, by invitation",
+    "title": "A neighbour to chat with for a few minutes.",
+    "lead": "A virtual neighbour (an AI, and it says so) to chat with for a few minutes and unwind. It does not overthink, then it has to go.",
     "factsLabel": "Where Yororis stands",
     "facts": {
-      "status": "Under construction",
+      "status": "In testing, by invitation",
       "open": "Open source · Apache-2.0",
       "date": "No date"
     },
-    "explore": "How a moment goes",
-    "talk": "Talk to us about Yororis",
+    "explore": "How it goes",
+    "talk": "Write to us",
     "take": {
-      "label": "A moment, recorded locally",
-      "aria": "A recording of a moment: the presence introduces itself, the voice is on, the time left is on screen and the crisis lines stay in view.",
-      "note": "A {seconds}-second moment, recorded on the local version with a fictional cast. Under construction, not available.",
+      "label": "A chat, recorded on the test version",
+      "aria": "A recording of a chat: the neighbour introduces itself, the time left is on screen and the crisis lines stay in view.",
+      "note": "A {seconds}-second chat, recorded on the test version with a fictional cast. The interface has changed since.",
       "play": "Play the recording",
       "pause": "Pause the recording"
     }
@@ -52,19 +52,19 @@
     "aria": "Crisis lines"
   },
   "reviewed": {
-    "construction": "We're building Yororis in the open and studying its framework — legal, ethical, clinical — before making it available. Nothing is live, nothing is offered, and there is no date.",
+    "construction": "Yororis is in testing, by invitation only. Nothing is offered to the public and there is no date.",
     "isNot": [
-      "Not care: Yororis makes no health claim and replaces no one who supports you.",
+      "Not a health service and not an adviser: Yororis gives no advice and replaces no one.",
       "Not an emergency service: in a crisis, people trained to listen answer right away.",
-      "Not a person: an AI presence that says so, every time."
+      "Not a person: an AI, and it says so every time."
     ],
-    "isNotRule": "Not care, not an emergency service, not a person. In a crisis in Canada, call or text 9-8-8 — in Québec, 811 (Info-Social)."
+    "isNotRule": "Not a health service, not an emergency service, not a person. In a crisis in Canada, call or text 9-8-8; in Québec, call 811 (Info-Social)."
   },
   "what": {
-    "eyebrow": "How a moment goes",
-    "title": "A presence that listens, and stops",
+    "eyebrow": "How it goes",
+    "title": "A chat, then back to life",
     "status": "Under construction",
-    "statusNote": "None of these four steps is available yet. This is what we are building, in order.",
+    "statusNote": "None of this is open to the public. It is what we are testing, with invited people.",
     "labels": {
       "done": "Done",
       "current": "In progress",
@@ -73,23 +73,23 @@
     },
     "steps": [
       {
-        "title": "You arrive",
-        "text": "Your organisation invites you. You read a short statement, confirm your age and choose your language."
+        "title": "You are invited",
+        "text": "You receive access. On your first sign-in you confirm you are 18 or older and accept the terms."
       },
       {
-        "title": "The presence introduces itself",
-        "text": "It says it is an AI, with a permanent “AI” mark on its portrait. You give your mood yourself, from 1 to 5."
+        "title": "The neighbour introduces itself",
+        "text": "It says it is an AI. You choose the language, French or English."
       },
       {
-        "title": "You talk, it listens",
-        "text": "It listens, reflects back and asks one question at a time. The time left is always on screen."
+        "title": "You chat",
+        "text": "A few exchanges, in writing. The time left is always on screen."
       },
       {
-        "title": "It stops, you keep a summary",
-        "text": "At the end of the moment the transcript is gone. A short summary remains, yours to read, edit or delete."
+        "title": "It has to go",
+        "text": "It says goodbye warmly, everything is wiped, and you go back to your life."
       }
     ],
-    "lead": "A person opens a moment with a presence: an AI with a first name, an animated portrait carrying a permanent “AI” mark, a voice and exact subtitles. It is meant for organisations first, a wellbeing programme, a professional order, an employer, which set the limits for their members."
+    "lead": "We all need a friend we can tell « You know what, the elephant with those ears can fly », who answers « No way, it can totally do it! ». An invited person opens a chat with that virtual neighbour: an AI with a first name and a permanent “AI” mark. It is short, light, and it stops."
   },
   "how": {
     "eyebrow": "In the open",
@@ -97,24 +97,24 @@
     "lead": "The repositories are public, the framework is written down, and the code refuses to go further than the study. Nothing here is a promise of availability.",
     "guards": {
       "title": "The guardrails",
-      "lead": "Yororis has no AI provider of its own: every AI call goes through the wellbeing pack of its engine, Orazaka. The guards live in the engine, not in a prompt.",
+      "lead": "Yororis has no AI provider of its own: every AI call goes through its engine, Orazaka. The guardrails are written in code and tested.",
       "items": [
-        "Consent to a versioned statement, blocking: no consent, no moment (`451`)",
-        "A crisis guard that runs first and cannot be switched off: a fixed, reviewed answer and a sourced regional line, never generated",
-        "A scope guard: what is outside a listening space is declined, word for word",
-        "An age attestation, recorded; not available to minors",
-        "Short retention (30 days, shorter on request), encryption and an append-only audit",
-        "Installed only where a verified crisis resource exists"
+        "Consent to access: 18 or older and the terms, on the first sign-in",
+        "A deterministic crisis cut-off, before the model: a fixed text naming 9-8-8 and 811 (Info-Social), recording nothing",
+        "A neighbour that gives no advice: what is outside a chat is declined",
+        "Access by invitation, closed to minors",
+        "No conversation kept: no transcript, no summary",
+        "Limits on length, exchanges and chats per day, applied by the server"
       ]
     },
     "own": {
       "title": "What Yororis adds",
       "items": [
         "Limits applied by the server, not by the screen",
-        "The transcript destroyed when the summary is made",
-        "A mood you give yourself, 1 to 5, nothing inferred, no score",
-        "Export and deletion by the person; aggregate statistics only",
-        "Construction mode, checked by CI: no deployment, no sign-up, no production variable"
+        "Everything is wiped at the end of the chat",
+        "No mood measure, nothing inferred, no score",
+        "Deletion of the account by the person, at once",
+        "Access by invitation, checked by CI: no way to create an account"
       ]
     },
     "open": {
@@ -130,8 +130,8 @@
           "line": "What it is, what it is not, the controls, the questions being studied"
         },
         "adr": {
-          "name": "ADR-055: the wellbeing pack",
-          "line": "Why the name is the first control, and how the guards work"
+          "name": "ADR-055: the AI engine",
+          "line": "How the engine's guardrails work"
         },
         "sensitive": {
           "name": "ADR-051: sensitive controls",
@@ -141,37 +141,37 @@
     },
     "study": {
       "title": "What we are studying",
-      "lead": "Questions, not conclusions, answered with a lawyer before anything is offered to anyone.",
+      "lead": "Questions, not conclusions, answered with a lawyer before anything is offered to the public.",
       "items": [
-        "Québec: the reserved title and act, and Law 25, privacy impact, consent, retention, hosting",
-        "Canada: Health Canada's rules for software, federal privacy law, and what may be said to organisations",
-        "France and the European Union: the AI Act (telling people they talk to an AI, reading emotions), GDPR article 9",
+        "Québec: Law 25 (personal information), the Charter of the French language and the company's legal notices",
+        "Canada: federal privacy law and what may be said to organisations",
+        "France and the European Union: the AI Act (telling people they talk to an AI) and GDPR",
         "Belgium: the same European questions, and the crisis lines of both language communities",
-        "Everywhere: the conditions of a pilot with outside people, and insurance"
+        "Everywhere: the conditions of a test with outside people, and insurance"
       ]
     },
-    "rule": "The crane listens before it moves. We study before we offer.",
+    "rule": "The neighbour listens before answering. We study before we offer.",
     "app": {
-      "title": "The member space, in development",
-      "lead": "A first look at the space we are building for the people of an organisation: a calm home, an account, and the members. It runs on our own computers with a fictional cast. It is not available.",
-      "status": "In development, not available",
+      "title": "The member space, in testing",
+      "lead": "A first look at the space we are testing with invited people: a simple home, an account, and the chat.",
+      "status": "In testing, by invitation",
       "phone": "Phone, light",
-      "note": "Screenshots of the local build. Nothing here can be opened, joined or downloaded.",
+      "note": "Screenshots of an earlier test version. Nothing here can be opened or downloaded.",
       "shots": {
         "home": {
           "label": "Home",
-          "alt": "The member space’s home: a presence that stops, your moments, what I keep, the thread, my notebook, each empty, and the lines to call.",
-          "line": "A calm home: the presence that stops, your moments, what you keep."
+          "alt": "The member space's home: the chat, the neighbour's limits and the crisis lines.",
+          "line": "A simple home: the chat and the crisis lines."
         },
         "account": {
           "label": "Account",
-          "alt": "The account: profile, display choices, consent, what to bring, deletion.",
-          "line": "The account: profile, display choices, consent, deletion."
+          "alt": "The account: profile, display, deletion.",
+          "line": "The account: profile, display, deletion."
         },
         "members": {
           "label": "Members",
-          "alt": "The organisation’s members: a searchable, filterable list with each member’s status.",
-          "line": "For an organiser: the members, never what they say or keep."
+          "alt": "An organisation's members, with their status.",
+          "line": "For an organiser: the members, never what they say."
         }
       },
       "player": {
@@ -182,7 +182,7 @@
         "title": "yororis · local build"
       }
     },
-    "crane": "The crane listens"
+    "crane": "The neighbour listens"
   },
   "not": {
     "title": "What Yororis is not",
@@ -191,62 +191,69 @@
     "powered": "Powered by Orazaka.",
     "stops": {
       "eyebrow": "Signature",
-      "title": "A presence that stops",
-      "lead": "The limits are not a technical constraint: they are the product. Set by the organisation that offers Yororis, applied by the server, shown on screen.",
+      "title": "A neighbour who has to go",
+      "lead": "The limits are not a technical constraint: they are the product. Applied by the server, shown on screen.",
       "decisions": [
         {
-          "chose": "Up to 25 minutes, one moment a day, three a week, defaults an organisation can lower",
-          "refused": "A presence available around the clock",
-          "because": "Endless availability is what makes these apps hard to put down, and the evening still ends. A moment with an end sends you back to your life and your people.",
-          "cost": "Some evenings you will want more and won't get it. “That's all for today, see you tomorrow from 9 am.”"
+          "chose": "A short break: 8 minutes, 8 exchanges, 2 chats a day",
+          "refused": "A neighbour available at any hour",
+          "because": "A neighbour who never leaves ends up taking all the room. The chat ends, and you go back to your life and your people.",
+          "cost": "Some evenings you will want more and won't get it. “The neighbour has to go.”"
         },
         {
-          "chose": "A presence that says it is an AI, every moment, with a permanent “AI” mark on a clearly synthetic portrait",
+          "chose": "An AI that says so every chat, with a permanent “AI” mark",
           "refused": "A face that could pass for a person",
-          "because": "Presence comes from timing, voice and attention, not from fooling anyone. Europe's AI Act asks for it; honesty asks for it everywhere.",
+          "because": "Presence comes from rhythm and attention, not from fooling anyone. Europe's AI Act asks for it; honesty asks for it everywhere.",
           "cost": "Less of an illusion. That is the point."
         },
         {
-          "chose": "A mood you give yourself, 1 to 5, before and after",
+          "chose": "Nothing is kept: no transcript, no summary, no measure of your mood",
           "refused": "Reading feelings from your voice or your words",
-          "because": "No model decides how you feel, and nothing is computed about you. It is more honest, and it keeps Yororis clear of reading emotions.",
-          "cost": "No automatic chart of your evenings, only what you said."
+          "because": "No model decides how you feel, and nothing is computed about you. It is more honest, and it is the best protection of your information.",
+          "cost": "No history of your evenings, only what you remember."
         },
         {
-          "chose": "No nudge to return, no daily counter, no extra moment for sale",
+          "chose": "No nudge to return, no counter, no extra chat for sale",
           "refused": "Engagement mechanics",
-          "because": "A listening space that wants you back is not listening.",
-          "cost": "Growth we will have to earn another way: through organisations, not attention."
+          "because": "A neighbour who wants you back is not a neighbour.",
+          "cost": "Growth we will have to earn another way, without capturing attention."
         }
       ]
     },
     "privacy": {
-      "eyebrow": "What is kept",
-      "title": "What is kept, for how long, who reads it",
-      "lead": "Short answers, taken from the guardrails already written and reviewed.",
+      "eyebrow": "Your information",
+      "title": "What is held, for how long, who reads it",
+      "lead": "Short answers, under Québec's Law 25: the strict minimum.",
       "items": [
         {
-          "q": "What is kept",
-          "a": "A short summary of each moment, yours to read, edit or delete. The transcript is destroyed when the summary is made."
+          "q": "What is held",
+          "a": "Your e-mail, your first name, your language, your picture and the date you agreed, only to let you in. Nothing of what you say."
         },
         {
           "q": "For how long",
-          "a": "Retention is short: 30 days, shorter on request. Everything is encrypted and every access is recorded."
+          "a": "As long as you keep your account. You can delete it at once, and everything about you goes with it."
         },
         {
           "q": "Who reads it",
-          "a": "You. The organisation that offers Yororis sees aggregate statistics only, never what anyone says or keeps."
+          "a": "Nobody: what you say is neither recorded nor transcribed, and the team sees only counters without text."
         }
       ]
     }
   },
   "cta": {
-    "title": "Talk to us about Yororis",
-    "body": "An organisation with a wellbeing programme, a professional who wants to read the framework, a developer who wants to build it with us: write to us. While Yororis is under construction, that is the one door open."
+    "title": "Write to us",
+    "body": "An organisation that wants to talk, a person who wants to read the framework, a developer who wants to build it with us: write to us. While we test, that is the one open door."
   },
   "footer": {
     "nav": "Site footer",
-    "devNotice": "Development environment: access by invitation"
+    "devNotice": "Development environment: access by invitation",
+    "legalTitle": "Legal notices",
+    "company": "Technologies Krizaka Inc.",
+    "neq": "NEQ 1182652231",
+    "place": "Montréal, Québec",
+    "privacyOfficer": "Person in charge of the protection of personal information",
+    "privacyContact": "contact@krizaka.com",
+    "noRetention": "No conversation is kept."
   },
   "notFound": {
     "title": "Page not found",
@@ -295,24 +302,24 @@
     "langTag": "en"
   },
   "features": {
-    "eyebrow": "A face and a voice",
-    "title": "A presence that listens, and says so",
+    "eyebrow": "A neighbour",
+    "title": "Someone who is there, without crowding you",
     "items": [
       {
-        "title": "A face",
-        "text": "An AI presence with a first name and an animated portrait, carrying a permanent “AI” mark."
+        "title": "It says what it is",
+        "text": "An AI, with a first name and a permanent “AI” mark. It never passes for a person."
       },
       {
-        "title": "A voice",
-        "text": "A voice and exact subtitles: you can listen, read, or both."
+        "title": "Light, sometimes funny",
+        "text": "An anecdote, a gentle joke, another angle when you go in circles. Never advice."
       },
       {
-        "title": "One question at a time",
-        "text": "It listens, reflects back and asks one question, then it stops. The time left is always on screen."
+        "title": "A few minutes",
+        "text": "A short break: a few exchanges, the time left always on screen. Then the neighbour has to go."
       },
       {
-        "title": "What I keep",
-        "text": "At the end of the moment the transcript is gone. A short summary remains, yours to read, edit or delete."
+        "title": "Nothing is kept",
+        "text": "What you say is gone at the end. No transcript, no summary, no history."
       }
     ]
   }

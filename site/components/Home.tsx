@@ -10,7 +10,7 @@ import { LandingPage } from "@krizaka/ui/landing-page";
 import { Stepper } from "@krizaka/ui/stepper";
 import { getMessages, type Locale } from "@/lib/messages";
 import { reveal } from "@/lib/motion";
-import { ADR_051, ADR_055, CONTACT, FRAMEWORK, REPO, SHOTS } from "@/lib/site";
+import { ADR_051, ADR_055, contactFor, FRAMEWORK, REPO, SHOTS } from "@/lib/site";
 import CHANGELOG from "@/lib/changelog.generated.json";
 
 import { AppTour } from "./AppTour";
@@ -58,7 +58,7 @@ export function Home({ locale }: { locale: Locale }) {
             </div>
             <div className="rd-links">
               <Button asChild variant="primary" size="lg">
-                <a href={CONTACT}>
+                <a href={contactFor(locale)}>
                   {m.hero.talk} <ForwardIcon size={16} strokeWidth={2.25} />
                 </a>
               </Button>
@@ -77,7 +77,7 @@ export function Home({ locale }: { locale: Locale }) {
           body: m.cta.body,
           actions: (
             <Button asChild variant="primary" size="lg">
-              <a href={CONTACT}>{m.cta.title}</a>
+              <a href={contactFor(locale)}>{m.cta.title}</a>
             </Button>
           ),
         }}

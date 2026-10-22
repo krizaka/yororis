@@ -282,7 +282,7 @@
       "begin": "Begin a moment with {name}",
       "aiMark": "AI",
       "aiNote": "{name} is an AI presence, not a person and not an emergency service.",
-      "opening": "I'm {name}, an AI presence. I'm not a therapist and not an emergency service. Tell me what is on your mind, and I will listen.",
+      "opening": "I'm {name}, an AI neighbour. I'm not an emergency service, and I'm not a person. Tell me what is on your mind, and we will chat for a few minutes.",
       "limits": "A moment lasts up to {minutes} minutes. It stops on time.",
       "agree": "I understand this is an AI, and that what I say is forgotten when it ends.",
       "agreeFirst": "Tick the box to begin.",

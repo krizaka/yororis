@@ -1,6 +1,8 @@
 /* Structure of the site: links and ids. Every word is a message (messages/en.json, messages/fr.json). */
 export const ORIGIN = "https://www.yororis.com";
-export const CONTACT = "https://www.krizaka.com/contact?topic=yororis";
+/** The contact page of krizaka.com, in the reader's language (the French reader lands on the French page). */
+export const contactFor = (locale: "en" | "fr") => `https://www.krizaka.com/${locale === "fr" ? "fr/" : ""}contact?topic=yororis`;
+export const CONTACT = contactFor("en");
 export const KRIZAKA = "https://www.krizaka.com";
 export const REPO = "https://github.com/krizaka/yororis";
 export const FRAMEWORK = `${REPO}/blob/main/docs/FRAMEWORK.md`;

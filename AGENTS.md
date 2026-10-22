@@ -5,8 +5,8 @@ request replaces this file with the full contract, the Yororis programme kept by
 (`company/prompts-yororis.md` in the krizaka-com workspace — §2 decisions, §2.1 lexicon, §2.2 construction mode, §3
 product, §4 architecture) is the source of truth. Its rules already apply:
 
-1. **Lexicon.** Name what it does, never what it would heal: *a listening space*, *a presence*, *a moment*, *what I
-   keep*, *the thread*, *my notebook*. The "never" words (care, clinical and relationship vocabulary) appear in no user
+1. **Lexicon.** Name what it does, never what it would heal: *a neighbour*, *a chat*, *a few minutes* (since the pivot of 2026-10-21; the old
+   *listening space*, *presence*, *what I keep*, *the thread* and *my notebook* are gone: nothing is kept). The "never" words (care, clinical and relationship vocabulary) appear in no user
    text, doc, file, table, route or identifier — the only exception is docs/FRAMEWORK.md §2, which denies them.
 2. **Construction mode.** No deployment workflow, no production app or variable, no public build, no store submission,
    no outside person. `node scripts/check-construction.mjs` (CI) must stay green.
