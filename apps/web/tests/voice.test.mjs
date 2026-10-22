@@ -5,6 +5,7 @@ import test from "node:test";
 
 process.env.AUTH_SESSION_SECRET = "t".repeat(40);
 process.env.AUTH_DEMO_PASSWORD = "a-demo-password-1";
+process.env.APP_VOICE_TURNS = "on"; // the voice path is tested here; its default is off (tests/crisis.test.mjs)
 
 const { issue } = await import("../lib/token.ts");
 const store = await import("../lib/store.ts");
