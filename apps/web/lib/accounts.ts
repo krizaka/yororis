@@ -27,8 +27,9 @@ interface Row {
   last_seen_at: Date | null;
   consented_at: Date | null;
   terms_version: string | null;
+  age_band: string | null;
 }
-const COLUMNS = "id, email, name, locale, role, status, subtitles, calm_motion, avatar, created_at, last_seen_at, consented_at, terms_version";
+const COLUMNS = "id, email, name, locale, role, status, subtitles, calm_motion, avatar, created_at, last_seen_at, consented_at, terms_version, age_band";
 
 export const toMember = (r: Row): Member => ({
   id: r.id,
@@ -41,7 +42,7 @@ export const toMember = (r: Row): Member => ({
   subtitles: r.subtitles,
   calmMotion: r.calm_motion,
   avatar: r.avatar,
-  consented: !!r.consented_at && r.terms_version === TERMS_VERSION,
+  consented: !!r.consented_at && r.terms_version === TERMS_VERSION && !!r.age_band,
   createdAt: r.created_at.toISOString(),
   lastSeenAt: r.last_seen_at?.toISOString() ?? null,
 });

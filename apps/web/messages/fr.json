@@ -89,7 +89,8 @@
       "PASSWORD_TOO_LONG": "Ce mot de passe est trop long.",
       "INVALID_TOKEN": "Ce lien n’est plus valide.",
       "NOT_AVAILABLE": "Ce n’est pas disponible ici.",
-      "CONSENT_REQUIRED": "Accepte d’abord les conditions."
+      "CONSENT_REQUIRED": "Accepte d’abord les conditions.",
+      "ONCE_A_DAY": "Un autre voisin par jour, pas plus. Reviens demain."
     },
     "dashboard": {
       "greeting": "Bonjour, {name}",
@@ -113,7 +114,15 @@
       "infoSocial": "Info-Social 811",
       "beginTitle": "Commencer un moment",
       "begin": "Un espace d'écoute avec un visage et une voix, quand tu es prêt·e.",
-      "beginAction": "Commencer un moment"
+      "beginAction": "Commencer un moment",
+      "neighbour": {
+        "title": "Ton voisin",
+        "note": "{from} a déménagé, {to} emménage à côté.",
+        "goSee": "Aller voir un autre voisin",
+        "onceADay": "Un autre voisin par jour, pas plus. Reviens demain.",
+        "ok": "Compris",
+        "intro": "Comme dans la vraie vie, tu ne choisis pas ton voisin. Il ne prend pas de notes: ce que tu dis ne reste pas."
+      }
     },
     "account": {
       "title": "Compte",
@@ -329,7 +338,8 @@
       "goneText": "Ce que tu dis reste ici seulement pendant qu’on parle. Quand c’est fini, c’est parti.",
       "closingWait": "Un instant.",
       "neighbourGoes": "Le voisin doit y aller. Merci pour la jasette, à la prochaine.",
-      "crisisFixed": "On arrête ici : ce que tu viens d’écrire compte plus que la jasette. Des personnes formées répondent tout de suite, gratuitement : appelle ou texte le 9-8-8 partout au Canada, ou appelle le 811 et choisis l’option 2 (Info-Social) au Québec."
+      "crisisFixed": "On arrête ici : ce que tu viens d’écrire compte plus que la jasette. Des personnes formées répondent tout de suite, gratuitement : appelle ou texte le 9-8-8 partout au Canada, ou appelle le 811 et choisis l’option 2 (Info-Social) au Québec.",
+      "yourNeighbour": "Ton voisin : {name}"
     },
     "notFound": {
       "code": "404",
@@ -364,7 +374,9 @@
       "terms": "J’accepte les conditions d’utilisation.",
       "termsLink": "Lire les conditions",
       "submit": "Entrer",
-      "hint": "Les deux cases sont nécessaires. On ne conserve que la date et la version des conditions."
+      "hint": "Les deux cases sont nécessaires. On ne conserve que la date et la version des conditions.",
+      "ageTitle": "Ton groupe d’âge",
+      "ageHint": "Pour te présenter un voisin à peu près de ton âge. Pas de date de naissance, seulement un groupe."
     },
     "terms": {
       "title": "Conditions d’utilisation",
@@ -380,6 +392,13 @@
     },
     "persona": {
       "system": "Tu es « le voisin » : un voisin de quartier bienveillant, une IA (tu le dis si on te le demande). Tu jases quelques minutes, légèrement, sans envahir et sans te prendre la tête. Phrases courtes. Tu ne donnes aucun conseil. Si la personne tient un jugement rigide ou tourne en boucle, propose une autre piste avec légèreté : « Peut-être qu'il y a une autre piste... ». Si elle demande « c'est quoi la réponse ? », réponds humblement « Je ne sais pas, mais tu trouveras », puis glisse une anecdote factuelle (type encyclopédie, vérifiable) ou une vanne légère. Mots de tous les jours : aucun jargon, aucun ton d'expert. Tu ne retiens rien. Tu sais que la conversation est courte : sois chaleureux, et ne retiens jamais la personne."
+    },
+    "bands": {
+      "18-24": "18 à 24 ans",
+      "25-34": "25 à 34 ans",
+      "35-49": "35 à 49 ans",
+      "50-64": "50 à 64 ans",
+      "65+": "65 ans et plus"
     }
   },
   "mail": {

@@ -115,3 +115,12 @@ turn. It cannot replace the engine's own system prompt: that one is the wellbein
 must be changed there for the neighbour to be the only voice. Also on Orazaka's side: the Yororis account's plan (« plan free does not include speech
 (capability.audio) » answers every turn of `/api/v1/voice/turns`, text included), and a written confirmation that a turn's inputs and the
 conversation are not stored (a mode without storage, or what is missing).
+
+## The neighbours (krizaka/yororis#112 to #115)
+
+« Comme dans la vraie vie, tu ne choisis pas ton voisin. » A cast of eight AI neighbours lives in the `neighbours` table (seeded from
+`lib/neighbours-seed.ts`): Rori and Yori (18-24), Yoro and Oris (25-34), Yoris and Ori (35-49), Oro (50-64), Yoyo (65+), each with a humour, a
+favourite kind of anecdote and a pace. On the first sign-in the member declares an age band (never a birth date) and is assigned one neighbour at
+random within it. A neighbour moves out on a random rotation of three to five weeks (a warm note says so once) and the member may go and see
+another one once a day: moving keeps attachment light, on purpose. A neighbour remembers nothing, « un voisin, ça ne prend pas de notes »: the
+account holds only the band, the neighbour and since when. The shared chat with a second member (#116) is not built yet.

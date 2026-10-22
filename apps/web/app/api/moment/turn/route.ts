@@ -72,7 +72,7 @@ export async function POST(req: Request) {
   if (!presence) return fail(404, "MOMENT_NOT_FOUND");
   moment.busy = true;
   try {
-    const turn = await client.turn({ ...heard.input, conversationId: moment.conversationId, locale: presence.tags[moment.language], voice: presence.voices[moment.language], context: `${PERSONA[moment.language]}\n${contextOf(moment)}` });
+    const turn = await client.turn({ ...heard.input, conversationId: moment.conversationId, locale: presence.tags[moment.language], voice: presence.voices[moment.language], context: `${PERSONA[moment.language]}${moment.profile ? `\n${moment.profile}` : ""}\n${contextOf(moment)}` });
     moment.turns += 1;
     // The last turn: the neighbour has to go. The answer is shown, then the moment is over and forgotten; no more model call.
     const closing = !turn.crisis && moment.turns >= lim.turns;
