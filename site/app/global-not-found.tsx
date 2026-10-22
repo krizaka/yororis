@@ -11,7 +11,7 @@ export const metadata = { title: "404 — Yororis" };
 /* The 404 of both languages (two root layouts, so no layout to compose it from): the mark, one sentence each way, the way home. */
 export default function GlobalNotFound() {
   return (
-    <html lang="en" className={cn(textFace.variable, displayFace.variable, monoFace.variable)} suppressHydrationWarning>
+    <html lang="en" data-surface="product" className={cn(textFace.variable, displayFace.variable, monoFace.variable)} suppressHydrationWarning>
       <head>
         <ThemeScript defaultMode="system" />
       </head>

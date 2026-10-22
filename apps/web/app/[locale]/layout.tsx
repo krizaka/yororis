@@ -24,7 +24,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
   const { locale } = await params;
   if (!LOCALES.includes(locale as Locale)) notFound();
   return (
-    <html lang={locale} className={cn("brand-yororis", textFace.variable, displayFace.variable, monoFace.variable)} suppressHydrationWarning>
+    <html lang={locale} data-surface="product" className={cn("brand-yororis", textFace.variable, displayFace.variable, monoFace.variable)} suppressHydrationWarning>
       <head>
         <ThemeScript defaultMode="system" />
       </head>
