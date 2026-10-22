@@ -44,7 +44,7 @@ export function metadataFor(locale: Locale): Metadata {
 export function Shell({ locale, children }: { locale: Locale; children: ReactNode }) {
   const m = getMessages(locale);
   return (
-    <html lang={locale} className={cn(textFace.variable, displayFace.variable, monoFace.variable)} data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang={locale} data-surface="product" className={cn(textFace.variable, displayFace.variable, monoFace.variable)} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <ThemeScript defaultMode="system" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd(locale, m.meta.title, m.meta.description)) }} />
