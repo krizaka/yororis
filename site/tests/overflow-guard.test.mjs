@@ -8,11 +8,10 @@ import { fileURLToPath } from "node:url";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const script = readFileSync(join(root, "scripts/check-overflow.mjs"), "utf8");
 
-test("the guard checks 360, 390, 430, 768, 1024 and 1440 px in both themes, and the crisis lines in the first 360 px screen", () => {
+test("the guard checks 360, 390, 430, 768, 1024 and 1440 px in both themes, and the crisis lines (in their section, as tap targets)", () => {
   assert.ok(script.includes("export const WIDTHS = [360, 390, 430, 768, 1024, 1440]"));
   assert.ok(script.includes('["dark", "light"]'));
   assert.ok(script.includes("tel:"));
-  assert.ok(script.includes("height: 740"));
 });
 
 test("it is an npm script and a CI step on the built site", () => {

@@ -1,13 +1,13 @@
 import { InfoIcon } from "@krizaka/icons";
 import type { Messages } from "@/lib/messages";
 
-/** The crisis lines, plain and always reachable: a note in the first screen, again under "What it is not". */
+/** The crisis lines, plain and always reachable: a calm panel under « How it goes » and again near the footer, never in the hero. */
 export function Crisis({ m }: { m: Messages["crisis"] }) {
   return (
     <aside className="yo-crisis" aria-label={m.aria}>
       <InfoIcon size={20} aria-hidden className="yo-crisis-icon" />
       <p className="yo-crisis-lead">
-        <strong>{m.label}</strong> — {m.lead}
+        <strong>{m.label}.</strong> {m.lead}
       </p>
       <p className="yo-crisis-lines">
         <span>
