@@ -116,7 +116,7 @@ test("a spoken turn: heard as written by Orazaka, the answer with its voice thro
   assert.ok(stub.calls[0].audio instanceof Blob);
   assert.equal(stub.calls[0].text, undefined);
   await json(turn, "/api/moment/turn", { momentId: id, text: "The kids too" });
-  assert.match(stub.calls[1].context, /^Person: Work was heavy this week\nPresence: I hear you\.$/, "what was heard is the context of the next turn");
+  assert.match(stub.calls[1].context, /\nPerson: Work was heavy this week\nPresence: I hear you\.$/, "what was heard is the context of the next turn");
 });
 
 test("a typed turn has no `heard`: the person already sees their words", async () => {

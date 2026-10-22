@@ -14,6 +14,8 @@ import en from "../../../../messages/en.json";
 import fr from "../../../../messages/fr.json";
 
 /** The fixed text shown when the cut-off fires: written once in the messages, never generated, never rephrased. */
+/** The neighbour's persona (messages `console.persona.system`): the caller's context of every turn starts with it (the pack's own system prompt is the engine's). */
+const PERSONA = { en: en.console.persona.system, fr: fr.console.persona.system };
 const FIXED = { en: en.console.moment.crisisFixed, fr: fr.console.moment.crisisFixed };
 
 const Text = z.object({ momentId: z.string().refine(isUuid), text: z.string().trim().min(1).max(2000) }).strict();
@@ -70,7 +72,7 @@ export async function POST(req: Request) {
   if (!presence) return fail(404, "MOMENT_NOT_FOUND");
   moment.busy = true;
   try {
-    const turn = await client.turn({ ...heard.input, conversationId: moment.conversationId, locale: presence.tags[moment.language], voice: presence.voices[moment.language], context: contextOf(moment) });
+    const turn = await client.turn({ ...heard.input, conversationId: moment.conversationId, locale: presence.tags[moment.language], voice: presence.voices[moment.language], context: `${PERSONA[moment.language]}\n${contextOf(moment)}` });
     moment.turns += 1;
     // The last turn: the neighbour has to go. The answer is shown, then the moment is over and forgotten; no more model call.
     const closing = !turn.crisis && moment.turns >= lim.turns;

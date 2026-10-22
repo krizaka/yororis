@@ -107,3 +107,11 @@ Law 25 (minimum data, immediate deletion, a person in charge of personal informa
 the company's public identification in the footer (name, NEQ, Montréal). The words of care, health, therapy and clinics are forbidden in every text
 (the lexicon tests in `apps/web/tests/lexicon.test.mjs` and `site/tests/site.test.mjs`). The reviewed texts of the site were re-accepted on
 2026-10-21 (`REVIEWED_SHA` of `site/tests/site.test.mjs`).
+
+### The persona and the engine (krizaka/yororis#99)
+
+The neighbour's persona is data (`console.persona.system`, both languages, tested by `apps/web/tests/persona.test.mjs`) and starts the context of every
+turn. It cannot replace the engine's own system prompt: that one is the wellbeing pack's (`PackSafety.systemPrompt`, `orazaka-packs/wellbeing`) and
+must be changed there for the neighbour to be the only voice. Also on Orazaka's side: the Yororis account's plan (« plan free does not include speech
+(capability.audio) » answers every turn of `/api/v1/voice/turns`, text included), and a written confirmation that a turn's inputs and the
+conversation are not stored (a mode without storage, or what is missing).
