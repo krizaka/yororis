@@ -131,3 +131,6 @@ export function profileOf(n: Neighbour, language: "fr" | "en"): string {
     ? `Tu t'appelles ${n.name}. Ton humour : ${n.humour.fr}. Tes anecdotes préférées : ${n.anecdotes.fr}. Ton rythme : ${n.pace.fr}.`
     : `Your name is ${n.name}. Your humour: ${n.humour.en}. Your favourite anecdotes: ${n.anecdotes.en}. Your pace: ${n.pace.en}.`;
 }
+
+/** The neighbour now, with the real clock and the real draw (what the pages call; the tests inject both into `current`). */
+export const currentNow = (accountId: string) => current(accountId, Date.now(), Math.random);

@@ -8,7 +8,7 @@ import { NeighbourCard } from "@/components/console/NeighbourCard";
 import { pageMember } from "@/lib/auth";
 import { dbConfigured } from "@/lib/db";
 import { asLocale, getDictionary } from "@/lib/i18n";
-import { current } from "@/lib/neighbours";
+import { currentNow } from "@/lib/neighbours";
 
 const placeholders = ["moments"] as const;
 
@@ -22,7 +22,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const member = await pageMember();
   const d = getDictionary(locale).console.dashboard;
   const first = member?.name.split(" ")[0] ?? "";
-  const c = member && dbConfigured() ? await current(member.id, Date.now(), Math.random) : null;
+  const c = member && dbConfigured() ? await currentNow(member.id) : null;
   return (
     <DashboardLayout headingAs="h2" title={d.greeting.replace("{name}", first)} description={d.lead}>
       <Widget level={3} title={d.beginTitle} description={d.begin} span="full">
