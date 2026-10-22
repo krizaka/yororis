@@ -140,8 +140,9 @@ test("a turn is answered by the pack, and the next one carries what was said", a
   assert.deepEqual(first.turn.sentences.map((s) => s.text), ["I hear you.", "What weighs the most?"]);
   assert.equal(first.turn.crisis, null);
   await post(turn, "/api/moment/turn", { momentId: id, text: "The kids too" });
-  assert.equal(stub.calls[0].context, "");
-  assert.match(stub.calls[1].context, /^Person: Work was heavy this week\nPresence: I hear you\. What weighs the most\?$/);
+  // Every turn starts with the neighbour's persona (tests/persona.test.mjs); what was said follows it.
+  assert.match(stub.calls[0].context, /^[^\n]+\n$/);
+  assert.match(stub.calls[1].context, /\nPerson: Work was heavy this week\nPresence: I hear you\. What weighs the most\?$/);
   assert.equal(stub.calls[0].locale, "en");
   assert.equal(stub.calls[0].voice, "piper-en-low");
 });
