@@ -16,16 +16,11 @@ test("www is the primary domain; the apex, dev and qa are aliases", () => {
   assert.match(spec, /- domain: qa\.yororis\.com\n\s+type: ALIAS/);
 });
 
-test("ingress, in this order: the apex and qa redirect; dev keeps its API, /.well-known and robots.txt then redirects everything else; www serves the app", () => {
+test("ingress: the apex and qa redirect to www, everything else (www and dev) reaches the app; no route is listed", () => {
   const rules = spec.slice(spec.indexOf("ingress:")).split(/\n\s+- match:/).slice(1);
-  assert.equal(rules.length, 7);
+  assert.equal(rules.length, 3);
   assert.match(rules[0], /exact: yororis\.com[\s\S]*redirect:[\s\S]*authority: www\.yororis\.com[\s\S]*redirect_code: 308/);
   assert.match(rules[1], /exact: qa\.yororis\.com[\s\S]*redirect:[\s\S]*authority: www\.yororis\.com[\s\S]*redirect_code: 308/);
-  assert.match(rules[2], /exact: dev\.yororis\.com[\s\S]*prefix: \/api[\s\S]*name: web/);
-  assert.match(rules[3], /exact: dev\.yororis\.com[\s\S]*prefix: \/\.well-known[\s\S]*name: web/);
-  assert.match(rules[4], /exact: dev\.yororis\.com[\s\S]*prefix: \/robots\.txt[\s\S]*name: web/);
-  for (const i of [2, 3, 4]) assert.match(rules[i], /preserve_path_prefix: true/, `rule ${i}: the platform strips the matched prefix unless it is preserved`);
-  assert.match(rules[5], /exact: dev\.yororis\.com[\s\S]*redirect:[\s\S]*authority: www\.yororis\.com[\s\S]*redirect_code: 308/);
-  assert.doesNotMatch(rules[5], /prefix/);
-  assert.match(rules[6], /prefix: \/[\s\S]*name: web/);
+  assert.match(rules[2], /prefix: \/[\s\S]*name: web/);
+  assert.doesNotMatch(spec, /dev\.yororis\.com\n\s+(path|redirect)|well-known|robots\.txt|prefix: \/api/);
 });
